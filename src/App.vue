@@ -28,4 +28,9 @@ export default {
 </script>
 
 <style>
+/* GLOBAL CSS */
+
+.page-item.active .page-link{
+  background-color: #28a745 !important;
+}
 </style>

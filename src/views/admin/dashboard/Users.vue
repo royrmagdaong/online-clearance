@@ -1,9 +1,21 @@
 <template>
   <div>
-    <div class="overflow-auto">
+    <div >
+        <div class="d-flex mb-1 align-items-center">
+          <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchUser"></b-form-input>
+          <b-dropdown id="dropdown-form" text="Role" ref="dropdown" class="m-2" variant="success">
+            <b-dropdown-form style="min-width: 200px;">
+              <b-form-checkbox v-model="cb_all" class="mb-1" @change="selectAll">All</b-form-checkbox>
+              <b-form-checkbox v-model="cb_admin" class="mb-1" @change="selectAdmin">Admin</b-form-checkbox>
+              <b-form-checkbox v-model="cb_department" class="mb-1" @change="selectDepartment">Head Department</b-form-checkbox>
+              <b-form-checkbox v-model="cb_student" class="mb-1" @change="selectStudent">Student</b-form-checkbox>
+            </b-dropdown-form>
+          </b-dropdown>
+        </div>
+
         <b-table
             id="my-table"
-            :items="items"
+            :items="users"
             :per-page="perPage"
             :current-page="currentPage"
             bordered
@@ -12,7 +24,7 @@
         <div class="d-flex justify-content-end flex-row">
             <b-pagination
                 v-model="currentPage"
-                :total-rows="rows"
+                :total-rows="get(users, 'length')"
                 :per-page="perPage"
                 aria-controls="my-table"
             ></b-pagination>
@@ -22,36 +34,65 @@
 </template>
 
 <script>
-
+import {get} from 'lodash'
 export default {
     data:()=>({
-        perPage: 15,
+        get,
+        searchString: '',
+        perPage: 10,
         currentPage: 1,
-        items: [
-          { status: 'active', id: 1, first_name: 'Fred', last_name: 'Flintstone', email: 'sample@gmail.com', is_verified: true, role: 'Admin', is_active: true },
-          { status: 'active', id: 2, first_name: 'Wilma', last_name: 'Flintstone', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: false },
-          { status: 'inactive', id: 3, first_name: 'Barney', last_name: 'Rubble', email: 'sample@gmail.com', is_verified: true, role: 'Head department', is_active: true },
-          { status: 'active', id: 4, first_name: 'Betty', last_name: 'Rubble', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: true },
-          { status: 'inactive', id: 5, first_name: 'Pebbles', last_name: 'Flintstone', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: false },
-          { status: 'active', id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: true },
-          { status: 'active', id: 7, first_name: 'The Great', last_name: 'Gazzoo', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: true },
-          { status: 'active', id: 8, first_name: 'Rockhead', last_name: 'Slate', email: 'sample@gmail.com', is_verified: true, role: 'Head department', is_active: true },
-          { status: 'inactive', id: 9, first_name: 'Pearl', last_name: 'Slaghoople', email: 'sample@gmail.com', is_verified: true, role: 'Admin', is_active: true },
-          { status: 'active', id: 1, first_name: 'Fred', last_name: 'Flintstone', email: 'sample@gmail.com', is_verified: true, role: 'Head department', is_active: true },
-          { status: 'active', id: 2, first_name: 'Wilma', last_name: 'Flintstone', email: 'sample@gmail.com', is_verified: true, role: 'Head department', is_active: true },
-          { status: 'inactive', id: 3, first_name: 'Barney', last_name: 'Rubble', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: true },
-          { status: 'active', id: 4, first_name: 'Betty', last_name: 'Rubble', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: false },
-          { status: 'inactive', id: 5, first_name: 'Pebbles', last_name: 'Flintstone', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: true },
-          { status: 'active', id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: true },
-          { status: 'active', id: 7, first_name: 'The Great', last_name: 'Gazzoo', email: 'sample@gmail.com', is_verified: true, role: 'Head department', is_active: true },
-          { status: 'active', id: 8, first_name: 'Rockhead', last_name: 'Slate', email: 'sample@gmail.com', is_verified: true, role: 'Student', is_active: true },
-          { status: 'inactive', id: 9, first_name: 'Pearl', last_name: 'Slaghoople', email: 'sample@gmail.com', is_verified: true, role: 'Head department', is_active: false }
-        ],
-        fields:['id', 'role', 'email','first_name', 'last_name', 'is_verified', 'is_active']
+        fields:['name', 'email', 'role', 'is_verified'],
+        cb_all: true,
+        cb_admin: true,
+        cb_department: true,
+        cb_student: true,
     }),
     computed: {
-      rows() {
-        return this.items.length
+      users(){
+        return this.$store.getters['adminUsers/getUsers']
+      }
+    },
+    mounted(){
+      this.searchUser()
+    },
+    methods:{
+      searchUser(){
+        this.$store.dispatch('adminUsers/getUsers', { 
+          searchString: this.searchString,  
+          admin: this.cb_admin, 
+          department: this.cb_department, 
+          student: this.cb_student
+        })
+      },
+      selectAll(){
+        if(this.cb_all){
+          this.cb_admin = true
+          this.cb_department = true
+          this.cb_student = true
+        }else{
+          this.cb_admin = false
+          this.cb_department = false
+          this.cb_student = false
+        }
+        this.searchUser()
+      },
+      selectAdmin(){
+        if(this.cb_all && !this.cb_admin){
+          this.cb_all = false
+        }
+        this.searchUser()
+      },
+      selectDepartment(){
+        if(this.cb_all && !this.cb_department){
+          this.cb_all = false
+        }
+        this.searchUser()
+      },
+      selectStudent(){
+        if(this.cb_all && !this.cb_student){
+          this.cb_all = false
+        }
+        this.searchUser()
       }
     }
 }
