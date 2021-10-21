@@ -148,11 +148,12 @@ const router =  new Router({
         children: [
           {
             path: '/',
-            redirect: 'profile'
+            redirect: 'dashboard'
           },
           {
             path: 'profile',
-            component: HeadDepartmentProfile
+            component: HeadDepartmentProfile,
+            redirect: 'dashboard'
           },
           {
             path: 'dashboard',
