@@ -53,6 +53,55 @@ export function fetchStudentsCount(){
     })
 }
 
+export function getStudentInfo(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getStudentInfo, {
+            id: payload.id
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function updateStudentInfo(payload){
+    return new Promise((resolve, reject) => {
+        axios.patch(endpoints.updateStudentInfo+`/${payload.id}`, {
+            first_name: payload.first_name,
+            last_name: payload.last_name,
+            course: payload.course,
+            year_level: payload.year_level
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function registerStudent(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.registerStudent, {
+            first_name: payload.first_name,
+            last_name: payload.last_name,
+            email: payload.email,
+            password: payload.password,
+            course: payload.course,
+            year_level: payload.year_level
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function verifyStudent(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.verifyStudent, {
+            id: payload.id,
+            code: payload.code,
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
 export function fetchDepartments(payload){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.fetchDepartments,{
@@ -76,7 +125,8 @@ export function createDepartment(payload){
         axios.post(endpoints.createDepartment,{
             email: payload.email,
             password: payload.password,
-            name: payload.name,
+            in_charge: payload.in_charge,
+            department_name: payload.department_name,
             mobile_number: payload.mobile_number,
             telephone_number: payload.telephone_number
         })

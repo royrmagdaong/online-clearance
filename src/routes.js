@@ -16,11 +16,18 @@ import AdminHeadDepartments from './views/admin/dashboard/HeadDepartments'
 
 // Head department
 import HeadDepartmentBase from './views/headdepartment/Base'
-import HeadDepartmentProfile from './views/headdepartment/profile/Profile'
+import HeadDepartmentProfile from './views/headdepartment/profile/ProfileBase'
+import HeadDepartmentApproved from './views/headdepartment/profile/Approved'
+import HeadDepartmentDashboard from './views/headdepartment/profile/Dashboard'
+import HeadDepartmentRequirements from './views/headdepartment/profile/Requirements'
+import HeadDepartmentStudentRequest from './views/headdepartment/profile/StudentRequest'
 
 // Student
 import StudentBase from './views/student/Base'
-import StudentProfile from './views/student/profile/Profile'
+import StudentProfile from './views/student/profile/ProfileBase'
+import StudentRequestForm from './views/student/profile/RequestForm'
+import StudentInfo from './views/student/profile/StudentInfo'
+import StudentVerification from './views/StudentVerification'
 
 
 
@@ -38,7 +45,8 @@ const router =  new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      redirect: "/login",
     },
     {
       path: '/register',
@@ -52,6 +60,14 @@ const router =  new Router({
       path: '/login',
       name: 'login',
       component: SignIn,
+      meta:{
+        noLoggedInUser: true
+      }
+    },
+    {
+      path: '/verify/:id',
+      name: 'verification',
+      component: StudentVerification,
       meta:{
         noLoggedInUser: true
       }
@@ -104,8 +120,16 @@ const router =  new Router({
             component: StudentProfile,
             children:[
                 { 
-                    path: "grades", 
-                    component: AdminBase
+                  path: "/", 
+                  redirect: "student-info"
+                },
+                { 
+                  path: "student-info", 
+                  component: StudentInfo
+                },
+                { 
+                  path: "request-form", 
+                  component: StudentRequestForm
                 }
             ]
         },
@@ -129,6 +153,22 @@ const router =  new Router({
           {
             path: 'profile',
             component: HeadDepartmentProfile
+          },
+          {
+            path: 'dashboard',
+            component: HeadDepartmentDashboard
+          },
+          {
+            path: 'approved',
+            component: HeadDepartmentApproved
+          },
+          {
+            path: 'requirements',
+            component: HeadDepartmentRequirements
+          },
+          {
+            path: 'student-request',
+            component: HeadDepartmentStudentRequest
           },
           { path: "*", component: NotFound } // should be last
         ]

@@ -1,31 +1,51 @@
 <template>
   <div class="container">
-    <div class="row mt-5">
+    <div class="row">
       <div class="col-1 col-md-3"></div>
       <div class="col-10 col-md-6">
-        <div class="card shadow-sm py-2 px-3">
+        <div class="card shadow-sm py-2 px-3" style="margin-top: 120px;">
           <div class="card-body">
             <h4 class="card-title">Sign Up</h4>
             <hr>
             <form>
-              <div class="d-flex justify-content-around my-2">
-                <div class="bg-primary text-white px-3 py-2 rounded-circle">1</div>
-                <div class="bg-secondary text-white px-3 py-2 rounded-circle">2</div>
-                <div class="bg-secondary text-white px-3 py-2 rounded-circle">3</div>
+              <div class="form-group mb-2 row no-gutters">
+                <div class="col-6 pr-1">
+                  <label>First Name</label>
+                  <input type="text" class="form-control" v-model="first_name">
+                </div>
+                <div class="col-6 pl-1">
+                  <label>Last Name</label>
+                  <input type="text" class="form-control" v-model="last_name">
+                </div>
+              </div>
+              <div class="form-group mb-2 row no-gutters">
+                <div class="col-6 pr-1">
+                  <label>Course</label>
+                  <b-form-select v-model="selected_course" :options="course_options" @change="selectCourse"></b-form-select>
+                </div>
+                <div class="col-6 pl-1">
+                  <label>Year level</label>
+                  <b-form-select v-model="selected_year_level" :options="year_level_options"></b-form-select>
+                </div>
               </div>
               <div class="form-group mb-2">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control">
+                <label>Email address</label>
+                <input type="email" class="form-control" v-model="email">
               </div>
-              <div class="form-group mb-2">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" >
+              <div class="form-group mb-2 row no-gutters">
+                <div class="col-6 pr-1">
+                  <label>Password</label>
+                  <input type="password" class="form-control" v-model="password">
+                </div>
+                <div class="col-6 pl-1">
+                  <label>Confirm Password</label>
+                  <input type="password" class="form-control" v-model="confirmPassword">
+                </div>
               </div>
-              <div class="form-group mb-2">
-                <label for="exampleInputPassword1">Confirm Password</label>
-                <input type="password" class="form-control">
+              <div class="d-flex justify-content-end mt-4">
+                <button type="submit" class="btn btn-warning mr-2" @click.prevent="clear">Clear</button>
+                <button type="submit" class="btn btn-success" @click.prevent="submit">Submit</button>
               </div>
-              <button type="submit" class="btn btn-primary" @click.prevent="">Submit</button>
             </form>
           </div>
         </div>
@@ -36,8 +56,72 @@
 </template>
 
 <script>
-export default {
+import {toast} from '../mixins/toast'
 
+export default {
+  mixins: [toast],
+  data:()=>({
+    course_options: ['BSIT', 'BSOA', 'CCS', 'HRM'],
+    year_level_options: [],
+    fourYearCourseOption: ['1st', '2nd', '3rd', '4th'],
+    secondYearCourseOption: ['1st', '2nd'],
+    selected_course: '',
+    selected_year_level: '',
+    email: '',
+    first_name: '',
+    last_name: '',
+    password: '',
+    confirmPassword: ''
+  }),
+  methods:{
+    selectCourse(){
+      if(this.selected_course === 'CCS'){
+        this.year_level_options = this.secondYearCourseOption
+        this.selected_year_level = ''
+      }else{
+        this.year_level_options = this.fourYearCourseOption
+        this.selected_year_level = ''
+      }
+    },
+    clear(){
+      this.email = ''
+      this.first_name = ''
+      this.last_name = ''
+      this.password = ''
+      this.confirmPassword = ''
+      this.selected_course = ''
+      this.selected_year_level = ''
+    },
+    submit(){
+      if(this.password === this.confirmPassword){
+        this.$store.dispatch('auth/registerStudent', {
+          first_name: this.first_name,
+          last_name: this.last_name,
+          email: this.email,
+          password: this.password,
+          course: this.selected_course,
+          year_level: this.selected_year_level
+        }).then(res => {
+          if(res.response){
+            this.clear()
+            console.log(res)
+            this.$router.push('/verify/'+res.user.user_id)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      }else{
+        this.makeToast(
+          this, // context
+          false, // append = true
+          'Registration error', // title
+          'Password does not match', // message
+          4000, // auto hide delay
+          'danger' // variant
+        )
+      }
+    }
+  }
 }
 </script>
 

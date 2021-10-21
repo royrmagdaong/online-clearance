@@ -9,28 +9,36 @@
           <b-modal title="Create Department" hide-footer hide-header-close no-close-on-backdrop :visible="createDeptModal">
             <form class="my-2 mx-4">
               <div class="form-group mb-2">
-                <label>Name</label>
-                <input type="text" class="form-control" v-model="name">
+                <label>In Charge</label>
+                <input type="text" class="form-control" v-model="in_charge">
               </div>
               <div class="form-group mb-2">
-                <label>Mobile Number</label>
-                <input type="text" class="form-control" v-model="mobile_number">
+                <label>Department Name</label>
+                <input type="text" class="form-control" v-model="department_name">
               </div>
-              <div class="form-group mb-2">
-                <label>Telephone Number</label>
-                <input type="text" class="form-control" v-model="telephone_number">
+              <div class="form-group mb-2 row no-gutters">
+                <div class="col-6 pr-1">
+                  <label>Mobile Number</label>
+                  <input type="text" class="form-control" v-model="mobile_number">
+                </div>
+                <div class="col-6 pl-1">
+                  <label>Telephone Number</label>
+                  <input type="text" class="form-control" v-model="telephone_number">
+                </div>
               </div>
               <div class="form-group mb-2">
                 <label>Email address</label>
                 <input type="email" class="form-control" v-model="email">
               </div>
-              <div class="form-group mb-2">
-                <label>Password</label>
+              <div class="form-group mb-2 row no-gutters">
+                <div class="col-6 pr-1">
+                  <label>Password</label>
                 <input type="password" class="form-control" v-model="password">
-              </div>
-              <div class="form-group mb-2">
-                <label>Confirm Password</label>
+                </div>
+                <div class="col-6 pl-1">
+                  <label>Confirm Password</label>
                 <input type="password" class="form-control" v-model="confirmPassword">
+                </div>
               </div>
               <div class="d-flex justify-content-end mt-4">
                 <b-button variant="warning" class="mr-2" @click.prevent="cancel">Cancel</b-button>
@@ -70,9 +78,10 @@ export default {
         searchString: '',
         perPage: 10,
         currentPage: 1,
-        fields:['name','email','mobile_number','telephone_number'],
+        fields:['in_charge',"department_name",'email','mobile_number','telephone_number'],
         createDeptModal: false,
-        name: '',
+        in_charge: '',
+        department_name: '',
         email: '',
         mobile_number: '',
         telephone_number: '',
@@ -93,7 +102,8 @@ export default {
       },
       cancel(){
         this.createDeptModal = false;
-        this.name = ''
+        this.in_charge = ''
+        this.department_name = ''
         this.email = ''
         this.mobile_number = ''
         this.telephone_number = ''
@@ -105,7 +115,8 @@ export default {
           this.$store.dispatch('adminDepartments/createDepartment', {
             email: this.email,
             password: this.password,
-            name: this.name,
+            in_charge: this.in_charge,
+            department_name: this.department_name,
             mobile_number: this.mobile_number,
             telephone_number: this.telephone_number
           }).then(res => {

@@ -41,7 +41,7 @@ export default {
         searchString: '',
         perPage: 10,
         currentPage: 1,
-        fields:['name', 'email', 'role', 'is_verified'],
+        fields:['email', 'role', 'is_verified'],
         cb_all: true,
         cb_admin: true,
         cb_department: true,

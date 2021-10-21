@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 import {
-    login
+    login,
+    registerStudent,
+    verifyStudent
 } from '../../api'
 
 var store = {
@@ -31,6 +33,28 @@ var store = {
 
                         localStorage.setItem('userInfo', JSON.stringify(res.data))
                         context.commit('SET_USER_INFO', res.data)
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        registerStudent(context, payload){
+            return new Promise((resolve, reject) => {
+                registerStudent(payload).then(res => {
+                    if(res.response){
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        verifyStudent(context, payload){
+            return new Promise((resolve, reject) => {
+                verifyStudent(payload).then(res => {
+                    if(res.response){
                         resolve(res)
                     }else{
                         resolve(res)

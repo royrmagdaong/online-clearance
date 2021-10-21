@@ -3,6 +3,7 @@ import {
     fetchStudentsCount,
     fetchUsersCount
 } from '../../api'
+import {get} from 'lodash'
 
 var store = {
     namespaced: true,
@@ -29,9 +30,12 @@ var store = {
     },
     actions:{
         initStore(context){
-            context.dispatch('getDepartmentsCount')
-            context.dispatch('getStudentsCount')
-            context.dispatch('getUsersCount')
+            let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            if(get(userInfo, 'role') === 'admin'){
+                context.dispatch('getDepartmentsCount')
+                context.dispatch('getStudentsCount')
+                context.dispatch('getUsersCount')
+            }
         },
         getDepartmentsCount(context){
             return new Promise((resolve, reject) => {

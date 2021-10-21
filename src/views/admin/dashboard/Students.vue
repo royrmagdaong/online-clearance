@@ -50,7 +50,7 @@ export default {
         searchString: '',
         perPage: 10,
         currentPage: 1,
-        fields:['name', 'email', 'course', 'year_level'],
+        fields:['first_name', 'last_name', 'email', 'course', 'year_level'],
         cb_all: true,
         cb_bsit: 'BSIT',
         cb_ccs: 'CCS',

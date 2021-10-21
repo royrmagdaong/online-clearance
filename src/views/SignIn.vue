@@ -1,11 +1,12 @@
 <template>
   <div class="container">
-    <div class="row mt-5">
+    <div class="row">
       <div class="col-1 col-md-3"></div>
       <div class="col-10 col-md-6">
-        <div class="card shadow-sm py-2 px-3">
+        <div class="card shadow-sm py-2 px-3" style="margin-top: 120px;">
           <div class="card-body">
             <h4 class="card-title">Login</h4>
+            <hr>
             <form>
               <div class="form-group mb-2">
                 <label for="exampleInputEmail1">Email address</label>
@@ -15,7 +16,10 @@
                 <label for="exampleInputPassword1">Password</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" v-model="password">
               </div>
-              <button type="submit" class="btn btn-primary" @click.prevent="login">Submit</button>
+              <div class="d-flex justify-content-end mt-4">
+                <button type="submit" class="btn btn-warning  mr-2" @click.prevent="">Clear</button>
+                <button type="submit" class="btn btn-success" @click.prevent="login">Submit</button>
+              </div>
             </form>
           </div>
         </div>
@@ -33,6 +37,22 @@ export default {
     email: '',
     password: ''
   }),
+  mounted(){
+    let verified = localStorage.getItem('verified')
+    if(verified){
+      this.makeToast(
+        this, // context
+        false, // append = true
+        'Verification successful', // title
+        'Your newly registered account is verified. You can now login your account.', // message
+        8000, // auto hide delay
+        'success' // variant
+      )
+    }
+    setTimeout(()=>{
+      localStorage.setItem('verified', '')
+    },300)
+  },
   methods:{
     login(){
       this.$store.dispatch('auth/signIn',{
