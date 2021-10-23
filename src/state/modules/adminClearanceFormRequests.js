@@ -1,36 +1,35 @@
 import {
-    fetchDepartments
+    getClearanceFormRequests
 } from '../../api'
 
 var store = {
     namespaced: true,
     state: {
-        departments: []
+        clearanceFormRequests: [],
     },
     getters: {
-        getDepartments: state => state.departments
+        getClearanceFormRequests: state => state.clearanceFormRequests
     },
     mutations: {
-        SET_DEPARTMENTS(state, payload){
-            state.departments = payload
-        }
+        SET_CLEARANCE_FORM_REQUESTS(state, payload){
+            state.clearanceFormRequests = payload
+        },
     },
     actions:{
         initStore(){
         },
-        getDepartments(context, payload){
+        getClearanceFormRequests(context){
             return new Promise((resolve, reject) => {
-                fetchDepartments(payload).then(res => {
+                getClearanceFormRequests().then(res => {
                     if(res.response){
-                        context.commit('SET_DEPARTMENTS', res.data)
-                        console.log(res.data)
+                        context.commit('SET_CLEARANCE_FORM_REQUESTS', res.data)
                         resolve(res)
                     }else{
                         resolve(res)
                     }
                 }).catch(err => { reject(err) })
             })
-        },
+        }
     }
 }
 

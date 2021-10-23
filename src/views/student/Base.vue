@@ -5,7 +5,7 @@
         <img height="120" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuNfh5XEmL28p3fZftINhCjPR1g7V8IDWJ9-H58s0jyp4GMH_nWaRqFrRFu-6CJbaTdK0&usqp=CAU" class="rounded mx-auto mt-4 d-block" alt="prof_pic">
         <div class="text-center mt-4">
           <div class="p-3 student-info" @click="routeTo('student-info')" :class="{'active-tab': activeTab === 'student-info'}">Student Info</div>
-          <div class="p-3 request-form" @click="routeTo('request-form')" :class="{'active-tab':activeTab === 'request-form'}">Request Form</div>
+          <div class="p-3 request-form" @click="routeTo('clearance-form')" :class="{'active-tab':activeTab === 'clearance-form'}">Clearance Form</div>
           <div class="p-3 print">Print</div>
         </div>
       </div>
@@ -23,9 +23,6 @@ export default {
         get,
         activeTab: ''
     }),
-    computed:{
-
-    },
     mounted(){
       this.activeTab = this.$route.path.substring(17)
     },
@@ -35,7 +32,7 @@ export default {
             this.$router.push(route)
             this.activeTab = route
         }
-      },
+      }
     }
 }
 </script>

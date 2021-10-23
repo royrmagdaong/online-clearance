@@ -5,6 +5,7 @@
         <div class="mb-5"></div>
         <div @click="routeTo('/admin/dashboard')" :class="{'active-tab': $route.path === '/admin/dashboard'}">Dashboard</div>
         <div @click="routeTo('/admin/head-departments')" :class="{'active-tab': $route.path === '/admin/head-departments'}">Head Departments</div>
+        <div @click="routeTo('/admin/clearance-form-request')" :class="{'active-tab': $route.path === '/admin/clearance-form-request'}">Clearance Form Request</div>
         <div @click="routeTo('/admin/students')" :class="{'active-tab': $route.path === '/admin/students'}">Students</div>
         <div @click="routeTo('/admin/users')" :class="{'active-tab': $route.path === '/admin/users'}">Users</div>
         <div @click="logout('/')">Logout</div>

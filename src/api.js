@@ -1,6 +1,8 @@
 import endpoints from './endpoints'
 import axios from 'axios'
 
+// FOR USER API CALLS
+
 export function login(payload){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.signIn, {
@@ -32,6 +34,9 @@ export function fetchUsersCount(){
         .catch(err => { reject(err)} )
     })
 }
+
+
+// FOR STUDENT API CALLS
 
 export function fetchStudents(payload){
     return new Promise((resolve, reject) => {
@@ -102,6 +107,34 @@ export function verifyStudent(payload){
     })
 }
 
+export function requestClearanceForm(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.requestClearanceForm, {
+            student: payload.student,
+            academic_year: payload.academic_year,
+            semester: payload.semester,
+            course: payload.course,
+            section: payload.section,
+            year_level: payload.year_level
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function getClearanceForms(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getClearanceForms, {
+            student: payload.student
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+
+// FOR ADMIN API CALLS
+
 export function fetchDepartments(payload){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.fetchDepartments,{
@@ -130,6 +163,14 @@ export function createDepartment(payload){
             mobile_number: payload.mobile_number,
             telephone_number: payload.telephone_number
         })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function getClearanceFormRequests(){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getClearanceFormRequests,{})
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )
     })

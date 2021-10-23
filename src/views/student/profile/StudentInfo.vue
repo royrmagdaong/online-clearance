@@ -58,8 +58,7 @@ export default {
     last_name: ''
   }),
   mounted(){
-    this.userId = this.userInfo.id
-    this.$store.dispatch('studentInfo/getStudentInfo', {id: this.userId})
+    this.getStudentInfo()
   },
   computed:{
     studentInfo(){
@@ -72,6 +71,10 @@ export default {
   methods:{
     cancel(){
       this.editInfoModal = false
+    },
+    getStudentInfo(){
+      this.userId = this.userInfo.id
+      this.$store.dispatch('studentInfo/getStudentInfo', {id: this.userId})
     },
     save(){
       this.$store.dispatch('studentInfo/updateStudentInfo',{

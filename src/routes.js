@@ -13,6 +13,7 @@ import AdminDashboard from './views/admin/dashboard/Dashboard'
 import AdminUsers from './views/admin/dashboard/Users'
 import AdminStudents from './views/admin/dashboard/Students'
 import AdminHeadDepartments from './views/admin/dashboard/HeadDepartments'
+import AdminClearanceFormRequest from './views/admin/dashboard/ClearanceFormRequest'
 
 // Head department
 import HeadDepartmentBase from './views/headdepartment/Base'
@@ -25,7 +26,7 @@ import HeadDepartmentStudentRequest from './views/headdepartment/profile/Student
 // Student
 import StudentBase from './views/student/Base'
 import StudentProfile from './views/student/profile/ProfileBase'
-import StudentRequestForm from './views/student/profile/RequestForm'
+import StudentClearanceForm from './views/student/profile/ClearanceForm'
 import StudentInfo from './views/student/profile/StudentInfo'
 import StudentVerification from './views/StudentVerification'
 
@@ -102,6 +103,10 @@ const router =  new Router({
           path: "head-departments",
           component: AdminHeadDepartments
         },
+        { 
+          path: "clearance-form-request",
+          component: AdminClearanceFormRequest
+        },
         { path: "*", component: NotFound } // should be last
       ]
     },
@@ -128,8 +133,8 @@ const router =  new Router({
                   component: StudentInfo
                 },
                 { 
-                  path: "request-form", 
-                  component: StudentRequestForm
+                  path: "clearance-form", 
+                  component: StudentClearanceForm
                 }
             ]
         },
