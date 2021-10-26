@@ -132,6 +132,16 @@ export function getClearanceForms(payload){
     })
 }
 
+export function requestSignature(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.requestSignature, {
+            clearance_id: payload.clearance_id,
+            department_id: payload.department_id
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
 
 // FOR ADMIN API CALLS
 
@@ -171,6 +181,26 @@ export function createDepartment(payload){
 export function getClearanceFormRequests(){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.getClearanceFormRequests,{})
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function approveClearanceRequest(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.approveClearanceRequest,{
+            id: payload.clearance_id
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+// For Department APIs
+
+export function getStudentRequests(){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getStudentRequests,{})
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )
     })

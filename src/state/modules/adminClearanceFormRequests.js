@@ -1,5 +1,6 @@
 import {
-    getClearanceFormRequests
+    getClearanceFormRequests,
+    approveClearanceRequest
 } from '../../api'
 
 var store = {
@@ -23,6 +24,17 @@ var store = {
                 getClearanceFormRequests().then(res => {
                     if(res.response){
                         context.commit('SET_CLEARANCE_FORM_REQUESTS', res.data)
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        approveClearanceRequest(context,payload){
+            return new Promise((resolve, reject) => {
+                approveClearanceRequest(payload).then(res => {
+                    if(res.response){
                         resolve(res)
                     }else{
                         resolve(res)

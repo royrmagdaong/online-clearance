@@ -30,7 +30,19 @@
             :current-page="currentPage"
             bordered
             :fields="fields"
-        ></b-table>
+        >
+          <template #cell(actions)="row">
+            <div class="d-flex justify-content-center">
+              <b-button 
+                size="sm" 
+                variant="info" 
+                @click="approve(row.item)"
+              >
+                Approve
+              </b-button>
+            </div>
+          </template>
+        </b-table>
         <div class="d-flex justify-content-end flex-row">
             <b-pagination
                 v-model="currentPage"
@@ -44,8 +56,10 @@
 </template>
 
 <script>
+import {toast} from '../../../mixins/toast'
 
 export default {
+  mixins: [toast],
     data:()=>({
         searchString: '',
         perPage: 10,
@@ -53,7 +67,9 @@ export default {
         fields:[
           {key:'student.first_name', label: 'First Name'}, 
           {key:'student.last_name', label: 'Last Name'},
-          'course', 'year_level','section'
+          'course', 'year_level','section',
+          'semester', 'academic_year',
+          {key: 'actions', label: ''}
         ],
         cb_all: true,
         cb_bsit: 'BSIT',
@@ -78,6 +94,40 @@ export default {
     methods:{
       getClearanceFormRequests(){
         this.$store.dispatch('adminClearanceFormRequests/getClearanceFormRequests')
+      },
+      approve(item){
+        this.$store.dispatch('adminClearanceFormRequests/approveClearanceRequest', {clearance_id: item._id})
+        .then(res=>{
+          if(res.response){
+            this.makeToast(
+              this, // context
+              false, // append = true
+              'Approve Success', // title
+              res.message, // message
+              4000, // auto hide delay
+              'success' // variant
+            )
+            this.getClearanceFormRequests()
+          }else{
+            this.makeToast(
+              this, // context
+              false, // append = true
+              'Approve error', // title
+              res.message, // message
+              4000, // auto hide delay
+              'danger' // variant
+            )
+          }
+        }).catch(err=>{
+          this.makeToast(
+            this, // context
+            false, // append = true
+            'Approve error', // title
+            err.message, // message
+            4000, // auto hide delay
+            'danger' // variant
+          )
+        })
       },
       searchStudents(){
         console.log('search')

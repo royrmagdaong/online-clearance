@@ -20,18 +20,28 @@
             </div>
           </div>
           <b-table bordered :items="departments" :fields="fields">
+            <template #cell(status)="row">
+              <span :class="{
+                'text-warning':displayStatus(row.item, clearance)==='Pending', 
+                'text-success':displayStatus(row.item, clearance)==='Approved',
+                'text-danger':displayStatus(row.item, clearance)==='Disapproved',
+              }"
+              >
+                {{ displayStatus(row.item, clearance) }}
+              </span>
+            </template>
             <template #cell(actions)="row">
               <div class="d-flex justify-content-center">
                 <b-button 
                   size="sm" 
                   variant="info" 
-                  @click="requestSign(row.item, row.index, clearance)" 
-                  :disabled="index > 0" 
-                  v-if="(
-                    !get(clearance, 'departments_approved').includes(get(row, 'item._id')) ||
-                    !get(clearance, 'departments_pending').includes(get(row, 'item._id')) ||
-                    !get(clearance, 'departments_disapproved').includes(get(row, 'item._id'))
-                  )"
+                  @click="requestSignature(row.item, clearance)" 
+                  :disabled="index > 0"
+                  v-if="
+                    displayStatus(row.item, clearance)!=='Approved' &&
+                    displayStatus(row.item, clearance)!=='Disapproved' &&
+                    displayStatus(row.item, clearance)!=='Pending' 
+                  "
                 >
                   Request Signature
                 </b-button>
@@ -86,12 +96,13 @@ export default {
   mixins: [toast],
   data:()=>({
     get,
-    fields:['in_charge',"department_name",'signature','status', {key: 'actions', label: ''}],
+    fields:['in_charge',"department_name",'signature',{key: 'status', label: 'status'}, {key: 'actions', label: ''}],
     selected_semester: '',
     selected_academic_year: '',
     semester_options: ['1st', '2nd'],
     academic_year_options: [],
-    requestFormModal: false
+    requestFormModal: false,
+    tableKey: 0
   }),
   computed:{
     studentInfo(){
@@ -142,23 +153,9 @@ export default {
     },
     request(){
       if(this.selected_semester === ''){
-        this.makeToast(
-          this, // context
-          false, // append = true
-          'Request error', // title
-          'Please select semester', // message
-          3000, // auto hide delay
-          'danger' // variant
-        )
+        this.makeToast(this, false, 'Request error', 'Please select semester', 3000, 'danger')
       }else if(this.selected_academic_year === ''){
-        this.makeToast(
-          this, // context
-          false, // append = true
-          'Request error', // title
-          'Please select academic year', // message
-          3000, // auto hide delay
-          'danger' // variant
-        )
+        this.makeToast(this, false, 'Request error', 'Please select academic year', 3000, 'danger')
       }else{
         this.$store.dispatch('studentClearanceForm/requestClearanceForm',{
           student: get(this.studentInfo, '_id'),
@@ -169,47 +166,50 @@ export default {
           year_level: get(this.studentInfo, 'year_level')
         }).then(res=>{
           if(res.response){
-            this.makeToast(
-              this, // context
-              false, // append = true
-              'Request Successful', // title
-              res.message, // message
-              4000, // auto hide delay
-              'success' // variant
-            )
+            this.makeToast(this, false, 'Request Successful', res.message, 4000, 'success')
             this.getClearance()
             this.requestFormModal = false
             this.selected_semester = ''
             this.selected_academic_year = ''
           }else{
-            this.makeToast(
-              this, // context
-              false, // append = true
-              'Request Failed', // title
-              res.message, // message
-              5000, // auto hide delay
-              'danger' // variant
-            )
+            this.makeToast(this, false, 'Request Failed', res.message, 5000, 'danger')
           }
         }).catch(err=>{
-          this.makeToast(
-            this, // context
-            false, // append = true
-            'Request Failed', // title
-            err.message, // message
-            5000, // auto hide delay
-            'danger' // variant
-          )
+          this.makeToast(this, false, 'Request Failed', err.message, 5000, 'danger')
           this.requestFormModal = false
           this.selected_semester = ''
           this.selected_academic_year = ''
         })
       }
     },
-    requestSign(item, index, clearance){
-      console.log(item)
-      console.log(index)
-      console.log(clearance)
+    displayStatus(dept, clearance){
+      if(clearance.departments_approved.includes(dept._id)){
+        return 'Approved'
+      }else if(clearance.departments_pending.includes(dept._id)){
+        return 'Pending'
+      }else if(clearance.departments_disapproved.includes(dept._id)){
+        return 'Disapproved'
+      }else{
+        return 'Not Requested'
+      }
+    },
+    requestSignature(dept, clearance){
+      this.$store.dispatch('studentClearanceForm/requestSignature',{
+        clearance_id: clearance._id,
+        department_id: dept._id
+      }).then(res =>{
+        if(res.response){
+          this.$router.push('student-info')
+          setTimeout(()=>{
+            this.$router.push('clearance-form')
+            this.makeToast(this, false, 'Request Successful', res.message, 4000, 'success')
+          },1)
+        }else{
+          this.makeToast(this, false, 'Request failed', res.message, 4000, 'danger')
+        }
+      }).catch(err => {
+        this.makeToast(this, false, 'Request failed', err.response.data.message, 4000, 'danger')
+      })
     }
   }
 }

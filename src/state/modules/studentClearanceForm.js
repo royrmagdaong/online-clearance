@@ -1,7 +1,8 @@
 import {
     fetchDepartments,
     requestClearanceForm,
-    getClearanceForms
+    getClearanceForms,
+    requestSignature
 } from '../../api'
 
 var store = {
@@ -53,6 +54,17 @@ var store = {
                 getClearanceForms(payload).then(res => {
                     if(res.response){
                         context.commit('SET_CLEARANCE_FORMS', res.data)
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        requestSignature(context, payload){
+            return new Promise((resolve, reject) => {
+                requestSignature(payload).then(res => {
+                    if(res.response){
                         resolve(res)
                     }else{
                         resolve(res)

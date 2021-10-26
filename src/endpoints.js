@@ -16,6 +16,7 @@ export default {
     updateStudentInfo: student + 'update',
     requestClearanceForm: clearance + 'create',
     getClearanceForms: clearance + 'student-clearance',
+    requestSignature: clearance + 'request-signature',
 
     // admin
     fetchDepartments: department,
@@ -23,5 +24,9 @@ export default {
     fetchStudentsCount: student + 'total-students',
     fetchDepartmentsCount: department + 'total-departments',
     createDepartment: department + 'create',
-    getClearanceFormRequests: clearance + 'clearance-form-request'
+    getClearanceFormRequests: clearance + 'clearance-form-request',
+    approveClearanceRequest: clearance + 'approve-clearance',
+
+    // head department
+    getStudentRequests: clearance + 'students-signature-request'
 }

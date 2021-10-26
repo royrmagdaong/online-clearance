@@ -24,16 +24,28 @@
 
       <b-table
           id="my-table"
-          :items="students"
+          :items="studentRequests"
           :per-page="10"
           :current-page="1"
           bordered
           :fields="fields"
-      ></b-table>
+      >
+        <template #cell(actions)="row">
+          <div class="d-flex justify-content-center">
+            <b-button 
+              size="sm" 
+              variant="info" 
+              @click="approve(row.item)"
+            >
+              Approve
+            </b-button>
+          </div>
+        </template>
+      </b-table>
       <div class="d-flex justify-content-end flex-row">
           <b-pagination
               v-model="currentPage"
-              :total-rows="23"
+              :total-rows="studentRequests.length"
               :per-page="10"
               aria-controls="my-table"
           ></b-pagination>
@@ -47,7 +59,12 @@ export default {
     searchString: '',
     perPage: 10,
     currentPage: 1,
-    fields:['first_name', 'last_name', 'course', 'year_level', 'status'],
+    fields:[
+      {key:'student.first_name', label: 'First Name'}, 
+      {key:'student.last_name', label: 'Last Name'}, 
+      'course', 'year_level','section', 'status',
+      {key: 'actions', label: ''}
+    ],
     cb_all: true,
     cb_bsit: 'BSIT',
     cb_ccs: 'CCS',
@@ -58,68 +75,24 @@ export default {
     cb_2nd: '2nd',
     cb_3rd: '3rd',
     cb_4th: '4th',
-    students:[
-      {
-        first_name: 'Lucy',
-        last_name: 'Fernando',
-        course: 'BSIT',
-        year_level: '2nd',
-        status: 'pending'
-      },
-      {
-        first_name: 'Henry',
-        last_name: 'De Guzman',
-        course: 'BSIT',
-        year_level: '1st',
-        status: 'pending'
-      },
-      {
-        first_name: 'Kate',
-        last_name: 'Espana',
-        course: 'CCS',
-        year_level: '2nd',
-        status: 'pending'
-      },
-      {
-        first_name: 'Darell',
-        last_name: 'Dela Ros',
-        course: 'BSOA',
-        year_level: '3rd',
-        status: 'pending'
-      },
-      {
-        first_name: 'Paul',
-        last_name: 'Santiago',
-        course: 'BSIT',
-        year_level: '2nd',
-        status: 'pending'
-      },
-      {
-        first_name: 'Chris',
-        last_name: 'Sandoval',
-        course: 'BSOA',
-        year_level: '4th',
-        status: 'pending'
-      },
-      {
-        first_name: 'Leo',
-        last_name: 'Agapal',
-        course: 'HRM',
-        year_level: '2nd',
-        status: 'pending'
-      },
-      {
-        first_name: 'John',
-        last_name: 'Cruz',
-        course: 'CCS',
-        year_level: '1st',
-        status: 'pending'
-      }
-    ]
   }),
+  computed:{
+    studentRequests(){
+      return this.$store.getters['departmentStudentRequests/getStudentRequests']
+    }
+  },
+  mounted(){
+    this.getStudentRequests()
+  },
   methods:{
     searchStudents(){
       console.log('search students')
+    },
+    getStudentRequests(){
+      this.$store.dispatch('departmentStudentRequests/getStudentRequests')
+    },
+    approve(item){
+      console.log(item)
     },
     selectAll(){
       if(this.cb_all){
