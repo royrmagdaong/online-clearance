@@ -5,7 +5,7 @@
         <div class="mb-5"></div>
         <div @click="routeTo('/admin/dashboard')" :class="{'active-tab': $route.path === '/admin/dashboard'}">Dashboard</div>
         <div @click="routeTo('/admin/head-departments')" :class="{'active-tab': $route.path === '/admin/head-departments'}">Head Departments</div>
-        <div @click="routeTo('/admin/clearance-form-request')" :class="{'active-tab': $route.path === '/admin/clearance-form-request'}">Clearance Form Request</div>
+        <div @click="routeTo('/admin/clearance-form-request')" :class="{'active-tab': $route.path === '/admin/clearance-form-request'}">Clearance Form Requests</div>
         <div @click="routeTo('/admin/students')" :class="{'active-tab': $route.path === '/admin/students'}">Students</div>
         <div @click="routeTo('/admin/users')" :class="{'active-tab': $route.path === '/admin/users'}">Users</div>
         <div @click="logout('/')">Logout</div>
@@ -55,7 +55,7 @@ export default {
 .sidenav div {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 16px;
   color: #e2dede;
   display: block;
 }

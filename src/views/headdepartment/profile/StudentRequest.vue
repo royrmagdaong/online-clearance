@@ -35,9 +35,9 @@
             <b-button 
               size="sm" 
               variant="info" 
-              @click="approve(row.item)"
+              @click="viewRequest(row.item)"
             >
-              Approve
+              View
             </b-button>
           </div>
         </template>
@@ -50,11 +50,59 @@
               aria-controls="my-table"
           ></b-pagination>
       </div>
+
+      <!-- modal -->
+      <b-modal title="Student request info" content-class="pb-2 pl-2 pr-2" size="md" hide-footer :visible="viewRequestModal" @change="viewRequestModal = !viewRequestModal">
+        <div class="row no-gutters">
+          <div class="col-3 font-weight-bold">Name:</div>
+          <div class="col-9">John Doe</div>
+          <div class="col-3 font-weight-bold">Course:</div>
+          <div class="col-9">BSIT</div>
+          <div class="col-3 font-weight-bold">Yr/Sec:</div>
+          <div class="col-9">2A</div>
+          <div class="col-3 font-weight-bold">Acad. Year:</div>
+          <div class="col-9">2021-2022</div>
+          <div class="col-3 font-weight-bold">Semester:</div>
+          <div class="col-9">1st</div>
+
+          <div class="col-12 mt-4">
+            <div class="mb-1 font-weight-bold">Message:</div>
+            <div class="font-weight-light" style="font-size: 15px;">Tellus senectus, nec tristique phasellus numquam ante, velit gravida distinctio tempus ad exercitation dui, unde sociosqu dictumst rhoncus officia fugit, parturient suspendisse illum mauris, laboriosam massa, natoque illo quod tristique.</div>
+          </div>
+
+          <div class="col-12 mt-4">
+            <div class="font-weight-bold">Submitted Requirements:</div>
+            <div class="mt-1">1. <a href="../testrequirements.pdf" target="_blank">Sample Pdf</a></div>
+            <div class="">2. <a href="../testrequirements.pdf" target="_blank">Sample Pdf</a></div>
+          </div>
+
+          <div class="mt-4 col-12 d-flex justify-content-end">
+            <b-button 
+              size="sm" 
+              variant="warning"
+              class="mr-2"
+              @click="disapprove"
+            >
+              Dispprove
+            </b-button>
+            <b-button 
+              size="sm" 
+              variant="info"
+              @click="approve"
+            >
+              Approve
+            </b-button>
+          </div>
+        </div>
+      </b-modal>
   </div>
 </template>
 
 <script>
+import {toast} from '../../../mixins/toast'
+
 export default {
+  mixins: [toast],
   data:()=>({
     searchString: '',
     perPage: 10,
@@ -75,6 +123,8 @@ export default {
     cb_2nd: '2nd',
     cb_3rd: '3rd',
     cb_4th: '4th',
+    viewRequestModal: false,
+    clearance_id: ''
   }),
   computed:{
     studentRequests(){
@@ -91,8 +141,30 @@ export default {
     getStudentRequests(){
       this.$store.dispatch('departmentStudentRequests/getStudentRequests')
     },
-    approve(item){
-      console.log(item)
+    viewRequest(item){
+      this.clearance_id = item._id
+      this.viewRequestModal = true
+    },
+    approve(){
+      this.$store.dispatch('departmentStudentRequests/approveSignatureRequest',{
+        clearance_id: this.clearance_id
+      }).then(res => {
+        if(res.response){
+          this.viewRequestModal = false
+          
+          this.$router.push('dashboard')
+          setTimeout(()=>{
+            this.$router.push('student-request')
+            this.makeToast(this, false, 'Approve Success', 'Student request successfully approved.', 4000, 'success')
+          },1)
+        }
+      }).catch(err => {
+        this.makeToast(this, false, 'Approve Failed', err.message, 4000, 'danger')
+      })
+    },
+    disapprove(){
+      console.log('disapproved')
+      this.viewRequestModal = false
     },
     selectAll(){
       if(this.cb_all){

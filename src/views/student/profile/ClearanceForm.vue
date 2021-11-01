@@ -102,7 +102,7 @@ export default {
     semester_options: ['1st', '2nd'],
     academic_year_options: [],
     requestFormModal: false,
-    tableKey: 0
+    tableKey: 0,
   }),
   computed:{
     studentInfo(){

@@ -205,3 +205,13 @@ export function getStudentRequests(){
         .catch(err => { reject(err)} )
     })
 }
+
+export function approveSignatureRequest(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.approveSignatureRequest,{
+            clearance_id: payload.clearance_id
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}

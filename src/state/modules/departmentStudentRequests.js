@@ -1,5 +1,6 @@
 import {
-    getStudentRequests
+    getStudentRequests,
+    approveSignatureRequest
 } from '../../api'
 
 var store = {
@@ -24,6 +25,17 @@ var store = {
                 getStudentRequests().then(res => {
                     if(res.response){
                         context.commit('SET_STUDENT_REQUESTS', res.data)
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        approveSignatureRequest(context, payload){
+            return new Promise((resolve, reject) => {
+                approveSignatureRequest(payload).then(res => {
+                    if(res.response){
                         resolve(res)
                     }else{
                         resolve(res)
