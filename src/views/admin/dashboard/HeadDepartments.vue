@@ -3,7 +3,6 @@
     <div class="overflow-auto">
         <div class="d-flex mb-1 align-items-center justify-content-between">
           <b-form-input class="mr-2 mt-2 mb-2" v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchDepartments"></b-form-input>
-          <b-button @click="createDeptModal = true" class="bg-success">Create Department</b-button>
 
           <!-- modal -->
           <b-modal title="Create Department" hide-footer hide-header-close no-close-on-backdrop :visible="createDeptModal">

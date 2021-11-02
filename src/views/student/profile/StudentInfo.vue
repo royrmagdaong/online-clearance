@@ -5,7 +5,7 @@
       <b-icon class="edit-info" icon="pencil" variant="primary" font-scale="1" @click="openEditModal"></b-icon>
     </div>
     <div class="">{{ get(studentInfo, 'email') }}</div>
-    <div class="">{{ get(studentInfo, 'year_level') }} Year {{ get(studentInfo, 'course') }}</div>
+    <div class="">{{ get(studentInfo, 'course') }} {{ trimYearLevel(get(studentInfo, 'year_level')) }}{{ get(studentInfo, 'section') }} </div>
 
     <!-- modal -->
     <b-modal title="Create Department" hide-footer hide-header-close no-close-on-backdrop :visible="editInfoModal">
@@ -75,6 +75,9 @@ export default {
     getStudentInfo(){
       this.userId = this.userInfo.id
       this.$store.dispatch('studentInfo/getStudentInfo', {id: this.userId})
+    },
+    trimYearLevel(yr){
+      if(yr) return yr.substring(0,1)
     },
     save(){
       this.$store.dispatch('studentInfo/updateStudentInfo',{

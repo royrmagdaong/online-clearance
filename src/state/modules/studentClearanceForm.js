@@ -1,5 +1,5 @@
 import {
-    fetchDepartments,
+    getDepartmentsByCourse,
     requestClearanceForm,
     getClearanceForms,
     requestSignature
@@ -28,7 +28,7 @@ var store = {
         },
         getDepartments(context, payload){
             return new Promise((resolve, reject) => {
-                fetchDepartments(payload).then(res => {
+                getDepartmentsByCourse(payload).then(res => {
                     if(res.response){
                         context.commit('SET_DEPARTMENTS', res.data)
                         resolve(res)

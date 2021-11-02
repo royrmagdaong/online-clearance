@@ -6,14 +6,14 @@
   
     <div v-else>
       <div v-for="(clearance,index) in clearanceForms" :key="index">
-        <div v-if="get(clearance, 'request_approved')" :class="{'done':index > 0}">
-          <div class="card" :class="{'done':index > 0}">
+        <div v-if="get(clearance, 'request_approved')" :class="{'done':get(clearance, 'outdated')}">
+          <div class="card" :class="{'done':get(clearance, 'outdated')}">
             <div class="px-2 py-2">
               <span><b class="pr-2 pl-1">Name: </b> </span>
               <span>{{get(studentInfo, 'first_name')}} {{get(studentInfo, 'last_name')}}</span>
               <br>
               <span class="pr-4"><b class="pr-2 pl-1">Course:</b> {{get(clearance, 'course')}}</span>
-              <span class="pr-4"><b class="pr-2 pl-4">Year/Section:</b> {{get(clearance, 'year_level').substring(0,1)}}A</span>
+              <span class="pr-4"><b class="pr-2 pl-4">Year/Section:</b> {{get(clearance, 'year_level').substring(0,1)}}{{get(clearance, 'section')}}</span>
               <br>
               <span class="pr-4"><b class="pr-2 pl-1">Semester:</b> {{get(clearance, 'semester')}}</span>
               <span><b class="pr-2 pl-4">Academic Year:</b> {{get(clearance, 'academic_year')}}</span>
@@ -26,9 +26,11 @@
                 'text-success':displayStatus(row.item, clearance)==='Approved',
                 'text-danger':displayStatus(row.item, clearance)==='Disapproved',
               }"
+              v-if="!get(clearance, 'outdated')"
               >
                 {{ displayStatus(row.item, clearance) }}
               </span>
+              <span v-else>{{ displayStatus(row.item, clearance) }}</span>
             </template>
             <template #cell(actions)="row">
               <div class="d-flex justify-content-center">
@@ -36,11 +38,13 @@
                   size="sm" 
                   variant="info" 
                   @click="requestSignature(row.item, clearance)" 
-                  :disabled="index > 0"
+                  :disabled="get(clearance, 'outdated')"
                   v-if="
-                    displayStatus(row.item, clearance)!=='Approved' &&
+                    (displayStatus(row.item, clearance)!=='Approved' &&
                     displayStatus(row.item, clearance)!=='Disapproved' &&
-                    displayStatus(row.item, clearance)!=='Pending' 
+                    displayStatus(row.item, clearance)!=='Pending' )
+                    &&
+                    !get(clearance, 'outdated')
                   "
                 >
                   Request Signature
@@ -96,7 +100,7 @@ export default {
   mixins: [toast],
   data:()=>({
     get,
-    fields:['in_charge',"department_name",'signature',{key: 'status', label: 'status'}, {key: 'actions', label: ''}],
+    fields:['in_charge',"department_name",'signature',{key: 'status', label: 'Status'}, {key: 'actions', label: ''}],
     selected_semester: '',
     selected_academic_year: '',
     semester_options: ['1st', '2nd'],
@@ -120,7 +124,6 @@ export default {
   },
   mounted(){
     this.getStudentInfo()
-    this.getDepartments()
     this.getYears()
   },
   methods:{
@@ -142,14 +145,15 @@ export default {
       this.$store.dispatch('studentInfo/getStudentInfo', {id: this.userId}).then(res=>{
         if(res.response){
           this.getClearance()
+          this.getDepartments(get(this.studentInfo, 'course'))
         }
       })
     },
     getClearance(){
       this.$store.dispatch('studentClearanceForm/getClearanceForms',{student: get(this.studentInfo, '_id')})
     },
-    getDepartments(){
-      this.$store.dispatch('studentClearanceForm/getDepartments', {searchString: ""})
+    getDepartments(course){
+      this.$store.dispatch('studentClearanceForm/getDepartments', {course: course})
     },
     request(){
       if(this.selected_semester === ''){
@@ -162,7 +166,7 @@ export default {
           academic_year: this.selected_academic_year,
           semester: this.selected_semester,
           course: get(this.studentInfo, 'course'),
-          section: 'A',
+          section: get(this.studentInfo, 'section'),
           year_level: get(this.studentInfo, 'year_level')
         }).then(res=>{
           if(res.response){
