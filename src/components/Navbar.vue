@@ -30,6 +30,13 @@
             <b-nav-item @click="routeTo('/register')">SIGN UP</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" v-else>
+            <b-nav-item @click="routeTo('/student/profile/student-info')" v-if="get(userInfo, 'role')==='student'" :class="{'active-tab': activeTab === 'student-info'}">STUDENT INFO</b-nav-item>
+            <b-nav-item @click="routeTo('/student/profile/clearance-form')" v-if="get(userInfo, 'role')==='student'" :class="{'active-tab': activeTab === 'clearance-form'}">CLEARANCE FORM</b-nav-item>
+            <b-nav-item @click="routeTo('/head-department/dashboard')" v-if="get(userInfo, 'role')==='head-department'" :class="{'active-tab': activeTab === 'dashboard'}">DASHBOARD</b-nav-item>
+            <b-nav-item @click="routeTo('/head-department/student-request')" v-if="get(userInfo, 'role')==='head-department'" :class="{'active-tab': activeTab === 'student-request'}">STUDENT REQUEST</b-nav-item>
+            <b-nav-item @click="routeTo('/head-department/approved')" v-if="get(userInfo, 'role')==='head-department'" :class="{'active-tab': activeTab === 'approved'}">APPROVED</b-nav-item>
+            <b-nav-item @click="routeTo('/head-department/requirements')" v-if="get(userInfo, 'role')==='head-department'" :class="{'active-tab': activeTab === 'requirements'}">REQUIREMENTS</b-nav-item>
+            <b-nav-item>PRINT</b-nav-item>
             <b-nav-item @click="logout('/login')">LOGOUT</b-nav-item>
         </b-navbar-nav>
         </b-collapse>
@@ -41,17 +48,22 @@
 import {get} from 'lodash'
 export default {
     data:()=>({
-        get
+        get,
+        activeTab: ''
     }),
     computed:{
         userInfo(){
             return this.$store.getters['auth/getUserInfo']
         }
     },
+    mounted(){
+        this.activeTab = this.$route.path.substring(17)
+    },
     methods:{
         routeTo(route){
             if(this.$route.path !== route){
                 this.$router.push(route)
+                this.activeTab = this.$route.path.substring(17)
             }
         },
         logout(route){
@@ -95,5 +107,8 @@ export default {
     position: fixed;
     width: 100%;
     z-index: 3;
+}
+.active-tab a{
+    color: #FFFFFF !important;
 }
 </style>
