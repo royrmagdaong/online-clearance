@@ -1,7 +1,7 @@
 <template>
   <div class="container py-4" style="position: relative;">
     <div class="row" style="margin-top: 60px;">
-      <div class="col-3 card shadow-sm sidenav p-0" style="max-height: 455px; min-height: 455px;">
+      <div class="col-12 col-md-3 card shadow-sm sidenav p-0 d-none d-md-block" style="max-height: 455px; min-height: 455px;">
         <img height="120" src="https://thumbs.dreamstime.com/b/happy-smiling-geek-hipster-beard-man-cool-avatar-geek-man-avatar-104871313.jpg" class="rounded mx-auto mt-4 d-block" alt="prof_pic">
         <div class="text-center mt-4">
           <div class="p-3 student-info" @click="routeTo('dashboard')" :class="{'active-tab': activeTab === 'dashboard'}">Dashboard</div>
@@ -11,7 +11,7 @@
           <div class="p-3 print">Print</div>
         </div>
       </div>
-      <div class="col-9">
+      <div class="col-12 col-md-9">
         <router-view></router-view>
       </div>
     </div>
