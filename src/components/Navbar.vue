@@ -26,8 +26,8 @@
 
         <b-collapse id="navbar-toggle-collapse" is-nav>
         <b-navbar-nav class="ml-auto" v-if="!userInfo">
-            <b-nav-item @click="routeTo('/login')">LOGIN</b-nav-item>
-            <b-nav-item @click="routeTo('/register')">SIGN UP</b-nav-item>
+            <b-nav-item @click="routeTo('/login')" :class="{'active-tab': activeTab2 === 'login'}">LOGIN</b-nav-item>
+            <b-nav-item @click="routeTo('/register')" :class="{'active-tab': activeTab2 === 'register'}">SIGN UP</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" v-else>
             <b-nav-item @click="routeTo('/student/profile/student-info')" v-if="get(userInfo, 'role')==='student'" :class="{'active-tab': activeTab === 'student-info'}">STUDENT INFO</b-nav-item>
@@ -49,7 +49,8 @@ import {get} from 'lodash'
 export default {
     data:()=>({
         get,
-        activeTab: ''
+        activeTab: '',
+        activeTab2: ''
     }),
     computed:{
         userInfo(){
@@ -58,12 +59,14 @@ export default {
     },
     mounted(){
         this.activeTab = this.$route.path.substring(17)
+        this.activeTab2 = this.$route.path.substring(1)
     },
     methods:{
         routeTo(route){
             if(this.$route.path !== route){
                 this.$router.push(route)
                 this.activeTab = this.$route.path.substring(17)
+                this.activeTab2 = this.$route.path.substring(1)
             }
         },
         logout(route){
