@@ -16,7 +16,7 @@
                 <input type="password" class="form-control" id="exampleInputPassword1" v-model="password">
               </div>
               <div class="d-flex justify-content-end mt-4">
-                <button type="submit" class="btn btn-warning  mr-2" @click.prevent="">Clear</button>
+                <button type="submit" class="btn btn-warning  mr-2" @click.prevent="clear">Clear</button>
                 <button type="submit" class="btn btn-success" @click.prevent="login">Submit</button>
               </div>
             </form>
@@ -52,6 +52,10 @@ export default {
     },300)
   },
   methods:{
+    clear(){
+      this.email = ''
+      this.password = ''
+    },
     login(){
       this.$store.dispatch('auth/signIn',{
         email: this.email,
