@@ -1,5 +1,7 @@
 <template>
-    <div class="main-nav bg-success">
+<div>
+    <!-- for MD and UP -->
+    <div class="main-nav bg-success d-none d-md-flex">
         <div class="bname">
             PTC Online Clearance
         </div>
@@ -11,6 +13,28 @@
             <div class="mx-2" @click="logout('/login')">logout</div>
         </div>
     </div>
+    <!-- for SM and DOWN -->
+    <b-navbar toggleable type="dark" variant="success" class="d-flex d-md-none sm-nav">
+        <b-navbar-brand href="#">PTC Online Clearance</b-navbar-brand>
+
+        <b-navbar-toggle target="navbar-toggle-collapse">
+        <template #default="{ expanded }">
+            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+            <b-icon v-else icon="chevron-bar-down"></b-icon>
+        </template>
+        </b-navbar-toggle>
+
+        <b-collapse id="navbar-toggle-collapse" is-nav>
+        <b-navbar-nav class="ml-auto" v-if="!userInfo">
+            <b-nav-item @click="routeTo('/login')">LOGIN</b-nav-item>
+            <b-nav-item @click="routeTo('/register')">SIGN UP</b-nav-item>
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto" v-else>
+            <b-nav-item @click="logout('/login')">LOGOUT</b-nav-item>
+        </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
+</div>
 </template>
 
 <script>
@@ -40,7 +64,6 @@ export default {
 
 <style scoped>
 .main-nav{
-    display: flex;
     justify-content: space-between;
     align-items: center;
     padding-left: 14px;
@@ -65,5 +88,12 @@ export default {
 .links div:hover{
     color: rgb(63, 61, 61);
     cursor: pointer;
+}
+
+/* sm and down nav */
+.sm-nav{
+    position: fixed;
+    width: 100%;
+    z-index: 3;
 }
 </style>
