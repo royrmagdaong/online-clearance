@@ -152,12 +152,8 @@ export default {
       }).then(res => {
         if(res.response){
           this.viewRequestModal = false
-          
-          this.$router.push('dashboard')
-          setTimeout(()=>{
-            this.$router.push('student-request')
-            this.makeToast(this, false, 'Approve Success', 'Student request successfully approved.', 4000, 'success')
-          },1)
+          this.makeToast(this, false, 'Approve Success', 'Student request successfully approved.', 4000, 'success')
+          this.getStudentRequests()
         }
       }).catch(err => {
         this.makeToast(this, false, 'Approve Failed', err.message, 4000, 'danger')
