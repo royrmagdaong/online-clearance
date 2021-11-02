@@ -55,6 +55,7 @@
             :current-page="currentPage"
             bordered
             :fields="fields"
+            responsive
         ></b-table>
         <div class="d-flex justify-content-end flex-row pg-1">
             <b-pagination

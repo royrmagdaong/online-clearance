@@ -19,7 +19,7 @@
               <span><b class="pr-2 pl-4">Academic Year:</b> {{get(clearance, 'academic_year')}}</span>
             </div>
           </div>
-          <b-table bordered :items="departments" :fields="fields">
+          <b-table bordered :items="departments" :fields="fields" responsive>
             <template #cell(status)="row">
               <span :class="{
                 'text-warning':displayStatus(row.item, clearance)==='Pending', 

@@ -30,6 +30,7 @@
             :current-page="currentPage"
             bordered
             :fields="fields"
+            responsive
         >
           <template #cell(actions)="row">
             <div class="d-flex justify-content-center">
