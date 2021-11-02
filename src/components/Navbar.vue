@@ -45,8 +45,9 @@ export default {
     align-items: center;
     padding-left: 14px;
     padding-right: 14px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    /*padding-top: 12px;
+    padding-bottom: 12px; */
+    height: 6vh;
     letter-spacing: 2px;
     position: fixed;
     width: 100%;

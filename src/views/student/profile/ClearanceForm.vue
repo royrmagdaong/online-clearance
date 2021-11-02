@@ -3,7 +3,7 @@
     <div v-if="clearanceForms.length<1" class="">
       <div class="h5 card p-4 shadow-sm">You don't have clearance form yet.</div>
     </div>
-
+  
     <div v-else>
       <div v-for="(clearance,index) in clearanceForms" :key="index">
         <div v-if="get(clearance, 'request_approved')" :class="{'done':index > 0}">

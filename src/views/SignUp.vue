@@ -1,29 +1,29 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-1 col-md-3"></div>
-      <div class="col-10 col-md-6">
-        <div class="card shadow-sm py-2 px-3" style="margin-top: 120px;">
+      <div class="col-12 d-block d-md-none" style="margin-top:120px;"></div>
+      <div class="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3 signup-container">
+        <div class="card shadow-sm px-2 py-2 mx-2 mx-sm-0 px-lg-4 py-lg-4" style="width:100%;">
           <div class="card-body">
             <h4 class="card-title">Sign Up</h4>
             <hr>
             <form>
               <div class="form-group mb-2 row no-gutters">
-                <div class="col-6 pr-1">
+                <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>First Name</label>
                   <input type="text" class="form-control" v-model="first_name">
                 </div>
-                <div class="col-6 pl-1">
+                <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Last Name</label>
                   <input type="text" class="form-control" v-model="last_name">
                 </div>
               </div>
               <div class="form-group mb-2 row no-gutters">
-                <div class="col-6 pr-1">
+                <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Course</label>
                   <b-form-select v-model="selected_course" :options="course_options" @change="selectCourse"></b-form-select>
                 </div>
-                <div class="col-6 pl-1">
+                <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Year level</label>
                   <b-form-select v-model="selected_year_level" :options="year_level_options"></b-form-select>
                 </div>
@@ -33,11 +33,11 @@
                 <input type="email" class="form-control" v-model="email">
               </div>
               <div class="form-group mb-2 row no-gutters">
-                <div class="col-6 pr-1">
+                <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Password</label>
                   <input type="password" class="form-control" v-model="password">
                 </div>
-                <div class="col-6 pl-1">
+                <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Confirm Password</label>
                   <input type="password" class="form-control" v-model="confirmPassword">
                 </div>
@@ -50,7 +50,7 @@
           </div>
         </div>
       </div>
-      <div class="col-1 col-md-3"></div>
+      <div class="col-12 d-block d-md-none" style="margin-bottom:120px;"></div>
     </div>
   </div>
 </template>
@@ -125,6 +125,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.signup-container{
+  height: 90vh;
+  display: flex;
+  align-items: center;
+}
 </style>

@@ -1,9 +1,8 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-1 col-md-3"></div>
-      <div class="col-10 col-md-6">
-        <div class="card shadow-sm py-2 px-3" style="margin-top: 120px;">
+      <div class="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3 signin-container">
+        <div class="card shadow-sm px-2 py-2 mx-2 mx-sm-0 px-lg-4 py-lg-4" style="width:100%;">
           <div class="card-body">
             <h4 class="card-title">Login</h4>
             <hr>
@@ -24,7 +23,6 @@
           </div>
         </div>
       </div>
-      <div class="col-1 col-md-3"></div>
     </div>
   </div>
 </template>
@@ -77,6 +75,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.signin-container{
+  height: 90vh;
+  display: flex;
+  align-items: center;
+}
 </style>
