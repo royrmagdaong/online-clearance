@@ -1,7 +1,7 @@
 <template>
   <div>
       <!-- Side navigation -->
-      <div class="sidenav">
+      <div class="sidenav d-none d-md-block">
         <div class="mb-5"></div>
         <div @click="routeTo('/admin/dashboard')" :class="{'active-tab': $route.path === '/admin/dashboard'}">Dashboard</div>
         <div @click="routeTo('/admin/head-departments')" :class="{'active-tab': $route.path === '/admin/head-departments'}">Head Departments</div>
@@ -11,8 +11,34 @@
         <div @click="logout('/')">Logout</div>
       </div>
 
+      <!-- for SM and DOWN -->
+      <b-navbar toggleable type="dark" class="d-flex d-md-none sm-nav" style="background: #292b29 !important;">
+          <b-navbar-brand href="#">PTC Online Clearance</b-navbar-brand>
+
+          <b-navbar-toggle target="navbar-toggle-collapse">
+          <template #default="{ expanded }">
+              <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+              <b-icon v-else icon="chevron-bar-down"></b-icon>
+          </template>
+          </b-navbar-toggle>
+
+          <b-collapse id="navbar-toggle-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+              <b-nav-item @click="routeTo('/admin/dashboard')" :class="{'active-tab2': $route.path === '/admin/dashboard'}">Dashboard</b-nav-item>
+              <b-nav-item @click="routeTo('/admin/head-departments')" :class="{'active-tab2': $route.path === '/admin/head-departments'}">Head Departments</b-nav-item>
+              <b-nav-item @click="routeTo('/admin/clearance-form-request')" :class="{'active-tab2': $route.path === '/admin/clearance-form-request'}">Clearance Form Requests</b-nav-item>
+              <b-nav-item @click="routeTo('/admin/students')" :class="{'active-tab2': $route.path === '/admin/students'}">Students</b-nav-item>
+              <b-nav-item @click="routeTo('/admin/users')" :class="{'active-tab2': $route.path === '/admin/users'}">Users</b-nav-item>
+              <b-nav-item @click="logout('/')">Logout</b-nav-item>
+          </b-navbar-nav>
+          </b-collapse>
+      </b-navbar>
+
       <!-- Page content -->
-      <div class="main">
+      <div class="main d-none d-md-block">
+        <router-view></router-view>
+      </div>
+      <div class="d-block d-md-none" style="padding-top: 56px;">
         <router-view></router-view>
       </div>
   </div>
@@ -69,6 +95,15 @@ export default {
 .active-tab{
   background: #e2dede;
   color: #292b29 !important;
+}
+
+.active-tab2 a{
+    color: #FFFFFF !important;
+}
+.sm-nav{
+    position: fixed;
+    width: 100%;
+    z-index: 13;
 }
 
 /* Style page content */
