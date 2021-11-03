@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 d-block d-md-none" style="margin-top:120px;"></div>
       <div class="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3 signup-container">
-        <div class="card shadow-sm px-2 py-2 mx-2 mx-sm-0 px-lg-4 py-lg-4" style="width:100%;">
+        <div class="card shadow-sm px-2 py-2 mx-2 mx-sm-0 px-lg-4 py-lg-2" style="width:100%;">
           <div class="card-body">
             <h4 class="card-title">Sign Up</h4>
             <hr>
@@ -18,10 +18,14 @@
                   <input type="text" class="form-control" v-model="last_name">
                 </div>
               </div>
+              <div class="form-group mb-2">
+                <label>Course</label>
+                <b-form-select v-model="selected_course" :options="courses" @change="selectCourse" text-field="description" value-field="code"></b-form-select>
+              </div>
               <div class="form-group mb-2 row no-gutters">
                 <div class="col-12 pr-0 col-sm-6 pr-sm-1">
-                  <label>Course</label>
-                  <b-form-select v-model="selected_course" :options="course_options" @change="selectCourse"></b-form-select>
+                  <label>Section</label>
+                  <b-form-select v-model="selected_section" :options="sections"></b-form-select>
                 </div>
                 <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Year level</label>
@@ -61,11 +65,12 @@ import {toast} from '../mixins/toast'
 export default {
   mixins: [toast],
   data:()=>({
-    course_options: ['BSIT', 'BSOA', 'CCS', 'HRM'],
     year_level_options: [],
     fourYearCourseOption: ['1st', '2nd', '3rd', '4th'],
+    sections: ['A', 'B', 'C', 'D'],
     secondYearCourseOption: ['1st', '2nd'],
     selected_course: '',
+    selected_section: '',
     selected_year_level: '',
     email: '',
     first_name: '',
@@ -73,20 +78,25 @@ export default {
     password: '',
     confirmPassword: ''
   }),
+  computed:{
+    courses(){
+      return this.$store.getters['core/getCourses']
+    }
+  },
   methods:{
     selectCourse(){
-      if(this.selected_course === 'CCS'){
-        this.year_level_options = this.secondYearCourseOption
-        this.selected_year_level = ''
-      }else{
+      this.selected_year_level = ''
+      if(this.selected_course.includes('BS')){
         this.year_level_options = this.fourYearCourseOption
-        this.selected_year_level = ''
+      }else{
+        this.year_level_options = this.secondYearCourseOption
       }
     },
     clear(){
       this.email = ''
       this.first_name = ''
       this.last_name = ''
+      this.selected_section = ''
       this.password = ''
       this.confirmPassword = ''
       this.selected_course = ''
@@ -100,7 +110,8 @@ export default {
           email: this.email,
           password: this.password,
           course: this.selected_course,
-          year_level: this.selected_year_level
+          year_level: this.selected_year_level,
+          section: this.selected_section
         }).then(res => {
           if(res.response){
             this.clear()

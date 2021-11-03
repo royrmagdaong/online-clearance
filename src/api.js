@@ -35,6 +35,14 @@ export function fetchUsersCount(){
     })
 }
 
+export function getCourses(){
+    return new Promise((resolve, reject) => {
+        axios.get(endpoints.getCourses)
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
 
 // FOR STUDENT API CALLS
 
@@ -89,7 +97,8 @@ export function registerStudent(payload){
             email: payload.email,
             password: payload.password,
             course: payload.course,
-            year_level: payload.year_level
+            year_level: payload.year_level,
+            section: payload.section
         })
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )

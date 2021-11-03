@@ -2,11 +2,13 @@ const user = 'user/'
 const student = 'student/'
 const department = 'head-department/'
 const clearance = 'clearance/'
+const course = 'course/'
 
 export default {
     // general user
     signIn: user + 'signin',
     fetchUsers: user,
+    getCourses: course,
 
     // student
     fetchStudents: student,
