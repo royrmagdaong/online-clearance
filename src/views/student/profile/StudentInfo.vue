@@ -18,10 +18,14 @@
           <label>Last Name</label>
           <input type="text" class="form-control" v-model="last_name">
         </div>
+        <div class="form-group mb-2">
+          <label>Course</label>
+          <b-form-select v-model="selected_course" :options="courses" @change="selectCourse" value-field="code" text-field="description"></b-form-select>
+        </div>
         <div class="form-group mb-2 row no-gutters">
           <div class="col-6 pr-1">
-            <label>Course</label>
-            <b-form-select v-model="selected_course" :options="course_options" @change="selectCourse"></b-form-select>
+            <label>Section</label>
+            <b-form-select v-model="selected_section" :options="sections"></b-form-select>
           </div>
           <div class="col-6 pl-1">
             <label>Year level</label>
@@ -48,12 +52,13 @@ export default {
     userId: '',
     get,
     editInfoModal: false,
-    course_options: ['BSIT', 'BSOA', 'CCS', 'HRM'],
     year_level_options: ['1st', '2nd', '3rd', '4th'],
     fourYearCourseOption: ['1st', '2nd', '3rd', '4th'],
     secondYearCourseOption: ['1st', '2nd'],
+    sections: ['A', 'B', 'C', 'D'],
     selected_course: '',
     selected_year_level: '',
+    selected_section: '',
     first_name: '',
     last_name: ''
   }),
@@ -66,6 +71,9 @@ export default {
     },
     userInfo(){
       return this.$store.getters['auth/getUserInfo']
+    },
+    courses(){
+      return this.$store.getters['core/getCourses']
     }
   },
   methods:{
@@ -85,7 +93,8 @@ export default {
         first_name: this.first_name,
         last_name: this.last_name,
         course: this.selected_course,
-        year_level: this.selected_year_level
+        year_level: this.selected_year_level,
+        section: this.selected_section
       }).then(res => {
         if(res.response){
           this.editInfoModal = false
@@ -127,12 +136,11 @@ export default {
       this.selected_year_level = get(this.studentInfo, 'year_level')
     },
     selectCourse(){
-      if(this.selected_course === 'CCS'){
-        this.year_level_options = this.secondYearCourseOption
-        this.selected_year_level = ''
-      }else{
+      this.selected_year_level = ''
+      if(this.selected_course.includes('BS')){
         this.year_level_options = this.fourYearCourseOption
-        this.selected_year_level = ''
+      }else{
+        this.year_level_options = this.secondYearCourseOption
       }
     },
   }
