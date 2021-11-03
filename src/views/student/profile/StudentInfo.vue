@@ -134,6 +134,7 @@ export default {
       this.last_name = get(this.studentInfo, 'last_name')
       this.selected_course = get(this.studentInfo, 'course')
       this.selected_year_level = get(this.studentInfo, 'year_level')
+      this.selected_section = get(this.studentInfo, 'section')
     },
     selectCourse(){
       this.selected_year_level = ''
