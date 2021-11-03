@@ -9,9 +9,13 @@
         <div v-if="get(clearance, 'request_approved')" :class="{'done':get(clearance, 'outdated')}">
           <div class="card" :class="{'done':get(clearance, 'outdated')}">
             <div class="px-2 py-2">
-              <span><b class="pr-2 pl-1">Name: </b> </span>
-              <span>{{get(studentInfo, 'first_name')}} {{get(studentInfo, 'last_name')}}</span>
-              <br>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <span><b class="pr-2 pl-1">Name: </b> </span>
+                  <span>{{get(studentInfo, 'first_name')}} {{get(studentInfo, 'last_name')}}</span>
+                </div>
+                <span class="text-success font-weight-bold mr-2" v-if="get(clearance, 'completed')">COMPLETED</span>
+              </div>
               <span class="pr-4"><b class="pr-2 pl-1">Course:</b> {{get(clearance, 'course')}}</span>
               <span class="pr-4"><b class="pr-2 pl-4">Year/Section:</b> {{get(clearance, 'year_level').substring(0,1)}}{{get(clearance, 'section')}}</span>
               <br>
