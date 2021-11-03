@@ -25,7 +25,6 @@ var store = {
                 getStudentRequests().then(res => {
                     if(res.response){
                         context.commit('SET_STUDENT_REQUESTS', res.data)
-                        console.log(res.data)
                         resolve(res)
                     }else{
                         resolve(res)

@@ -24,9 +24,9 @@
 
       <b-table
           id="my-table"
-          :items="students"
-          :per-page="10"
-          :current-page="1"
+          :items="approvedStudents"
+          :per-page="perPage"
+          :current-page="currentPage"
           bordered
           :fields="fields"
           responsive
@@ -34,8 +34,8 @@
       <div class="d-flex justify-content-end flex-row">
           <b-pagination
               v-model="currentPage"
-              :total-rows="23"
-              :per-page="10"
+              :total-rows="get(fields, 'length')"
+              :per-page="perPage"
               aria-controls="my-table"
           ></b-pagination>
       </div>
@@ -43,12 +43,18 @@
 </template>
 
 <script>
+import {get} from 'lodash'
 export default {
   data:()=>({
+    get,
     searchString: '',
     perPage: 10,
     currentPage: 1,
-    fields:['first_name', 'last_name', 'course', 'year_level', 'status'],
+    fields:[
+      {key:'student.first_name', label: 'First Name'}, 
+      {key:'student.last_name', label: 'Last Name'}, 
+      'course', 'year_level','section', 'semester', 'academic_year'
+    ],
     cb_all: true,
     cb_bsit: 'BSIT',
     cb_ccs: 'CCS',
@@ -58,66 +64,16 @@ export default {
     cb_1st: '1st',
     cb_2nd: '2nd',
     cb_3rd: '3rd',
-    cb_4th: '4th',
-    students:[
-      {
-        first_name: 'Lucy',
-        last_name: 'Fernando',
-        course: 'BSIT',
-        year_level: '2nd',
-        status: 'approved'
-      },
-      {
-        first_name: 'Henry',
-        last_name: 'De Guzman',
-        course: 'BSIT',
-        year_level: '1st',
-        status: 'approved'
-      },
-      {
-        first_name: 'Kate',
-        last_name: 'Espana',
-        course: 'CCS',
-        year_level: '2nd',
-        status: 'approved'
-      },
-      {
-        first_name: 'Darell',
-        last_name: 'Dela Ros',
-        course: 'BSOA',
-        year_level: '3rd',
-        status: 'approved'
-      },
-      {
-        first_name: 'Paul',
-        last_name: 'Santiago',
-        course: 'BSIT',
-        year_level: '2nd',
-        status: 'approved'
-      },
-      {
-        first_name: 'Chris',
-        last_name: 'Sandoval',
-        course: 'BSOA',
-        year_level: '4th',
-        status: 'approved'
-      },
-      {
-        first_name: 'Leo',
-        last_name: 'Agapal',
-        course: 'HRM',
-        year_level: '2nd',
-        status: 'approved'
-      },
-      {
-        first_name: 'John',
-        last_name: 'Cruz',
-        course: 'CCS',
-        year_level: '1st',
-        status: 'approved'
-      }
-    ]
+    cb_4th: '4th'
   }),
+  mounted(){
+    this.$store.dispatch('departmentApprovedStudents/getApprovedStudents')
+  },
+  computed:{
+    approvedStudents(){
+      return this.$store.getters['departmentApprovedStudents/getApprovedStudents']
+    }
+  },
   methods:{
     searchStudents(){
       console.log('search students')

@@ -234,3 +234,11 @@ export function approveSignatureRequest(payload){
         .catch(err => { reject(err)} )
     })
 }
+
+export function getApprovedStudents(){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getApprovedStudents,{})
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}

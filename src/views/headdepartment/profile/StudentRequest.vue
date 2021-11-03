@@ -25,11 +25,13 @@
       <b-table
           id="my-table"
           :items="studentRequests"
-          :per-page="10"
-          :current-page="1"
+          :per-page="perPage"
+          :current-page="currentPage"
           bordered
           :fields="fields"
           responsive
+          :no-border-collapse="false"
+          :sticky-header="true"
       >
         <template #cell(actions)="row">
           <div class="d-flex justify-content-center">
@@ -47,7 +49,7 @@
           <b-pagination
               v-model="currentPage"
               :total-rows="studentRequests.length"
-              :per-page="10"
+              :per-page="perPage"
               aria-controls="my-table"
           ></b-pagination>
       </div>
@@ -111,7 +113,7 @@ export default {
     fields:[
       {key:'student.first_name', label: 'First Name'}, 
       {key:'student.last_name', label: 'Last Name'}, 
-      'course', 'year_level','section', 'status',
+      'course', 'year_level','section', 'semester', 'academic_year',
       {key: 'actions', label: ''}
     ],
     cb_all: true,

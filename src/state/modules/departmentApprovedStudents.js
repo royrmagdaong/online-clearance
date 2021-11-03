@@ -1,29 +1,28 @@
 import {
-    getCourses
+    getApprovedStudents
 } from '../../api'
 
 var store = {
     namespaced: true,
     state: {
-        courses: []
+        approvedStudents: []
     },
     getters: {
-        getCourses: state => state.courses
+        getApprovedStudents: state => state.approvedStudents
     },
     mutations: {
-        SET_COURSES(state, payload){
-            state.courses = payload
+        SET_APPROVED_STUDENTS(state, payload){
+            state.approvedStudents = payload
         }
     },
     actions:{
-        initStore(context){
-            context.dispatch('getCourses')
+        initStore(){
         },
-        getCourses(context){
+        getApprovedStudents(context){
             return new Promise((resolve, reject) => {
-                getCourses().then(res => {
+                getApprovedStudents().then(res => {
                     if(res.response){
-                        context.commit('SET_COURSES', res.data)
+                        context.commit('SET_APPROVED_STUDENTS', res.data)
                         resolve(res)
                     }else{
                         resolve(res)

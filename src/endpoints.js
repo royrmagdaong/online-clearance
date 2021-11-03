@@ -32,5 +32,6 @@ export default {
 
     // head department
     getStudentRequests: clearance + 'students-signature-request',
-    approveSignatureRequest: clearance + 'approve-signature-request'
+    approveSignatureRequest: clearance + 'approve-signature-request',
+    getApprovedStudents: clearance + 'approved-students'
 }
