@@ -3,7 +3,7 @@
     <!-- for MD and UP -->
     <div class="main-nav bg-success d-none d-md-flex">
         <div class="bname">
-            PTC Online Clearance
+            <div>PTC Online Clearance</div>
         </div>
         <div class="links d-flex font-weight-bold text-uppercase text-white" v-if="!userInfo">
             <div class="mx-2" @click="routeTo('/login')">login</div>
@@ -92,7 +92,7 @@ export default {
     z-index: 3;
 }
 .bname{
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 600;
     color: rgb(255, 255, 255);
 }
