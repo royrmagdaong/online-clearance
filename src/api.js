@@ -217,6 +217,14 @@ export function approveClearanceRequest(payload){
 
 // For Department APIs
 
+export function getDepartment(){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getDepartment,{})
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
 export function getStudentRequests(){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.getStudentRequests,{})
@@ -238,6 +246,20 @@ export function approveSignatureRequest(payload){
 export function getApprovedStudents(){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.getApprovedStudents,{})
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function uploadSignature(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.uploadSignature,payload.formData,{
+            dept_id: payload.dept_id,
+            // in_charge: payload.in_charge,
+            // department_name: payload.department_name,
+            // mobile_number: payload.mobile_number,
+            // telephone_number: payload.telephone_number
+        })
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )
     })

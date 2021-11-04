@@ -1,6 +1,7 @@
 import {
     fetchDepartments,
-    createDepartment
+    createDepartment,
+    uploadSignature
 } from '../../api'
 
 var store = {
@@ -42,7 +43,18 @@ var store = {
                     }
                 }).catch(err => { reject(err) })
             })
-        }
+        },
+        uploadSignature(context, formData){
+            return new Promise((resolve, reject) => {
+                uploadSignature(formData).then(res => {
+                    if(res.response){
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
     }
 }
 

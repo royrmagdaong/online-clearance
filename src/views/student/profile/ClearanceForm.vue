@@ -24,20 +24,37 @@
             </div>
           </div>
           <b-table bordered :items="departments" :fields="fields" responsive>
+            <template #cell(in_charge)="row">
+              <div class="d-flex align-items-center" style="min-height: 50px !important;">
+                <span>{{ get(row, 'item.in_charge') }}</span>
+              </div>
+            </template>
+            <template #cell(department_name)="row">
+              <div class="d-flex align-items-center" style="min-height: 50px !important;">
+                <span>{{ get(row, 'item.department_name') }}</span>
+              </div>
+            </template>
+            <template #cell(signature_)="row">
+              <div class="d-flex justify-content-center">
+                <img :src="getSign(row.item,clearance)" alt="Signature" v-if="getSign(row.item,clearance)" width="120">
+              </div>
+            </template>
             <template #cell(status)="row">
-              <span :class="{
-                'text-warning':displayStatus(row.item, clearance)==='Pending', 
-                'text-success':displayStatus(row.item, clearance)==='Approved',
-                'text-danger':displayStatus(row.item, clearance)==='Disapproved',
-              }"
-              v-if="!get(clearance, 'outdated')"
-              >
-                {{ displayStatus(row.item, clearance) }}
-              </span>
-              <span v-else>{{ displayStatus(row.item, clearance) }}</span>
+              <div class="d-flex justify-content-center align-items-center" style="min-height: 50px !important;">
+                <span :class="{
+                  'text-warning':displayStatus(row.item, clearance)==='Pending', 
+                  'text-success':displayStatus(row.item, clearance)==='Approved',
+                  'text-danger':displayStatus(row.item, clearance)==='Disapproved',
+                }"
+                v-if="!get(clearance, 'outdated')"
+                >
+                  {{ displayStatus(row.item, clearance) }}
+                </span>
+                <span v-else>{{ displayStatus(row.item, clearance) }}</span>
+              </div>
             </template>
             <template #cell(actions)="row">
-              <div class="d-flex justify-content-center">
+              <div class="d-flex justify-content-center align-items-center" style="min-height: 50px !important;">
                 <b-button 
                   size="sm" 
                   variant="info" 
@@ -104,7 +121,7 @@ export default {
   mixins: [toast],
   data:()=>({
     get,
-    fields:['in_charge',"department_name",'signature',{key: 'status', label: 'Status'}, {key: 'actions', label: ''}],
+    fields:['in_charge',"department_name",'signature_',{key: 'status', label: 'Status'}, {key: 'actions', label: ''}],
     selected_semester: '',
     selected_academic_year: '',
     semester_options: ['1st', '2nd'],
@@ -191,7 +208,13 @@ export default {
       }
     },
     displayStatus(dept, clearance){
-      if(clearance.departments_approved.includes(dept._id)){
+      let approved = false
+      for(let i = 0;i<clearance.departments_approved.length;i++){
+        if(clearance.departments_approved[i].dept_id === dept._id){
+          approved = true
+        }
+      }
+      if(approved){
         return 'Approved'
       }else if(clearance.departments_pending.includes(dept._id)){
         return 'Pending'
@@ -218,6 +241,15 @@ export default {
       }).catch(err => {
         this.makeToast(this, false, 'Request failed', err.response.data.message, 4000, 'danger')
       })
+    },
+    getSign(dept,clearance){
+      let sign = ''
+      for(let i = 0;i<clearance.departments_approved.length;i++){
+        if(clearance.departments_approved[i].dept_id === dept._id){
+          sign = `data:${get(clearance.departments_approved[i],'signature.type')};${get(clearance.departments_approved[i],'signature.base')},${get(clearance.departments_approved[i],'signature.img')}`
+        }
+      }
+      return sign
     }
   }
 }
