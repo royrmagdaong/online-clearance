@@ -6,20 +6,18 @@
           <div class="card-body">
             <h4 class="card-title">Login</h4>
             <hr>
-            <form>
-              <div class="form-group mb-2">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
-              </div>
-              <div class="form-group mb-2">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" v-model="password">
-              </div>
-              <div class="d-flex justify-content-end mt-4">
-                <button type="submit" class="btn btn-warning  mr-2" @click.prevent="clear">Clear</button>
-                <button type="submit" class="btn btn-success" @click.prevent="login">Submit</button>
-              </div>
-            </form>
+            <div class="form-group mb-2">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email">
+            </div>
+            <div class="form-group mb-2">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" v-model="password" v-on:keyup.enter="login">
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+              <button type="submit" class="btn btn-warning  mr-2" @click.prevent="clear">Clear</button>
+              <button type="submit" class="btn btn-success" @click.prevent="login">Submit</button>
+            </div>
           </div>
         </div>
       </div>
