@@ -17,7 +17,9 @@
 </template>
 
 <script>
+import {io} from 'socket.io-client'
 import {get} from 'lodash'
+
 export default {
     data:()=>({
         get,
@@ -25,6 +27,22 @@ export default {
     }),
     mounted(){
       this.activeTab = this.$route.path.substring(17)
+
+      let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+      if(get(userInfo, 'role') === 'student'){
+          const socket = io("http://localhost:5000");
+          console.log(get(userInfo, 'email'))
+          this.$store.dispatch('studentInfo/getStudentInfo', {id: get(userInfo, 'id')}).then(res=>{
+            console.log(res)
+              if(res.response){
+                  socket.on(get(userInfo, 'email'), (message) => {
+                      console.log(message);
+                      this.$store.dispatch('studentClearanceForm/getClearanceForms',{student: get(res, 'data._id')})
+                  });
+              }
+          })
+      }
+
     },
     methods:{
       routeTo(route){

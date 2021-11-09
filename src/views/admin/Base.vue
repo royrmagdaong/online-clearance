@@ -45,10 +45,16 @@
 </template>
 
 <script>
+// import { io } from 'socket.io-client'
+
 export default {
   data:()=>({
   }),
   mounted(){
+    // const socket = io("http://localhost:5000");
+    // socket.on("admin", (arg) => {
+    //   console.log(arg); 
+    // });
   },
   methods:{
     routeTo(route){

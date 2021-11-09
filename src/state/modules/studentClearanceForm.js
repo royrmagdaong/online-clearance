@@ -25,6 +25,7 @@ var store = {
     },
     actions:{
         initStore(){
+            
         },
         getDepartments(context, payload){
             return new Promise((resolve, reject) => {
