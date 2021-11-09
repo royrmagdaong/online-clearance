@@ -252,13 +252,14 @@ export default {
         if(this.signature_upd){
           const formData = new FormData()
           formData.append('signature',this.signature_upd)
+          formData.append('dept_id', this.dept_id)
+          formData.append('in_charge', this.in_charge_upd)
+          formData.append('department_name', this.department_name_upd)
+          formData.append('mobile_number', this.mobile_number_upd)
+          formData.append('telephone_number', this.telephone_number_upd)
+
           this.$store.dispatch('adminDepartments/uploadSignature',{
-            formData:formData,
-            dept_id: this.dept_id,
-            in_charge: this.in_charge_upd,
-            department_name: this.department_name_upd,
-            mobile_number: this.mobile_number_upd,
-            telephone_number: this.telephone_number_upd
+            formData:formData
           }).then(res=>{
             if(res.response){
               // this.getDepartment()
