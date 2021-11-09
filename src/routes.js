@@ -14,6 +14,7 @@ import AdminUsers from './views/admin/dashboard/Users'
 import AdminStudents from './views/admin/dashboard/Students'
 import AdminHeadDepartments from './views/admin/dashboard/HeadDepartments'
 import AdminClearanceFormRequest from './views/admin/dashboard/ClearanceFormRequest'
+import AdminCourseSection from './views/admin/dashboard/CourseSection'
 
 // Head department
 import HeadDepartmentBase from './views/headdepartment/Base'
@@ -106,6 +107,10 @@ const router =  new Router({
         { 
           path: "clearance-form-request",
           component: AdminClearanceFormRequest
+        },
+        { 
+          path: "course-section",
+          component: AdminCourseSection
         },
         { path: "*", component: NotFound } // should be last
       ]
