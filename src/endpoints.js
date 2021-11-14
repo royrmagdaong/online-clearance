@@ -3,6 +3,7 @@ const student = 'student/'
 const department = 'head-department/'
 const clearance = 'clearance/'
 const course = 'course/'
+const requirements = 'requirements/'
 
 export default {
     // general user
@@ -35,5 +36,7 @@ export default {
     getStudentRequests: clearance + 'students-signature-request',
     approveSignatureRequest: clearance + 'approve-signature-request',
     getApprovedStudents: clearance + 'approved-students',
-    uploadSignature: department + 'upload-signature'
+    uploadSignature: department + 'upload-signature',
+    uploadRequirements: requirements + 'upload-requirements',
+    getRequirements: requirements
 }

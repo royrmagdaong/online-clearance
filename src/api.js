@@ -251,9 +251,25 @@ export function getApprovedStudents(){
     })
 }
 
+export function getRequirements(){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getRequirements,{})
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
 export function uploadSignature(payload){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.uploadSignature,payload.formData)
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function uploadRequirements(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.uploadRequirements,payload.formData)
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )
     })
