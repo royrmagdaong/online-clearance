@@ -41,5 +41,6 @@ export default {
     getApprovedStudents: clearance + 'approved-students',
     uploadSignature: department + 'upload-signature',
     uploadRequirements: requirements + 'upload-requirements',
-    getRequirements: requirements
+    getRequirements: requirements,
+    updateRequirements: requirements + 'update-requirements'
 }

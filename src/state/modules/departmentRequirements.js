@@ -1,6 +1,7 @@
 import {
     uploadRequirements,
-    getRequirements
+    getRequirements,
+    updateRequirements
 } from '../../api'
 
 var store = {
@@ -36,6 +37,17 @@ var store = {
         uploadRequirements(context, formData){
             return new Promise((resolve, reject) => {
                 uploadRequirements(formData).then(res => {
+                    if(res.response){
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        updateRequirements(context, formData){
+            return new Promise((resolve, reject) => {
+                updateRequirements(formData).then(res => {
                     if(res.response){
                         resolve(res)
                     }else{
