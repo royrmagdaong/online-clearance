@@ -9,8 +9,7 @@
       <hr>
       <div v-for="(requirement,index) in requirements" :key="index">
         <div class="">
-          <span class="font-weight-bold">{{index+1}}. {{ get(requirement, 'title') }}</span>
-          <span> - <a href="../testrequirements.pdf" target="_blank">Library card sample</a></span>
+          <span class="font-weight-bold">{{index+1}}. <a :href="`${endpoints.viewRequirementsUrl}/${get(requirement,'filename')}`" target="_blank">{{ get(requirement, 'title') }}</a></span>
         </div>
         <ul>
           <li>{{ get(requirement, 'instructions') }}</li>
@@ -52,9 +51,12 @@
 <script>
 import {get} from 'lodash'
 import {toast} from '../../../mixins/toast'
+import endpoints from '../../../endpoints'
+
 export default {
   mixins: [toast],
   data:()=>({
+    endpoints,
     get,
     requirementModal: false,
     file: null,

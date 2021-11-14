@@ -1,3 +1,4 @@
+const serverName = 'http://localhost:5000/'
 const user = 'user/'
 const student = 'student/'
 const department = 'head-department/'
@@ -7,9 +8,11 @@ const requirements = 'requirements/'
 
 export default {
     // general user
+    serverName: serverName,
     signIn: user + 'signin',
     fetchUsers: user,
     getCourses: course,
+    viewRequirementsUrl: serverName + requirements + 'view',
 
     // student
     fetchStudents: student,
