@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card p-4 shadow-sm" v-if="false">
+    <div class="card p-4 shadow-sm" v-if="requirements.length < 1">
       <div class="h5">You currently don't have requirements posted in here.</div>
       <div class="">Click add requirements button to add requirements.</div>
     </div>
