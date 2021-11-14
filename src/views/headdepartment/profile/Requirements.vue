@@ -48,7 +48,7 @@
     </b-modal>
 
     <!-- edit modal -->
-    <b-modal title="Add Requirements" hide-footer hide-header-close no-close-on-backdrop :visible="requirementModal_edit">
+    <b-modal title="Edit Requirements" hide-footer hide-header-close no-close-on-backdrop :visible="requirementModal_edit">
       <div>
         <form @submit.prevent="" enctype="multipart/form-data">
           <div class="col-12 px-0">
