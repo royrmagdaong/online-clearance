@@ -67,7 +67,7 @@
           <div style="font-size:12px;">*png, jpg, pdf only</div>
         </form>
         <div class="d-flex justify-content-end">
-          <b-button variant="warning" class="mr-2" @click.prevent="cancel_edit">Cancela</b-button>
+          <b-button variant="warning" class="mr-2" @click.prevent="cancel_edit">Cancel</b-button>
           <b-button type="submit" variant="success" @click.prevent="uploadRequirements_edit">Save</b-button>
         </div>
       </div>
