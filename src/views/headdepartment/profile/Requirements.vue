@@ -119,9 +119,6 @@ export default {
       this.requirements_upload = event.target.files[0]
       if (event.target.files && event.target.files[0]) {
         var reader = new FileReader();
-        // reader.onload =  (e) => {
-        //   // this.signature = e.target.result
-        // };
         reader.readAsDataURL(event.target.files[0]);
       }
     },
@@ -134,9 +131,6 @@ export default {
       this.requirements_upload_edit = event.target.files[0]
       if (event.target.files && event.target.files[0]) {
         var reader = new FileReader();
-        // reader.onload =  () => {
-        //   // this.signature = e.target.result
-        // };
         reader.readAsDataURL(event.target.files[0]);
       }
     },
@@ -160,10 +154,10 @@ export default {
               this.cancel()
             }
           }).catch(err=>{
-            console.log(err)
+            this.makeToast(this, false, 'Update failed', err.message, 4000, 'danger')
           })
         }else{
-          console.log('choose image')
+          this.makeToast(this, false, 'Update warning', 'Choose image.', 4000, 'warning')
         }
     },
     uploadRequirements_edit(){
@@ -184,14 +178,13 @@ export default {
             this.cancel_edit()
           }
         }).catch(err=>{
-          console.log(err)
+          this.makeToast(this, false, 'Update failed', err.message, 4000, 'danger')
         })
       }else{
-        console.log('choose image')
+        this.makeToast(this, false, 'Update warning', 'Choose image.', 4000, 'warning')
       }
     },
     editRequirements(req){
-      console.log(req)
       this.title_edit = req.title
       this.instructions_edit = req.instructions
       this.requirementModal_edit = true
