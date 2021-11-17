@@ -154,10 +154,10 @@ export default {
               this.cancel()
             }
           }).catch(err=>{
-            this.makeToast(this, false, 'Update failed', err.message, 4000, 'danger')
+            this.makeToast(this, false, 'Upload failed', err.message, 4000, 'danger')
           })
         }else{
-          this.makeToast(this, false, 'Update warning', 'Choose image.', 4000, 'warning')
+          this.makeToast(this, false, 'Upload warning', 'You need to choose file/s first.', 4000, 'warning')
         }
     },
     uploadRequirements_edit(){
@@ -181,7 +181,7 @@ export default {
           this.makeToast(this, false, 'Update failed', err.message, 4000, 'danger')
         })
       }else{
-        this.makeToast(this, false, 'Update warning', 'Choose image.', 4000, 'warning')
+        this.makeToast(this, false, 'Update warning', 'You need to choose file/s first.', 4000, 'warning')
       }
     },
     editRequirements(req){

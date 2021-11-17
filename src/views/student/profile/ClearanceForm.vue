@@ -142,8 +142,9 @@
                   placeholder="Message..."
                   rows="3"
                   max-rows="3"
+                  v-model="message"
                 ></b-form-textarea>
-                <input type="file" name="requirements"  class="mt-2" accept="image/png, image/jpeg, application/pdf" multiple />
+                <input type="file" name="requirements"  class="mt-2" accept="image/png, image/jpeg, application/pdf" multiple @change="onChange"/>
               </div>
             </form>
           </div>
@@ -160,6 +161,7 @@
             <b-button 
               size="sm" 
               variant="info"
+              @click="submitRequestSignature"
             >
               Submit
             </b-button>
@@ -188,7 +190,10 @@ export default {
     tableKey: 0,
     requestSignatureModal: false,
     department: null,
-    message: ''
+    clearance: null,
+    message: '',
+    requirements_upload: null,
+    file_list: []
   }),
   computed:{
     studentInfo(){
@@ -212,6 +217,18 @@ export default {
     this.getYears()
   },
   methods:{
+    onChange(event) {
+      this.requirements_upload = event.target.files
+      // console.log(event.target.files)
+      // if (this.requirements_upload.length != 0) {
+      //   for (const single_file of this.requirements_upload) {
+      //       // console.log(single_file)
+      //       this.file_list.append('requirements', single_file)
+      //       var reader = new FileReader();
+      //       reader.readAsDataURL(single_file);
+      //   }
+      // }
+    },
     cancel(){
       this.requestFormModal = false
       this.selected_semester = ''
@@ -305,10 +322,41 @@ export default {
       // }).catch(err => {
       //   this.makeToast(this, false, 'Request failed', err.response.data.message, 4000, 'danger')
       // })
-      console.log(clearance)
+
       this.getRequirements(dept.user_id)
       this.department = dept
+      this.clearance = clearance
       this.requestSignatureModal = true
+    },
+    submitRequestSignature(){
+      if(this.requirements_upload){
+        const formData = new FormData()
+        for(let i=0;i<this.requirements_upload.length;i++){
+          let file = this.requirements_upload[i];
+          formData.append("requirements", file);
+        }
+        formData.append('user_id', get(this.userInfo, 'id'))
+        formData.append('department_id', this.department._id)
+        formData.append('clearance_id', this.clearance._id)
+        formData.append('message', this.message)
+
+        this.$store.dispatch('studentClearanceForm/requestSignature',{
+          formData:formData
+        }).then(res=>{
+          if(res.response){
+            this.requestSignatureModal = false
+            this.$router.push('student-info')
+            setTimeout(()=>{
+              this.$router.push('clearance-form')
+              this.makeToast(this, false, 'Request Successful', res.message, 4000, 'success')
+            },1)
+          }
+        }).catch(err=>{
+          this.makeToast(this, false, 'Request failed', err.message, 4000, 'danger')
+        })
+      }else{
+        this.makeToast(this, false, 'Request warning', 'You need to choose file/s first.', 4000, 'warning')
+      }
     },
     getSign(dept,clearance){
       let sign = ''

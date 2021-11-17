@@ -144,10 +144,13 @@ export function getClearanceForms(payload){
 
 export function requestSignature(payload){
     return new Promise((resolve, reject) => {
-        axios.post(endpoints.requestSignature, {
-            clearance_id: payload.clearance_id,
-            department_id: payload.department_id
-        })
+        axios.post(endpoints.requestSignature,
+            payload.formData 
+            // {
+            //     clearance_id: payload.clearance_id,
+            //     department_id: payload.department_id
+            // }
+        )
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )
     })
