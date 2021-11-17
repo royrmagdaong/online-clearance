@@ -28,7 +28,7 @@
           <div class="col-12 px-0">
             <label>Title:</label>
             <b-form-input placeholder="Enter your name" v-model="title"></b-form-input>
-            <label class="mt-2">Instructions:</label>
+            <label class="mt-2">Additional Info:</label>
             <b-form-textarea
               id="textarea"
               v-model="instructions"
@@ -54,7 +54,7 @@
           <div class="col-12 px-0">
             <label>Title:</label>
             <b-form-input placeholder="Enter your name" v-model="title_edit"></b-form-input>
-            <label class="mt-2">Instructions:</label>
+            <label class="mt-2">Additional Info:</label>
             <b-form-textarea
               id="textarea"
               v-model="instructions_edit"
