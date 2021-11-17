@@ -251,9 +251,11 @@ export function getApprovedStudents(){
     })
 }
 
-export function getRequirements(){
+export function getRequirements(payload){
     return new Promise((resolve, reject) => {
-        axios.post(endpoints.getRequirements,{})
+        axios.post(endpoints.getRequirements,{
+            department_id: payload.department_id
+        })
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )
     })

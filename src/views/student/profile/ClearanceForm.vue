@@ -86,7 +86,7 @@
         </div>
       </div>
     </div>
-
+    
     <div class="d-flex justify-content-end">
       <b-button variant="success" @click="requestFormModal = true">Request Form</b-button>
     </div>
@@ -110,16 +110,74 @@
         </div>
       </form>
     </b-modal>
+
+    <!-- modal -->
+      <b-modal title="Department Requirements" content-class="pb-2 pl-2 pr-2" size="md" no-close-on-backdrop hide-footer :visible="requestSignatureModal" @change="requestSignatureModal = !requestSignatureModal">
+        <div class="row no-gutters">
+          <div class="col-3 font-weight-bold">Department:</div>
+          <div class="col-9">{{ get(department, 'department_name') }}</div>
+          <div class="col-3 font-weight-bold">In Charge:</div>
+          <div class="col-9">{{ get(department, 'in_charge') }}</div>
+
+          <div class="col-12 mt-4">
+            <div class="mb-1">Requirements:</div>
+            <ol class="pl-3">
+              <li v-for="(requirements,index) in department_requirements" :key="index">
+                <div class="mb-1 font-weight-bold">
+                  <a :href="`${endpoints.viewRequirementsUrl}/${get(requirements,'filename')}`" target="_blank">{{ get(requirements, 'title') }}</a>
+                </div>
+                <ul class="font-weight-light" style="font-size: 15px;">
+                  <li>{{ get(requirements, 'instructions') }}</li>
+                </ul>
+              </li>
+            </ol>
+            <hr/>
+          </div>
+
+          <div class="col-12 mt-2">
+            <form @submit.prevent="" enctype="multipart/form-data">
+              <div class="col-12 px-0">
+                <div class="mb-2">Upload Requirements <span style="font-size:12px;">(*png, jpg, pdf only)</span></div>
+                <b-form-textarea
+                  placeholder="Message..."
+                  rows="3"
+                  max-rows="3"
+                ></b-form-textarea>
+                <input type="file" name="requirements"  class="mt-2" accept="image/png, image/jpeg, application/pdf" multiple />
+              </div>
+            </form>
+          </div>
+
+          <div class="mt-4 col-12 d-flex justify-content-end">
+            <b-button 
+              size="sm" 
+              variant="warning"
+              class="mr-2"
+              @click="requestSignatureModal = !requestSignatureModal"
+            >
+              Cancel
+            </b-button>
+            <b-button 
+              size="sm" 
+              variant="info"
+            >
+              Submit
+            </b-button>
+          </div>
+        </div>
+      </b-modal>
   </div>
 </template>
 
 <script>
 import {toast} from '../../../mixins/toast'
 import {get} from 'lodash'
+import endpoints from '../../../endpoints'
 
 export default {
   mixins: [toast],
   data:()=>({
+    endpoints,
     get,
     fields:['in_charge',"department_name",'signature_',{key: 'status', label: 'Status'}, {key: 'actions', label: ''}],
     selected_semester: '',
@@ -128,6 +186,9 @@ export default {
     academic_year_options: [],
     requestFormModal: false,
     tableKey: 0,
+    requestSignatureModal: false,
+    department: null,
+    message: ''
   }),
   computed:{
     studentInfo(){
@@ -142,6 +203,9 @@ export default {
     clearanceForms(){
       return this.$store.getters['studentClearanceForm/getClearanceForms']
     },
+    department_requirements(){
+      return this.$store.getters['departmentRequirements/getRequirements']
+    }
   },
   mounted(){
     this.getStudentInfo()
@@ -225,22 +289,26 @@ export default {
       }
     },
     requestSignature(dept, clearance){
-      this.$store.dispatch('studentClearanceForm/requestSignature',{
-        clearance_id: clearance._id,
-        department_id: dept._id
-      }).then(res =>{
-        if(res.response){
-          this.$router.push('student-info')
-          setTimeout(()=>{
-            this.$router.push('clearance-form')
-            this.makeToast(this, false, 'Request Successful', res.message, 4000, 'success')
-          },1)
-        }else{
-          this.makeToast(this, false, 'Request failed', res.message, 4000, 'danger')
-        }
-      }).catch(err => {
-        this.makeToast(this, false, 'Request failed', err.response.data.message, 4000, 'danger')
-      })
+      // this.$store.dispatch('studentClearanceForm/requestSignature',{
+      //   clearance_id: clearance._id,
+      //   department_id: dept._id
+      // }).then(res =>{
+      //   if(res.response){
+      //     this.$router.push('student-info')
+      //     setTimeout(()=>{
+      //       this.$router.push('clearance-form')
+      //       this.makeToast(this, false, 'Request Successful', res.message, 4000, 'success')
+      //     },1)
+      //   }else{
+      //     this.makeToast(this, false, 'Request failed', res.message, 4000, 'danger')
+      //   }
+      // }).catch(err => {
+      //   this.makeToast(this, false, 'Request failed', err.response.data.message, 4000, 'danger')
+      // })
+      console.log(clearance)
+      this.getRequirements(dept.user_id)
+      this.department = dept
+      this.requestSignatureModal = true
     },
     getSign(dept,clearance){
       let sign = ''
@@ -250,6 +318,9 @@ export default {
         }
       }
       return sign
+    },
+    getRequirements(dept_id){
+      this.$store.dispatch('departmentRequirements/getRequirements',{department_id: dept_id})
     }
   }
 }

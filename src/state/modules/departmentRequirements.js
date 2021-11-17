@@ -21,12 +21,11 @@ var store = {
         initStore(){
             // context.dispatch('getUsers')
         },
-        getRequirements(context){
+        getRequirements(context, payload){
             return new Promise((resolve, reject) => {
-                getRequirements().then(res => {
+                getRequirements(payload).then(res => {
                     if(res.response){
                         context.commit('SET_REQUIREMENTS',res.data)
-                        console.log(res)
                         resolve(res)
                     }else{
                         resolve(res)

@@ -135,7 +135,7 @@ export default {
       }
     },
     fetchRequirements(){
-      this.$store.dispatch('departmentRequirements/getRequirements')
+      this.$store.dispatch('departmentRequirements/getRequirements',{})
     },
     uploadRequirements(){
         if(this.requirements_upload){
