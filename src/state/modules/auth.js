@@ -65,6 +65,9 @@ var store = {
         logout(context){
             localStorage.removeItem('userInfo')
             context.commit('SET_USER_INFO', null)
+
+            // unset token
+            axios.defaults.headers.common['Authorization'] = ``;
         }
     }
 }
