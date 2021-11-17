@@ -335,7 +335,7 @@ export default {
           let file = this.requirements_upload[i];
           formData.append("requirements", file);
         }
-        formData.append('user_id', get(this.userInfo, 'id'))
+        formData.append('user_id', get(this.studentInfo, '_id'))
         formData.append('department_id', this.department._id)
         formData.append('clearance_id', this.clearance._id)
         formData.append('message', this.message)

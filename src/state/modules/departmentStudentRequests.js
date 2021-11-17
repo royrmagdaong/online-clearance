@@ -1,19 +1,25 @@
 import {
     getStudentRequests,
-    approveSignatureRequest
+    approveSignatureRequest,
+    getStudentRequirements
 } from '../../api'
 
 var store = {
     namespaced: true,
     state: {
-        studentRequests: []
+        studentRequests: [],
+        studentRequirements: null
     },
     getters: {
-        getStudentRequests: state => state.studentRequests
+        getStudentRequests: state => state.studentRequests,
+        getStudentRequirements: state => state.studentRequirements
     },
     mutations: {
         SET_STUDENT_REQUESTS(state, payload){
             state.studentRequests = payload
+        },
+        SET_STUDENT_REQUIREMENTS(state, payload){
+            state.studentRequirements = payload
         }
     },
     actions:{
@@ -36,6 +42,18 @@ var store = {
             return new Promise((resolve, reject) => {
                 approveSignatureRequest(payload).then(res => {
                     if(res.response){
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        getStudentRequirements(context, payload){
+            return new Promise((resolve, reject) => {
+                getStudentRequirements(payload).then(res => {
+                    if(res.response){
+                        context.commit('SET_STUDENT_REQUIREMENTS', res.data)
                         resolve(res)
                     }else{
                         resolve(res)

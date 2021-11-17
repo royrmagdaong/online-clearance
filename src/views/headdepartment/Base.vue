@@ -30,6 +30,7 @@ export default {
     },
     mounted(){
       this.activeTab = this.$route.path.substring(17)
+      this.getDepartment()
     },
     methods:{
       routeTo(route){
@@ -37,6 +38,9 @@ export default {
             this.$router.push(route)
             this.activeTab = route
         }
+      },
+      getDepartment(){
+        this.$store.dispatch('departmentDashboard/getDepartment')
       },
     }
 }

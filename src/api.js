@@ -287,3 +287,14 @@ export function updateRequirements(payload){
         .catch(err => { reject(err)} )
     })
 }
+
+export function getStudentRequirements(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getStudentRequirements,{
+            department_id: payload.department_id,
+            clearance_id: payload.clearance_id
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}

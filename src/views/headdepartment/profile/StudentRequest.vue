@@ -55,28 +55,29 @@
       </div>
 
       <!-- modal -->
-      <b-modal title="Student request info" content-class="pb-2 pl-2 pr-2" size="md" hide-footer :visible="viewRequestModal" @change="viewRequestModal = !viewRequestModal">
+      <b-modal title="Student Request Info" content-class="pb-2 pl-2 pr-2" size="md" hide-footer :visible="viewRequestModal" @change="viewRequestModal = !viewRequestModal">
         <div class="row no-gutters">
           <div class="col-3 font-weight-bold">Name:</div>
-          <div class="col-9">John Doe</div>
+          <div class="col-9">{{ get(studentRequirements,'student.first_name') }} {{ get(studentRequirements,'student.last_name') }}</div>
           <div class="col-3 font-weight-bold">Course:</div>
-          <div class="col-9">BSIT</div>
+          <div class="col-9">{{ get(studentRequirements,'student.course') }}</div>
           <div class="col-3 font-weight-bold">Yr/Sec:</div>
-          <div class="col-9">2A</div>
+          <div class="col-9">{{ trimYearLevel(get(studentRequirements,'student.year_level')) }}{{ get(studentRequirements,'student.section') }}</div>
           <div class="col-3 font-weight-bold">Acad. Year:</div>
-          <div class="col-9">2021-2022</div>
+          <div class="col-9">{{ get(studentRequirements,'clearance.academic_year') }}</div>
           <div class="col-3 font-weight-bold">Semester:</div>
-          <div class="col-9">1st</div>
+          <div class="col-9">{{ get(studentRequirements,'clearance.semester') }}</div>
 
           <div class="col-12 mt-4">
             <div class="mb-1 font-weight-bold">Message:</div>
-            <div class="font-weight-light" style="font-size: 15px;">Tellus senectus, nec tristique phasellus numquam ante, velit gravida distinctio tempus ad exercitation dui, unde sociosqu dictumst rhoncus officia fugit, parturient suspendisse illum mauris, laboriosam massa, natoque illo quod tristique.</div>
+            <div class="font-weight-light" style="font-size: 15px;">{{ get(studentRequirements,'message') }}</div>
           </div>
 
           <div class="col-12 mt-4">
             <div class="font-weight-bold">Submitted Requirements:</div>
-            <div class="mt-1">1. <a href="../testrequirements.pdf" target="_blank">Sample Pdf</a></div>
-            <div class="">2. <a href="../testrequirements.pdf" target="_blank">Sample Pdf</a></div>
+            <div v-for="(file,index) in get(studentRequirements,'files')" :key="index">
+              <div class="mt-1">1. <a :href="`${endpoints.viewRequirementsUrl}/${get(file,'filename')}`" target="_blank">{{ get(file, 'originalname') }}</a></div>
+            </div>
           </div>
 
           <div class="mt-4 col-12 d-flex justify-content-end">
@@ -98,15 +99,20 @@
           </div>
         </div>
       </b-modal>
+
   </div>
 </template>
 
 <script>
 import {toast} from '../../../mixins/toast'
+import {get} from 'lodash'
+import endpoints from '../../../endpoints'
 
 export default {
   mixins: [toast],
   data:()=>({
+    endpoints,
+    get,
     searchString: '',
     perPage: 10,
     currentPage: 1,
@@ -132,12 +138,21 @@ export default {
   computed:{
     studentRequests(){
       return this.$store.getters['departmentStudentRequests/getStudentRequests']
+    },
+    departmentInfo(){
+      return this.$store.getters['departmentDashboard/getDepartment']
+    },
+    studentRequirements(){
+      return this.$store.getters['departmentStudentRequests/getStudentRequirements']
     }
   },
   mounted(){
     this.getStudentRequests()
   },
   methods:{
+    trimYearLevel(yr){
+      if(yr) return yr.substring(0,1)
+    },
     searchStudents(){
       console.log('search students')
     },
@@ -147,6 +162,11 @@ export default {
     viewRequest(item){
       this.clearance_id = item._id
       this.viewRequestModal = true
+
+      this.$store.dispatch('departmentStudentRequests/getStudentRequirements',{
+        department_id: get(this.departmentInfo, '_id'),
+        clearance_id: get(item, '_id')
+      })
     },
     approve(){
       this.$store.dispatch('departmentStudentRequests/approveSignatureRequest',{

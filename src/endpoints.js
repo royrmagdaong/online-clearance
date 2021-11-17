@@ -42,5 +42,6 @@ export default {
     uploadSignature: department + 'upload-signature',
     uploadRequirements: requirements + 'upload-requirements',
     getRequirements: requirements,
-    updateRequirements: requirements + 'update-requirements'
+    updateRequirements: requirements + 'update-requirements',
+    getStudentRequirements: clearance + 'student-requirements'
 }
