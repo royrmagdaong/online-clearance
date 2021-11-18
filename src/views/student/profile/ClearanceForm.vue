@@ -41,7 +41,7 @@
             </template>
             <template #cell(status)="row">
               <div class="d-flex justify-content-center align-items-center" style="min-height: 50px !important;">
-                <span :class="{
+                <span style="font-size:13px; font-weight:500;" :class="{
                   'text-warning':displayStatus(row.item, clearance)==='Pending', 
                   'text-success':displayStatus(row.item, clearance)==='Approved',
                   'text-danger':displayStatus(row.item, clearance)==='Disapproved',
