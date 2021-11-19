@@ -18,9 +18,9 @@ var store = {
     actions:{
         initStore(){
         },
-        getApprovedStudents(context){
+        getApprovedStudents(context, payload){
             return new Promise((resolve, reject) => {
-                getApprovedStudents().then(res => {
+                getApprovedStudents(payload).then(res => {
                     if(res.response){
                         context.commit('SET_APPROVED_STUDENTS', res.data)
                         resolve(res)
