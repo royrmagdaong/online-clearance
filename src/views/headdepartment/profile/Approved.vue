@@ -3,7 +3,7 @@
       <div class="d-flex mb-1 align-items-start mb-2">
         <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchStudents"></b-form-input>
 
-        <b-dropdown id="dropdown-form" text="Course" ref="dropdown" variant="success" class="mx-2">
+        <b-dropdown text="Course" variant="success" class="ml-2">
             <b-dropdown-form style="min-width: 150px;">
               <b-form-checkbox-group
                 v-model="selectedCourses"
@@ -16,11 +16,33 @@
           </b-dropdown-form>
         </b-dropdown>
 
-        <b-dropdown id="dropdown-form2" text="Year Level" ref="dropdown2" variant="success">
+        <b-dropdown text="Year Level" variant="success" class="ml-2">
             <b-dropdown-form style="min-width: 150px;">
               <b-form-checkbox-group
                 v-model="selectedYearLevel"
                 :options="year_level_opt"
+                stacked
+                @change="searchStudents"
+              ></b-form-checkbox-group>
+          </b-dropdown-form>
+        </b-dropdown>
+        
+        <b-dropdown text="Section" variant="success" class="ml-2">
+            <b-dropdown-form style="min-width: 150px;">
+              <b-form-checkbox-group
+                v-model="selectedSections"
+                :options="sections"
+                stacked
+                @change="searchStudents"
+              ></b-form-checkbox-group>
+          </b-dropdown-form>
+        </b-dropdown>
+
+        <b-dropdown text="Semester" variant="success" class="ml-2">
+            <b-dropdown-form style="min-width: 150px;">
+              <b-form-checkbox-group
+                v-model="selectedSemester"
+                :options="semesters"
                 stacked
                 @change="searchStudents"
               ></b-form-checkbox-group>
@@ -64,7 +86,11 @@ export default {
     ],
     selectedCourses: [],
     year_level_opt: ['1st','2nd','3rd','4th'],
-    selectedYearLevel: ['1st','2nd','3rd','4th']
+    selectedYearLevel: ['1st','2nd','3rd','4th'],
+    sections: ['A','B','C','D','E','F','G'],
+    selectedSections:['A','B','C','D','E','F','G'],
+    semesters:['1st','2nd'],
+    selectedSemester:['1st','2nd']
   }),
   mounted(){
     this.populateCourse()
@@ -81,7 +107,9 @@ export default {
     searchStudents(){
       this.$store.dispatch('departmentApprovedStudents/getApprovedStudents',{
         course: this.selectedCourses,
-        year_level: this.selectedYearLevel
+        year_level: this.selectedYearLevel,
+        section: this.selectedSections,
+        semester: this.selectedSemester
       })
     },
     populateCourse(){

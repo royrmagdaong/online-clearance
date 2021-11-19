@@ -250,7 +250,9 @@ export function getApprovedStudents(payload){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.getApprovedStudents,{
             course: payload.course,
-            year_level: payload.year_level
+            year_level: payload.year_level,
+            section: payload.section,
+            semester: payload.semester
         })
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )
