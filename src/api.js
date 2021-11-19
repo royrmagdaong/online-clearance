@@ -43,6 +43,14 @@ export function getCourses(){
     })
 }
 
+export function getAvailableAcademicYear(){
+    return new Promise((resolve, reject) => {
+        axios.get(endpoints.getAvailableAcademicYear)
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
 
 // FOR STUDENT API CALLS
 
@@ -249,10 +257,12 @@ export function approveSignatureRequest(payload){
 export function getApprovedStudents(payload){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.getApprovedStudents,{
+            searchString: payload.searchString,
             course: payload.course,
             year_level: payload.year_level,
             section: payload.section,
-            semester: payload.semester
+            semester: payload.semester,
+            academic_year: payload.academic_year
         })
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )

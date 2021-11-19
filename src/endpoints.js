@@ -13,6 +13,7 @@ export default {
     fetchUsers: user,
     getCourses: course,
     viewRequirementsUrl: serverName + requirements + 'view',
+    getAvailableAcademicYear: clearance + 'acad-year',
 
     // student
     fetchStudents: student,
