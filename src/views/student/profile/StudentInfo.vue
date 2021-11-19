@@ -8,7 +8,7 @@
     <div class="">{{ get(studentInfo, 'course') }} {{ trimYearLevel(get(studentInfo, 'year_level')) }}{{ get(studentInfo, 'section') }} </div>
 
     <!-- modal -->
-    <b-modal title="Create Department" hide-footer hide-header-close no-close-on-backdrop :visible="editInfoModal">
+    <b-modal title="Update Info" hide-footer hide-header-close no-close-on-backdrop :visible="editInfoModal">
       <form class="my-2 mx-4">
         <div class="form-group mb-2">
           <label>First name</label>
