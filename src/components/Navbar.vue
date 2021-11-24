@@ -72,6 +72,7 @@ export default {
         logout(route){
             this.$store.dispatch('auth/logout')
             this.routeTo(route)
+            this.$forceUpdate()
         }
     }
 }
