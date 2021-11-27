@@ -1,45 +1,43 @@
 <template>
-  <div>
-    <div>
-        <div class="d-flex mb-1 align-items-center">
-          <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchStudents"></b-form-input>
-          <b-dropdown id="dropdown-form2" text="Course" ref="dropdown2" class="ml-2" variant="success">
-            <b-dropdown-form style="min-width: 150px;">
-              <b-form-checkbox v-model="cb_all" class="mb-1" @change="selectAll">All</b-form-checkbox>
-              <b-form-checkbox v-model="cb_bsit" class="mb-1" value="BSIT" unchecked-value="" @change="selectBSIT">BSIT</b-form-checkbox>
-              <b-form-checkbox v-model="cb_ccs" class="mb-1" value="CCS" unchecked-value="" @change="selectCCS">CCS</b-form-checkbox>
-              <b-form-checkbox v-model="cb_bsoa" class="mb-1" value="BSOA" unchecked-value="" @change="selectBSOA">BSOA</b-form-checkbox>
-              <b-form-checkbox v-model="cb_hrm" class="mb-1" value="HRM" unchecked-value="" @change="selectHRM">HRM</b-form-checkbox>
-            </b-dropdown-form>
-          </b-dropdown>
-          <b-dropdown id="dropdown-form3" text="Year level" ref="dropdown3" class="m-2" variant="success">
-            <b-dropdown-form style="min-width: 150px;">
-              <b-form-checkbox v-model="cb_all2" class="mb-1" @change="selectAll2">All</b-form-checkbox>
-              <b-form-checkbox v-model="cb_1st" class="mb-1" value="1st" unchecked-value="" @change="select1st">1ST</b-form-checkbox>
-              <b-form-checkbox v-model="cb_2nd" class="mb-1" value="2nd" unchecked-value="" @change="select2nd">2ND</b-form-checkbox>
-              <b-form-checkbox v-model="cb_3rd" class="mb-1" value="3rd" unchecked-value="" @change="select3rd">3RD</b-form-checkbox>
-              <b-form-checkbox v-model="cb_4th" class="mb-1" value="4th" unchecked-value="" @change="select4th">4TH</b-form-checkbox>
-            </b-dropdown-form>
-          </b-dropdown>
-        </div>
+  <div class="p-2">
+    <div class="d-flex mb-1 align-items-center">
+      <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchStudents"></b-form-input>
+      <b-dropdown id="dropdown-form2" text="Course" ref="dropdown2" class="ml-2" variant="success">
+        <b-dropdown-form style="min-width: 150px;">
+          <b-form-checkbox v-model="cb_all" class="mb-1" @change="selectAll">All</b-form-checkbox>
+          <b-form-checkbox v-model="cb_bsit" class="mb-1" value="BSIT" unchecked-value="" @change="selectBSIT">BSIT</b-form-checkbox>
+          <b-form-checkbox v-model="cb_ccs" class="mb-1" value="CCS" unchecked-value="" @change="selectCCS">CCS</b-form-checkbox>
+          <b-form-checkbox v-model="cb_bsoa" class="mb-1" value="BSOA" unchecked-value="" @change="selectBSOA">BSOA</b-form-checkbox>
+          <b-form-checkbox v-model="cb_hrm" class="mb-1" value="HRM" unchecked-value="" @change="selectHRM">HRM</b-form-checkbox>
+        </b-dropdown-form>
+      </b-dropdown>
+      <b-dropdown id="dropdown-form3" text="Year level" ref="dropdown3" class="m-2" variant="success">
+        <b-dropdown-form style="min-width: 150px;">
+          <b-form-checkbox v-model="cb_all2" class="mb-1" @change="selectAll2">All</b-form-checkbox>
+          <b-form-checkbox v-model="cb_1st" class="mb-1" value="1st" unchecked-value="" @change="select1st">1ST</b-form-checkbox>
+          <b-form-checkbox v-model="cb_2nd" class="mb-1" value="2nd" unchecked-value="" @change="select2nd">2ND</b-form-checkbox>
+          <b-form-checkbox v-model="cb_3rd" class="mb-1" value="3rd" unchecked-value="" @change="select3rd">3RD</b-form-checkbox>
+          <b-form-checkbox v-model="cb_4th" class="mb-1" value="4th" unchecked-value="" @change="select4th">4TH</b-form-checkbox>
+        </b-dropdown-form>
+      </b-dropdown>
+    </div>
 
-        <b-table
-            id="my-table"
-            :items="students"
-            :per-page="perPage"
-            :current-page="currentPage"
-            bordered
-            :fields="fields"
-            responsive
-        ></b-table>
-        <div class="d-flex justify-content-end flex-row">
-            <b-pagination
-                v-model="currentPage"
-                :total-rows="students.length"
-                :per-page="perPage"
-                aria-controls="my-table"
-            ></b-pagination>
-        </div>
+    <b-table
+      id="my-table"
+      :items="students"
+      :per-page="perPage"
+      :current-page="currentPage"
+      bordered
+      :fields="fields"
+      responsive
+    ></b-table>
+    <div class="d-flex justify-content-end flex-row">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="students.length"
+        :per-page="perPage"
+        aria-controls="my-table"
+      ></b-pagination>
     </div>
   </div>
 </template>
@@ -48,20 +46,20 @@
 
 export default {
     data:()=>({
-        searchString: '',
-        perPage: 10,
-        currentPage: 1,
-        fields:['first_name', 'last_name', 'email', 'course', 'year_level'],
-        cb_all: true,
-        cb_bsit: 'BSIT',
-        cb_ccs: 'CCS',
-        cb_bsoa: 'BSOA',
-        cb_hrm: 'HRM',
-        cb_all2: true,
-        cb_1st: '1st',
-        cb_2nd: '2nd',
-        cb_3rd: '3rd',
-        cb_4th: '4th'
+      searchString: '',
+      perPage: 10,
+      currentPage: 1,
+      fields:['first_name', 'last_name', 'email', 'course', 'year_level'],
+      cb_all: true,
+      cb_bsit: 'BSIT',
+      cb_ccs: 'CCS',
+      cb_bsoa: 'BSOA',
+      cb_hrm: 'HRM',
+      cb_all2: true,
+      cb_1st: '1st',
+      cb_2nd: '2nd',
+      cb_3rd: '3rd',
+      cb_4th: '4th'
     }),
     computed: {
       students(){

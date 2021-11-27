@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-2">
     <div class="overflow-auto">
         <div class="d-flex mb-1 align-items-center justify-content-between">
           <b-form-input class="mr-2 mt-2 mb-2" v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchDepartments"></b-form-input>

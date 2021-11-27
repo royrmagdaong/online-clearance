@@ -1,20 +1,19 @@
 <template>
   <div class="container gutter">
     <div class="row">
-      
-      <div class="col-4">
+      <div class="col-12 col-sm-4">
         <div class="card shadow m-2 p-2 text-center">
           <h6>Number of Students</h6>
           <h4>{{ studentsCount }}</h4>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-12 col-sm-4">
         <div class="card shadow m-2 p-2 text-center">
           <h6>Number of Head Departments</h6>
           <h4>{{ departmentsCount }}</h4>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-12 col-sm-4">
         <div class="card shadow m-2 p-2 text-center">
           <h6>Number of Users</h6>
           <h4>{{ usersCount }}</h4>

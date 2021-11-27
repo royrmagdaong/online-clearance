@@ -1,35 +1,33 @@
 <template>
-  <div>
-    <div >
-        <div class="d-flex mb-1 align-items-center">
-          <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchUser"></b-form-input>
-          <b-dropdown id="dropdown-form" text="Role" ref="dropdown" class="m-2" variant="success">
-            <b-dropdown-form style="min-width: 200px;">
-              <b-form-checkbox v-model="cb_all" class="mb-1" @change="selectAll">All</b-form-checkbox>
-              <b-form-checkbox v-model="cb_admin" class="mb-1" @change="selectAdmin">Admin</b-form-checkbox>
-              <b-form-checkbox v-model="cb_department" class="mb-1" @change="selectDepartment">Head Department</b-form-checkbox>
-              <b-form-checkbox v-model="cb_student" class="mb-1" @change="selectStudent">Student</b-form-checkbox>
-            </b-dropdown-form>
-          </b-dropdown>
-        </div>
+  <div class="px-2">
+    <div class="d-flex mb-1 align-items-center">
+      <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchUser"></b-form-input>
+      <b-dropdown id="dropdown-form" text="Role" ref="dropdown" class="m-2" variant="success">
+        <b-dropdown-form style="min-width: 200px;">
+          <b-form-checkbox v-model="cb_all" class="mb-1" @change="selectAll">All</b-form-checkbox>
+          <b-form-checkbox v-model="cb_admin" class="mb-1" @change="selectAdmin">Admin</b-form-checkbox>
+          <b-form-checkbox v-model="cb_department" class="mb-1" @change="selectDepartment">Head Department</b-form-checkbox>
+          <b-form-checkbox v-model="cb_student" class="mb-1" @change="selectStudent">Student</b-form-checkbox>
+        </b-dropdown-form>
+      </b-dropdown>
+    </div>
 
-        <b-table
-            id="my-table"
-            :items="users"
-            :per-page="perPage"
-            :current-page="currentPage"
-            bordered
-            :fields="fields"
-            responsive
-        ></b-table>
-        <div class="d-flex justify-content-end flex-row">
-            <b-pagination
-                v-model="currentPage"
-                :total-rows="get(users, 'length')"
-                :per-page="perPage"
-                aria-controls="my-table"
-            ></b-pagination>
-        </div>
+    <b-table
+      id="my-table"
+      :items="users"
+      :per-page="perPage"
+      :current-page="currentPage"
+      bordered
+      :fields="fields"
+      responsive
+    ></b-table>
+    <div class="d-flex justify-content-end flex-row">
+      <b-pagination
+          v-model="currentPage"
+          :total-rows="get(users, 'length')"
+          :per-page="perPage"
+          aria-controls="my-table"
+      ></b-pagination>
     </div>
   </div>
 </template>
