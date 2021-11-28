@@ -18,7 +18,7 @@
           <label>Last Name</label>
           <input type="text" class="form-control" v-model="last_name">
         </div>
-        <div class="form-group mb-2">
+        <!-- <div class="form-group mb-2">
           <label>Course</label>
           <b-form-select v-model="selected_course" :options="courses" @change="selectCourse" value-field="code" text-field="description"></b-form-select>
         </div>
@@ -31,7 +31,7 @@
             <label>Year level</label>
             <b-form-select v-model="selected_year_level" :options="year_level_options"></b-form-select>
           </div>
-        </div>
+        </div> -->
         <div class="d-flex justify-content-end mt-4">
           <b-button variant="warning" class="mr-2" @click.prevent="cancel">Cancel</b-button>
           <b-button type="submit" variant="success" @click.prevent="save">Save</b-button>
