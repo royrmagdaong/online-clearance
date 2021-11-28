@@ -23,7 +23,7 @@ var store = {
             return new Promise((resolve, reject) => {
                 getCompletedClearance(payload).then(res => {
                     if(res.response){
-                        context.commit('SET_CLEARANCE', res.data)
+                        context.commit('SET_CLEARANCE', res)
                         resolve(res)
                     }else{
                         resolve(res)
