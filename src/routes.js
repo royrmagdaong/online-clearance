@@ -6,6 +6,7 @@ import Home from './views/Home'
 import NotFound from './views/NotFound'
 import SignIn from './views/SignIn'
 import SignUp from './views/SignUp'
+import ClearanceViewer from './views/ClearanceViewer'
 
 // Admin
 import AdminBase from './views/admin/Base'
@@ -49,6 +50,11 @@ const router =  new Router({
       name: 'home',
       component: Home,
       redirect: "/login",
+    },
+    {
+      path: '/clearance/viewer/:id',
+      name: 'clearance-viewer',
+      component: ClearanceViewer
     },
     {
       path: '/register',

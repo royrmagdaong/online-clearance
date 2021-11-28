@@ -1,17 +1,20 @@
 import {
     getCourses,
-    getAvailableAcademicYear
+    getAvailableAcademicYear,
+    viewClearance
 } from '../../api'
 
 var store = {
     namespaced: true,
     state: {
         courses: [],
-        academic_year: []
+        academic_year: [],
+        clearance: {}
     },
     getters: {
         getCourses: state => state.courses,
-        getAcadYear: state => state.academic_year
+        getAcadYear: state => state.academic_year,
+        getClearance: state => state.clearance
     },
     mutations: {
         SET_COURSES(state, payload){
@@ -19,6 +22,9 @@ var store = {
         },
         SET_ACAD_YEAR(state, payload){
             state.academic_year = payload
+        },
+        SET_CLEARANCE(state, payload){
+            state.clearance = payload
         }
     },
     actions:{
@@ -43,6 +49,18 @@ var store = {
                 getAvailableAcademicYear().then(res => {
                     if(res.response){
                         context.commit('SET_ACAD_YEAR', res.data)
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        viewClearance(context, payload){
+            return new Promise((resolve, reject) => {
+                viewClearance(payload).then(res => {
+                    if(res.response){
+                        context.commit('SET_CLEARANCE', res)
                         resolve(res)
                     }else{
                         resolve(res)

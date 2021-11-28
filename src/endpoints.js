@@ -14,6 +14,7 @@ export default {
     getCourses: course,
     viewRequirementsUrl: serverName + requirements + 'view',
     getAvailableAcademicYear: clearance + 'acad-year',
+    viewClearance: clearance + 'viewer',
 
     // student
     fetchStudents: student,
