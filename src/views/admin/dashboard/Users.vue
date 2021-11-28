@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2">
+  <div class="p-2">
     <div class="d-flex mb-1 align-items-center">
       <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchUser"></b-form-input>
       <b-dropdown id="dropdown-form" text="Role" ref="dropdown" class="m-2" variant="success">

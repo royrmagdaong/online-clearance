@@ -90,10 +90,10 @@
           <label>In Charge</label>
           <input type="text" class="form-control" v-model="in_charge_upd">
         </div>
-        <div class="form-group mb-2">
+        <!-- <div class="form-group mb-2">
           <label>Department Name</label>
           <input type="text" class="form-control" v-model="department_name_upd">
-        </div>
+        </div> -->
         <div class="form-group mb-2 row no-gutters">
           <div class="col-6 pr-1">
             <label class="d-none d-sm-block">Mobile Number</label>
