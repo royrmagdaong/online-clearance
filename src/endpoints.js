@@ -37,6 +37,8 @@ export default {
     createDepartment: department + 'create',
     getClearanceFormRequests: clearance + 'clearance-form-request',
     approveClearanceRequest: clearance + 'approve-clearance',
+    addCourse: course + 'create',
+    updateCourse: course + 'update',
 
     // head department
     getDepartment: department + 'department',

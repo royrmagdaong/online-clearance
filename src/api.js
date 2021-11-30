@@ -251,6 +251,35 @@ export function approveClearanceRequest(payload){
     })
 }
 
+export function addCourse(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.addCourse,{
+            code: payload.code,
+            description: payload.description,
+            sections: payload.sections,
+            number_of_years: payload.number_of_years
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function updateCourse(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.updateCourse,{
+            course_id: payload.course_id,
+            code: payload.code,
+            description: payload.description,
+            sections: payload.sections,
+            number_of_years: payload.number_of_years
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+
+
 // For Department APIs
 
 export function getDepartment(){
