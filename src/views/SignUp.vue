@@ -20,16 +20,21 @@
               </div>
               <div class="form-group mb-2">
                 <label>Course</label>
-                <b-form-select v-model="selected_course" :options="courses" @change="selectCourse" text-field="description" value-field="code"></b-form-select>
+                <b-form-select  @change="selectCourse" v-model="selected_course">
+                  <option :value="null" disabled>-- Please select an option --</option>
+                  <option v-for="course in courses" :value="course" :key="course._id">
+                    {{ course.description }}
+                  </option>
+                </b-form-select>
               </div>
               <div class="form-group mb-2 row no-gutters">
                 <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Section</label>
-                  <b-form-select v-model="selected_section" :options="sections"></b-form-select>
+                  <b-form-select v-model="selected_section" :options="get(selected_course,'sections')"></b-form-select>
                 </div>
                 <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Year level</label>
-                  <b-form-select v-model="selected_year_level" :options="year_level_options"></b-form-select>
+                  <b-form-select v-model="selected_year_level" :options="get(selected_course,'number_of_years')"></b-form-select>
                 </div>
               </div>
               <div class="form-group mb-2">
@@ -47,8 +52,8 @@
                 </div>
               </div>
               <div class="d-flex justify-content-end mt-4">
-                <button type="submit" class="btn btn-warning mr-2" @click.prevent="clear">Clear</button>
-                <button type="submit" class="btn btn-success" @click.prevent="submit">Submit</button>
+                <!-- <button type="submit" class="btn btn-warning mr-2" @click.prevent="clear">Clear</button> -->
+                <b-button type="submit" variant="success" block @click.prevent="submit">Submit</b-button>
               </div>
             </form>
           </div>
@@ -61,14 +66,12 @@
 
 <script>
 import {toast} from '../mixins/toast'
+import {get} from 'lodash'
 
 export default {
   mixins: [toast],
   data:()=>({
-    year_level_options: [],
-    fourYearCourseOption: ['1st', '2nd', '3rd', '4th'],
-    sections: ['A', 'B', 'C', 'D'],
-    secondYearCourseOption: ['1st', '2nd'],
+    get,
     selected_course: '',
     selected_section: '',
     selected_year_level: '',
@@ -84,14 +87,6 @@ export default {
     }
   },
   methods:{
-    selectCourse(){
-      this.selected_year_level = ''
-      if(this.selected_course.includes('BS')){
-        this.year_level_options = this.fourYearCourseOption
-      }else{
-        this.year_level_options = this.secondYearCourseOption
-      }
-    },
     clear(){
       this.email = ''
       this.first_name = ''
@@ -102,6 +97,9 @@ export default {
       this.selected_course = ''
       this.selected_year_level = ''
     },
+    selectCourse(){
+      console.log(this.selected_course)
+    },
     submit(){
       if(this.password === this.confirmPassword){
         this.$store.dispatch('auth/registerStudent', {
@@ -109,7 +107,7 @@ export default {
           last_name: this.last_name,
           email: this.email,
           password: this.password,
-          course: this.selected_course,
+          course: this.selected_course.code,
           year_level: this.selected_year_level,
           section: this.selected_section
         }).then(res => {
