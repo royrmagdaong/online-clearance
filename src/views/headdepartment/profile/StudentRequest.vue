@@ -182,8 +182,17 @@ export default {
       })
     },
     disapprove(){
-      console.log('disapproved')
-      this.viewRequestModal = false
+      this.$store.dispatch('departmentStudentRequests/disapproveSignatureRequest',{
+        clearance_id: this.clearance_id
+      }).then(res => {
+        if(res.response){
+          this.viewRequestModal = false
+          this.makeToast(this, false, 'Disapproved', 'Student signature request disapproved.', 4000, 'success')
+          this.getStudentRequests()
+        }
+      }).catch(err => {
+        this.makeToast(this, false, 'Failed', err.message, 4000, 'danger')
+      })
     },
     selectAll(){
       if(this.cb_all){

@@ -273,6 +273,16 @@ export function approveSignatureRequest(payload){
     })
 }
 
+export function disapproveSignatureRequest(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.disapproveSignatureRequest,{
+            clearance_id: payload.clearance_id
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
 export function getApprovedStudents(payload){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.getApprovedStudents,{

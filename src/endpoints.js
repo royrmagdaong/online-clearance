@@ -41,6 +41,7 @@ export default {
     getDepartment: department + 'department',
     getStudentRequests: clearance + 'students-signature-request',
     approveSignatureRequest: clearance + 'approve-signature-request',
+    disapproveSignatureRequest: clearance + 'disapprove-signature-request',
     getApprovedStudents: clearance + 'approved-students',
     uploadSignature: department + 'upload-signature',
     uploadRequirements: requirements + 'upload-requirements',

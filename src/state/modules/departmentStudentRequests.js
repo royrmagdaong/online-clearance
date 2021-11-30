@@ -1,6 +1,7 @@
 import {
     getStudentRequests,
     approveSignatureRequest,
+    disapproveSignatureRequest,
     getStudentRequirements
 } from '../../api'
 
@@ -41,6 +42,17 @@ var store = {
         approveSignatureRequest(context, payload){
             return new Promise((resolve, reject) => {
                 approveSignatureRequest(payload).then(res => {
+                    if(res.response){
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        disapproveSignatureRequest(context, payload){
+            return new Promise((resolve, reject) => {
+                disapproveSignatureRequest(payload).then(res => {
                     if(res.response){
                         resolve(res)
                     }else{
