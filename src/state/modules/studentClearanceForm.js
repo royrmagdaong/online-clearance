@@ -2,7 +2,8 @@ import {
     getDepartmentsByCourse,
     requestClearanceForm,
     getClearanceForms,
-    requestSignature
+    requestSignature,
+    updateRequestSignature
 } from '../../api'
 
 var store = {
@@ -65,6 +66,17 @@ var store = {
         requestSignature(context, payload){
             return new Promise((resolve, reject) => {
                 requestSignature(payload).then(res => {
+                    if(res.response){
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        updateRequestSignature(context, payload){
+            return new Promise((resolve, reject) => {
+                updateRequestSignature(payload).then(res => {
                     if(res.response){
                         resolve(res)
                     }else{

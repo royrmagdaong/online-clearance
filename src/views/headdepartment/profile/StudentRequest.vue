@@ -69,8 +69,15 @@
           <div class="col-9">{{ get(studentRequirements,'clearance.semester') }}</div>
 
           <div class="col-12 mt-4">
-            <div class="mb-1 font-weight-bold">Message:</div>
-            <div class="font-weight-light" style="font-size: 15px;">{{ get(studentRequirements,'message') }}</div>
+            <div class="font-weight-bold mt-2" style="font-size:15px;">Conversation:</div>
+            <div v-for="(msg,index2) in get(studentRequirements,'message')" :key="index2+9999">
+              <div class="d-flex mb-2">
+                <div style="background:#ddd; padding:6px; border-radius:5px;" v-b-tooltip.hover :title="`${get(studentRequirements,'student.first_name')} ${get(studentRequirements,'student.last_name')}`">{{msg}}</div>
+              </div>
+              <div class="d-flex mb-2 justify-content-end" v-if="get(studentRequirements,`disapproved_message[${index2}]`)">
+                <div style="color:#fff; background:#007BFF; padding:6px; border-radius:5px;" v-b-tooltip.hover title="You">{{get(studentRequirements,`disapproved_message[${index2}]`)}}</div>
+              </div>
+            </div>
           </div>
 
           <div class="col-12 mt-4">
@@ -95,6 +102,37 @@
               @click="approve"
             >
               Approve
+            </b-button>
+          </div>
+        </div>
+      </b-modal>
+
+      <!-- disapprove modal -->
+      <b-modal title="Disapprove message" content-class="pb-2 pl-2 pr-2" size="md" hide-footer :visible="disapproveModal" @change="disapproveModal = !disapproveModal">
+        <div class="row no-gutters">
+          <div class="col-12">
+            <b-form-textarea
+              placeholder="Message..."
+              rows="3"
+              max-rows="3"
+              v-model="message"
+            ></b-form-textarea>
+          </div>
+          <div class="mt-4 col-12 d-flex justify-content-end">
+            <b-button 
+              size="sm" 
+              variant="warning"
+              class="mr-2"
+              @click="disapproveModal = !disapproveModal"
+            >
+              Close
+            </b-button>
+            <b-button 
+              size="sm" 
+              variant="info"
+              @click="disapproveStudentRequest"
+            >
+              Submit
             </b-button>
           </div>
         </div>
@@ -133,7 +171,9 @@ export default {
     cb_3rd: '3rd',
     cb_4th: '4th',
     viewRequestModal: false,
-    clearance_id: ''
+    disapproveModal: false,
+    clearance_id: '',
+    message: ''
   }),
   computed:{
     studentRequests(){
@@ -182,17 +222,27 @@ export default {
       })
     },
     disapprove(){
-      this.$store.dispatch('departmentStudentRequests/disapproveSignatureRequest',{
-        clearance_id: this.clearance_id
-      }).then(res => {
-        if(res.response){
-          this.viewRequestModal = false
-          this.makeToast(this, false, 'Disapproved', 'Student signature request disapproved.', 4000, 'success')
-          this.getStudentRequests()
-        }
-      }).catch(err => {
-        this.makeToast(this, false, 'Failed', err.message, 4000, 'danger')
-      })
+      this.disapproveModal = true
+    },
+    disapproveStudentRequest(){
+      if(this.message){
+        this.$store.dispatch('departmentStudentRequests/disapproveSignatureRequest',{
+          clearance_id: this.clearance_id,
+          disapproved_message: this.message,
+          requirements_id: get(this.studentRequirements, '_id')
+        }).then(res => {
+          if(res.response){
+            this.disapproveModal = false
+            this.viewRequestModal = false
+            this.makeToast(this, false, 'Disapproved', 'Student signature request disapproved.', 4000, 'success')
+            this.getStudentRequests()
+          }
+        }).catch(err => {
+          this.makeToast(this, false, 'Failed', err.message, 4000, 'danger')
+        })
+      }else{
+        this.makeToast(this, false, 'Failed', 'Message is required.', 4000, 'danger')
+      }
     },
     selectAll(){
       if(this.cb_all){

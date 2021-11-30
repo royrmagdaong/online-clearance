@@ -161,11 +161,17 @@ export function getClearanceForms(payload){
 export function requestSignature(payload){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.requestSignature,
-            payload.formData 
-            // {
-            //     clearance_id: payload.clearance_id,
-            //     department_id: payload.department_id
-            // }
+            payload.formData
+        )
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function updateRequestSignature(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.updateRequestSignature,
+            payload.formData
         )
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )
@@ -276,7 +282,9 @@ export function approveSignatureRequest(payload){
 export function disapproveSignatureRequest(payload){
     return new Promise((resolve, reject) => {
         axios.post(endpoints.disapproveSignatureRequest,{
-            clearance_id: payload.clearance_id
+            clearance_id: payload.clearance_id,
+            disapproved_message: payload.disapproved_message,
+            requirements_id: payload.requirements_id
         })
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )

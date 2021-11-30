@@ -25,12 +25,12 @@
           </div>
           <b-table bordered :items="departments" :fields="fields" responsive>
             <template #cell(in_charge)="row">
-              <div class="d-flex align-items-center" style="min-height: 50px !important;">
+              <div class="d-flex align-items-center" style="min-height: 50px !important; min-width: 120px;">
                 <span>{{ get(row, 'item.in_charge') }}</span>
               </div>
             </template>
             <template #cell(department_name)="row">
-              <div class="d-flex align-items-center" style="min-height: 50px !important;">
+              <div class="d-flex align-items-center" style="min-height: 50px !important; min-width: 220px;">
                 <span>{{ get(row, 'item.department_name') }}</span>
               </div>
             </template>
@@ -40,12 +40,13 @@
               </div>
             </template>
             <template #cell(status)="row">
-              <div class="d-flex justify-content-center align-items-center" style="min-height: 50px !important;">
-                <span style="font-size:13px; font-weight:500;" :class="{
+              <div class="d-flex  align-items-center" style="min-height: 50px !important;">
+                <span style="font-size:13px; font-weight:500; min-width: 95px;" :class="{
                   'text-warning':displayStatus(row.item, clearance)==='Pending', 
                   'text-success':displayStatus(row.item, clearance)==='Approved',
                   'text-danger':displayStatus(row.item, clearance)==='Disapproved',
                 }"
+                class="text-center"
                 v-if="!get(clearance, 'outdated')"
                 >
                   {{ displayStatus(row.item, clearance) }}
@@ -56,6 +57,7 @@
             <template #cell(actions)="row">
               <div class="d-flex justify-content-center align-items-center" style="min-height: 50px !important;">
                 <b-button 
+                  style="min-width: 131px;"
                   size="sm" 
                   variant="info" 
                   @click="requestSignature(row.item, clearance)" 
@@ -69,6 +71,19 @@
                   "
                 >
                   Request Signature
+                </b-button>
+                <b-button 
+                  style="min-width: 131px;"
+                  size="sm" 
+                  variant="warning"
+                  :disabled="get(clearance, 'outdated')"
+                  @click="viewRequest(row.item, clearance)"
+                  v-if="
+                    displayStatus(row.item, clearance)==='Disapproved' &&
+                    !get(clearance, 'outdated')
+                  "
+                >
+                  View Request
                 </b-button>
               </div>
             </template>
@@ -111,63 +126,138 @@
       </form>
     </b-modal>
 
-    <!-- modal -->
-      <b-modal title="Department Requirements" content-class="pb-2 pl-2 pr-2" size="md" no-close-on-backdrop hide-footer :visible="requestSignatureModal" @change="requestSignatureModal = !requestSignatureModal">
-        <div class="row no-gutters">
-          <div class="col-3 font-weight-bold">Department:</div>
-          <div class="col-9">{{ get(department, 'department_name') }}</div>
-          <div class="col-3 font-weight-bold">In Charge:</div>
-          <div class="col-9">{{ get(department, 'in_charge') }}</div>
+    <!-- request signature modal -->
+    <b-modal title="Department Requirements" content-class="pb-2 pl-2 pr-2" size="md" no-close-on-backdrop hide-footer :visible="requestSignatureModal" @change="requestSignatureModal = !requestSignatureModal">
+      <div class="row no-gutters">
+        <div class="col-3 font-weight-bold">Department:</div>
+        <div class="col-9">{{ get(department, 'department_name') }}</div>
+        <div class="col-3 font-weight-bold">In Charge:</div>
+        <div class="col-9">{{ get(department, 'in_charge') }}</div>
 
-          <div class="col-12 mt-4">
-            <div class="mb-1">Requirements:</div>
-            <ol class="pl-3">
-              <li v-for="(requirements,index) in department_requirements" :key="index">
-                <div class="mb-1 font-weight-bold">
-                  <a :href="`${endpoints.viewRequirementsUrl}/${get(requirements,'filename')}`" target="_blank">{{ get(requirements, 'title') }}</a>
-                </div>
-                <ul class="font-weight-light" style="font-size: 15px;">
-                  <li>{{ get(requirements, 'instructions') }}</li>
-                </ul>
-              </li>
-            </ol>
-            <hr/>
-          </div>
-
-          <div class="col-12 mt-2">
-            <form @submit.prevent="" enctype="multipart/form-data">
-              <div class="col-12 px-0">
-                <div class="mb-2">Upload Requirements <span style="font-size:12px;">(*png, jpg, pdf only)</span></div>
-                <b-form-textarea
-                  placeholder="Message..."
-                  rows="3"
-                  max-rows="3"
-                  v-model="message"
-                ></b-form-textarea>
-                <input type="file" name="requirements"  class="mt-2" accept="image/png, image/jpeg, application/pdf" multiple @change="onChange"/>
+        <div class="col-12 mt-4">
+          <div class="mb-1">Requirements:</div>
+          <ol class="pl-3">
+            <li v-for="(requirements,index) in department_requirements" :key="index">
+              <div class="mb-1 font-weight-bold">
+                <a :href="`${endpoints.viewRequirementsUrl}/${get(requirements,'filename')}`" target="_blank">{{ get(requirements, 'title') }}</a>
               </div>
-            </form>
-          </div>
-
-          <div class="mt-4 col-12 d-flex justify-content-end">
-            <b-button 
-              size="sm" 
-              variant="warning"
-              class="mr-2"
-              @click="requestSignatureModal = !requestSignatureModal"
-            >
-              Cancel
-            </b-button>
-            <b-button 
-              size="sm" 
-              variant="info"
-              @click="submitRequestSignature"
-            >
-              Submit
-            </b-button>
-          </div>
+              <ul class="font-weight-light" style="font-size: 15px;">
+                <li>{{ get(requirements, 'instructions') }}</li>
+              </ul>
+            </li>
+          </ol>
+          <hr/>
         </div>
-      </b-modal>
+
+        <div class="col-12 mt-2">
+          <form @submit.prevent="" enctype="multipart/form-data">
+            <div class="col-12 px-0">
+              <div class="mb-2">Upload Requirements <span style="font-size:12px;">(*png, jpg, pdf only)</span></div>
+              <b-form-textarea
+                placeholder="Message..."
+                rows="3"
+                max-rows="3"
+                v-model="message"
+              ></b-form-textarea>
+              <input type="file" name="requirements"  class="mt-2" accept="image/png, image/jpeg, application/pdf" multiple @change="onChange"/>
+            </div>
+          </form>
+        </div>
+
+        <div class="mt-4 col-12 d-flex justify-content-end">
+          <b-button 
+            size="sm" 
+            variant="warning"
+            class="mr-2"
+            @click="requestSignatureModal = !requestSignatureModal"
+          >
+            Cancel
+          </b-button>
+          <b-button 
+            size="sm" 
+            variant="info"
+            @click="submitRequestSignature"
+          >
+            Submit
+          </b-button>
+        </div>
+      </div>
+    </b-modal>
+
+    <!-- view request modal -->
+    <b-modal title="View Request" content-class="pb-2 pl-2 pr-2" size="md" no-close-on-backdrop hide-footer :visible="viewRequestModal" @change="viewRequestModal = !viewRequestModal">
+      <div class="row no-gutters">
+        <div class="col-3 font-weight-bold">Department:</div>
+        <div class="col-9">{{ get(department, 'department_name') }}</div>
+        <div class="col-3 font-weight-bold">In Charge:</div>
+        <div class="col-9">{{ get(department, 'in_charge') }}</div>
+
+        <div class="col-12 mt-4">
+          <div class="mb-1 font-weight-bold">Requirements:</div>
+          <ol class="pl-3">
+            <li v-for="(requirements,index) in department_requirements" :key="index">
+              <div class="mb-1 font-weight-bold">
+                <a :href="`${endpoints.viewRequirementsUrl}/${get(requirements,'filename')}`" target="_blank">{{ get(requirements, 'title') }}</a>
+              </div>
+              <ul class="font-weight-light" style="font-size: 15px;">
+                <li>{{ get(requirements, 'instructions') }}</li>
+              </ul>
+            </li>
+          </ol>
+          <hr/>
+        </div>
+
+        <div class="col-12">
+          <div class="font-weight-bold" style="font-size:15px;">Your last submitted requirements:</div>
+          <div v-for="(file,index) in get(studentRequirements,'files')" :key="index">
+            <div class="mt-1">1. <a :href="`${endpoints.viewRequirementsUrl}/${get(file,'filename')}`" style="font-size:14px;" target="_blank">{{ get(file, 'originalname') }}</a></div>
+          </div>
+          <div class="font-weight-bold mt-2" style="font-size:15px;">Conversation:</div>
+          <div v-for="(msg,index2) in get(studentRequirements,'message')" :key="index2+9999">
+            <div class="d-flex mb-2 justify-content-end">
+              <div style="color:#fff; background:#007BFF; padding:6px; border-radius:5px;" v-b-tooltip.hover title="You">{{msg}}</div>
+            </div>
+            <div class="d-flex mb-2">
+              <div style="background:#ddd; padding:6px; border-radius:5px;" v-b-tooltip.hover :title="get(department, 'in_charge')">{{get(studentRequirements,`disapproved_message[${index2}]`)}}</div>
+            </div>
+          </div>
+          <hr/>
+        </div>
+
+        <div class="col-12 mt-2">
+          <form @submit.prevent="" enctype="multipart/form-data">
+            <div class="col-12 px-0">
+              <div class="mb-2">Upload Requirements <span style="font-size:12px;">(*png, jpg, pdf only)</span></div>
+              <b-form-textarea
+                placeholder="Message..."
+                rows="3"
+                max-rows="3"
+                v-model="message"
+              ></b-form-textarea>
+              <input type="file" name="requirements"  class="mt-2" accept="image/png, image/jpeg, application/pdf" multiple @change="onChange"/>
+            </div>
+          </form>
+        </div>
+
+        <div class="mt-4 col-12 d-flex justify-content-end">
+          <b-button 
+            size="sm" 
+            variant="warning"
+            class="mr-2"
+            @click="viewRequestModal = !viewRequestModal"
+          >
+            Cancel
+          </b-button>
+          <b-button 
+            size="sm" 
+            variant="info"
+            @click="resubmitRequestSignature"
+          >
+            Submit
+          </b-button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -189,6 +279,7 @@ export default {
     requestFormModal: false,
     tableKey: 0,
     requestSignatureModal: false,
+    viewRequestModal: false,
     department: null,
     clearance: null,
     message: '',
@@ -210,6 +301,9 @@ export default {
     },
     department_requirements(){
       return this.$store.getters['departmentRequirements/getRequirements']
+    },
+    studentRequirements(){
+      return this.$store.getters['departmentStudentRequests/getStudentRequirements']
     }
   },
   mounted(){
@@ -219,15 +313,6 @@ export default {
   methods:{
     onChange(event) {
       this.requirements_upload = event.target.files
-      // console.log(event.target.files)
-      // if (this.requirements_upload.length != 0) {
-      //   for (const single_file of this.requirements_upload) {
-      //       // console.log(single_file)
-      //       this.file_list.append('requirements', single_file)
-      //       var reader = new FileReader();
-      //       reader.readAsDataURL(single_file);
-      //   }
-      // }
     },
     cancel(){
       this.requestFormModal = false
@@ -306,54 +391,87 @@ export default {
       }
     },
     requestSignature(dept, clearance){
-      // this.$store.dispatch('studentClearanceForm/requestSignature',{
-      //   clearance_id: clearance._id,
-      //   department_id: dept._id
-      // }).then(res =>{
-      //   if(res.response){
-      //     this.$router.push('student-info')
-      //     setTimeout(()=>{
-      //       this.$router.push('clearance-form')
-      //       this.makeToast(this, false, 'Request Successful', res.message, 4000, 'success')
-      //     },1)
-      //   }else{
-      //     this.makeToast(this, false, 'Request failed', res.message, 4000, 'danger')
-      //   }
-      // }).catch(err => {
-      //   this.makeToast(this, false, 'Request failed', err.response.data.message, 4000, 'danger')
-      // })
-
       this.getRequirements(dept.user_id)
       this.department = dept
       this.clearance = clearance
       this.requestSignatureModal = true
     },
+    viewRequest(dept, clearance){
+      this.$store.dispatch('departmentStudentRequests/getStudentRequirements',{
+        department_id: get(dept, '_id'),
+        clearance_id: get(clearance, '_id')
+      }).then(res=>{
+        console.log(res)
+      })
+      this.getRequirements(dept.user_id)
+      this.department = dept
+      this.clearance = clearance
+      this.viewRequestModal = true
+    },
     submitRequestSignature(){
       if(this.requirements_upload){
-        const formData = new FormData()
-        for(let i=0;i<this.requirements_upload.length;i++){
-          let file = this.requirements_upload[i];
-          formData.append("requirements", file);
-        }
-        formData.append('user_id', get(this.studentInfo, '_id'))
-        formData.append('department_id', this.department._id)
-        formData.append('clearance_id', this.clearance._id)
-        formData.append('message', this.message)
-
-        this.$store.dispatch('studentClearanceForm/requestSignature',{
-          formData:formData
-        }).then(res=>{
-          if(res.response){
-            this.requestSignatureModal = false
-            this.$router.push('student-info')
-            setTimeout(()=>{
-              this.$router.push('clearance-form')
-              this.makeToast(this, false, 'Request Successful', res.message, 4000, 'success')
-            },1)
+        if(this.message){
+          const formData = new FormData()
+          for(let i=0;i<this.requirements_upload.length;i++){
+            let file = this.requirements_upload[i];
+            formData.append("requirements", file);
           }
-        }).catch(err=>{
-          this.makeToast(this, false, 'Request failed', err.message, 4000, 'danger')
-        })
+          formData.append('user_id', get(this.studentInfo, '_id'))
+          formData.append('department_id', this.department._id)
+          formData.append('clearance_id', this.clearance._id)
+          formData.append('message', this.message)
+
+          this.$store.dispatch('studentClearanceForm/requestSignature',{
+            formData:formData
+          }).then(res=>{
+            if(res.response){
+              this.requestSignatureModal = false
+              this.$router.push('student-info')
+              setTimeout(()=>{
+                this.$router.push('clearance-form')
+                this.makeToast(this, false, 'Request Successful', res.message, 4000, 'success')
+              },1)
+            }
+          }).catch(err=>{
+            this.makeToast(this, false, 'Request failed', err.message, 4000, 'danger')
+          })
+        }else{
+          this.makeToast(this, false, 'Request warning', 'Please enter a message.', 4000, 'warning')
+        }
+      }else{
+        this.makeToast(this, false, 'Request warning', 'You need to choose file/s first.', 4000, 'warning')
+      }
+    },
+    resubmitRequestSignature(){
+      if(this.requirements_upload){
+        if(this.message){
+          const formData = new FormData()
+          for(let i=0;i<this.requirements_upload.length;i++){
+            let file = this.requirements_upload[i];
+            formData.append("requirements", file);
+          }
+          formData.append('requirements_id', get(this.studentRequirements, '_id'))
+          formData.append('department_id', get(this.department, '_id'))
+          formData.append('clearance_id', this.clearance._id)
+          formData.append('message', this.message)
+
+          this.$store.dispatch('studentClearanceForm/updateRequestSignature',{
+            formData:formData
+          }).then(res=>{
+            if(res.response){
+              this.viewRequestModal = false
+              this.$router.push('student-info')
+              setTimeout(()=>{
+                this.$router.push('clearance-form')
+                this.makeToast(this, false, 'Request Successful', res.message, 4000, 'success')
+              },1)
+            }
+          }).catch(err=>{
+            this.makeToast(this, false, 'Request failed', err.message, 4000, 'danger')
+          })
+        }else{
+          this.makeToast(this, false, 'Request warning', 'Please enter a message.', 4000, 'warning')
+        }
       }else{
         this.makeToast(this, false, 'Request warning', 'You need to choose file/s first.', 4000, 'warning')
       }

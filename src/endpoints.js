@@ -25,6 +25,7 @@ export default {
     requestClearanceForm: clearance + 'create',
     getClearanceForms: clearance + 'student-clearance',
     requestSignature: clearance + 'request-signature',
+    updateRequestSignature: clearance + 'update-request-signature',
     getDepartmentsByCourse: department + 'departments-bycourse',
     getCompletedClearance: clearance + 'completed-clearance',
 
