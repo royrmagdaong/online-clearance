@@ -15,8 +15,9 @@
               <input type="password" class="form-control" id="exampleInputPassword1" v-model="password" v-on:keyup.enter="login">
             </div>
             <div class="d-flex justify-content-end mt-4">
-              <button type="submit" class="btn btn-warning  mr-2" @click.prevent="clear">Clear</button>
-              <button type="submit" class="btn btn-success" @click.prevent="login">Submit</button>
+              <!-- <button type="submit" class="btn btn-warning  mr-2" @click.prevent="clear">Clear</button>
+              <button type="submit" class="btn btn-success" @click.prevent="login">Submit</button> -->
+              <b-button type="submit" variant="success" block @click.prevent="login">Submit</b-button>
             </div>
           </div>
         </div>
