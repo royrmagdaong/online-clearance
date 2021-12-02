@@ -133,3 +133,9 @@ export default {
     background-color: #28a745 !important;
 }
 </style>
+
+<style scoped>
+#dropdown-form{
+  min-width: 90px !important;
+}
+</style>
