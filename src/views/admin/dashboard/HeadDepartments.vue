@@ -63,16 +63,17 @@
             class="d-block d-sm-none"
         >
           <template #cell(signature)="row">
-            <div class="d-flex justify-content-center">
-              <img :src="getSign(row.item)" alt="Signature" v-if="getSign(row.item)" width="110">
+            <div class="d-flex justify-content-start">
+              <img class="" :src="getSign(row.item)" alt="Signature" v-if="getSign(row.item)" width="110">
             </div>
           </template>
           <template #cell(actions)="row">
-            <div class="d-flex justify-content-center align-items-center" style="min-height: 50px !important;">
+            <div>
               <b-button 
                 size="sm" 
                 variant="success"
                 @click="showUpdateDepartment(row.item)"
+                style="width:166%;"
               >
                 Update
               </b-button>
