@@ -1,9 +1,9 @@
 <template>
   <div class="p-2">
-    <div class="d-flex mb-1 align-items-center">
-      <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchStudents"></b-form-input>
+    <div class="d-flex mb-1 align-items-center flex-wrap">
+      <b-form-input v-model="searchString" placeholder="Search" id="search" debounce="300" @update="searchStudents"></b-form-input>
       <b-dropdown id="dropdown-form2" text="Course" ref="dropdown2" class="ml-2" variant="success">
-        <b-dropdown-form style="min-width: 150px;">
+        <b-dropdown-form>
           <b-form-checkbox v-model="cb_all" class="mb-1" @change="selectAll">All</b-form-checkbox>
           <b-form-checkbox v-model="cb_bsit" class="mb-1" value="BSIT" unchecked-value="" @change="selectBSIT">BSIT</b-form-checkbox>
           <b-form-checkbox v-model="cb_ccs" class="mb-1" value="CCS" unchecked-value="" @change="selectCCS">CCS</b-form-checkbox>
@@ -12,7 +12,7 @@
         </b-dropdown-form>
       </b-dropdown>
       <b-dropdown id="dropdown-form3" text="Year level" ref="dropdown3" class="m-2" variant="success">
-        <b-dropdown-form style="min-width: 150px;">
+        <b-dropdown-form>
           <b-form-checkbox v-model="cb_all2" class="mb-1" @change="selectAll2">All</b-form-checkbox>
           <b-form-checkbox v-model="cb_1st" class="mb-1" value="1st" unchecked-value="" @change="select1st">1ST</b-form-checkbox>
           <b-form-checkbox v-model="cb_2nd" class="mb-1" value="2nd" unchecked-value="" @change="select2nd">2ND</b-form-checkbox>
@@ -188,4 +188,22 @@ export default {
 </script>
 
 <style scoped>
+#search{
+  width: 250px;
+}
+@media only screen and (max-width: 485px) {
+  #search{
+    width: 100%;
+  }
+  #dropdown-form2{
+    width: 49%;
+    margin-left: 0 !important;
+    margin-right: 1% !important;
+  }
+  #dropdown-form3{
+    width: 49%;
+    margin-left: 1% !important;
+    margin-right: 0 !important;
+  }
+}
 </style>

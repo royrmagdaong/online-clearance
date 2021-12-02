@@ -14,7 +14,7 @@
         </div>
     </div>
     <!-- for SM and DOWN -->
-    <b-navbar toggleable type="dark" variant="success" class="d-flex d-md-none sm-nav">
+    <b-navbar toggleable type="dark" variant="success" class="d-flex d-md-none sm-nav" >
         <b-navbar-brand href="#">PTC Online Clearance</b-navbar-brand>
 
         <b-navbar-toggle target="navbar-toggle-collapse">
@@ -114,7 +114,7 @@ export default {
 .sm-nav{
     position: fixed;
     width: 100%;
-    z-index: 3;
+    z-index: 1001;
 }
 .active-tab a{
     color: #FFFFFF !important;
