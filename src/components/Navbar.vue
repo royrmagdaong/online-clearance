@@ -1,7 +1,7 @@
 <template>
 <div>
     <!-- for MD and UP -->
-    <div class="main-nav bg-success d-none d-md-flex">
+    <div class="main-nav shadow bg-success d-none d-md-flex">
         <div class="bname">
             <div>PTC Online Clearance</div>
         </div>

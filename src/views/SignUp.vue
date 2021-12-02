@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 d-block d-md-none" style="margin-top:120px;"></div>
       <div class="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3 signup-container">
-        <div class="card shadow-sm px-2 py-2 mx-2 mx-sm-0 px-lg-4 py-lg-2" style="width:100%;">
+        <div class="card shadow px-2 py-2 mx-2 mx-sm-0 px-lg-4 py-lg-2" style="width:100%;">
           <div class="card-body">
             <h4 class="card-title">Sign Up</h4>
             <hr>
