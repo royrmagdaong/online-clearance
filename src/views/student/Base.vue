@@ -14,11 +14,11 @@
       </div>
 
       <!-- modal -->
-      <b-modal title="Completed Clearance" hide-footer hide-header-close no-close-on-backdrop :visible="printModal">
+      <b-modal title="Print" hide-footer hide-header-close no-close-on-backdrop :visible="printModal">
         <form class="my-2 mx-4">
           <div class="form-group">
             <div v-if="clearance.length > 0">Available Clearance</div>
-            <div v-else>No completed clearance.</div>
+            <div v-else>No clearance available.</div>
             <ul class="pl-3 mt-2" v-for="(clearance,index) in get(clearance, 'data')" :key="index">
               <li>
                 <a href="#" @click="openPDF(clearance)">{{ get(clearance, 'semester') }} Semester - School Year {{ get(clearance, 'academic_year') }}</a>
