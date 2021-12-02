@@ -31,12 +31,16 @@
             bordered
             :fields="fields"
             responsive
+            head-variant="dark"
+            outlined
+            striped
+            table-variant="secondary"
         >
           <template #cell(actions)="row">
             <div class="d-flex justify-content-center">
               <b-button 
                 size="sm" 
-                variant="info" 
+                variant="success" 
                 @click="approve(row.item)"
               >
                 Approve

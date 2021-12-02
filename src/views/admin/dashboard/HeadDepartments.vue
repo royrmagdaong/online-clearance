@@ -13,6 +13,10 @@
             bordered
             :fields="fields"
             responsive
+            head-variant="dark"
+            outlined
+            striped
+            table-variant="secondary"
         >
           <template #cell(signature)="row">
             <div class="d-flex justify-content-center">
@@ -23,7 +27,7 @@
             <div class="d-flex justify-content-center align-items-center" style="min-height: 50px !important;">
               <b-button 
                 size="sm" 
-                variant="info"
+                variant="success"
                 @click="showUpdateDepartment(row.item)"
               >
                 Update

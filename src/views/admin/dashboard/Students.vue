@@ -30,6 +30,10 @@
       bordered
       :fields="fields"
       responsive
+      head-variant="dark"
+      outlined
+      striped
+      table-variant="secondary"
     ></b-table>
     <div class="d-flex justify-content-end flex-row">
       <b-pagination

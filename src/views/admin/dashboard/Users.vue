@@ -20,6 +20,10 @@
       bordered
       :fields="fields"
       responsive
+      head-variant="dark"
+      outlined
+      striped
+      table-variant="secondary"
     ></b-table>
     <div class="d-flex justify-content-end flex-row">
       <b-pagination
@@ -97,5 +101,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.page-item.active .page-link {
+    background-color: #28a745 !important;
+}
 </style>

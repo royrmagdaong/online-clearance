@@ -14,6 +14,10 @@
             bordered
             :fields="fields"
             responsive
+            head-variant="dark"
+            outlined
+            striped
+            table-variant="secondary"
         >
           <template #cell(sections)="row">
             <div class="">
@@ -32,7 +36,7 @@
             <div class="d-flex justify-content-center align-items-center">
               <b-button 
                 size="sm" 
-                variant="info"
+                variant="success"
                 @click="showUpdateCourse(row.item)"
               >
                 Update
