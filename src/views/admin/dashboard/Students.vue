@@ -34,6 +34,7 @@
       outlined
       striped
       table-variant="secondary"
+      class="d-none d-sm-block"
     ></b-table>
     <div class="d-flex justify-content-end flex-row">
       <b-pagination
@@ -41,6 +42,31 @@
         :total-rows="students.length"
         :per-page="perPage"
         aria-controls="my-table"
+        class="d-none d-sm-flex"
+      ></b-pagination>
+    </div>
+    <b-table
+      id="my-table"
+      :items="students"
+      :per-page="perPage"
+      :current-page="currentPage"
+      bordered
+      :fields="fields"
+      responsive
+      head-variant="dark"
+      outlined
+      striped
+      stacked=""
+      table-variant="secondary"
+      class="d-block d-sm-none"
+    ></b-table>
+    <div class="d-flex justify-content-end flex-row">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="students.length"
+        :per-page="perPage"
+        aria-controls="my-table"
+        class="d-flex d-sm-none"
       ></b-pagination>
     </div>
   </div>

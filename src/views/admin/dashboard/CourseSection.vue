@@ -3,7 +3,7 @@
     <div class="overflow-auto">
         <div class="d-flex mb-1 align-items-center justify-content-between">
           <b-form-input class="mr-2 mt-2 mb-2" v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchCourse"></b-form-input>
-          <b-button variant="success" @click="addCourseModal = !addCourseModal">Add Course</b-button>
+          <b-button variant="success" @click="addCourseModal = !addCourseModal" id="add-course">Add Course</b-button>
         </div>
 
         <b-table
@@ -18,6 +18,7 @@
             outlined
             striped
             table-variant="secondary"
+            class="d-none d-sm-block"
         >
           <template #cell(sections)="row">
             <div class="">
@@ -50,7 +51,60 @@
                 :total-rows="courses.length"
                 :per-page="perPage"
                 aria-controls="my-table"
-                content-class="text-danger"
+                class="d-none d-sm-flex"
+            ></b-pagination>
+        </div>
+
+        <!-- FOR XS -->
+        <b-table
+            id="my-table"
+            :items="courses"
+            :per-page="perPage"
+            :current-page="currentPage"
+            bordered
+            :fields="fields"
+            responsive
+            head-variant="dark"
+            outlined
+            striped
+            stacked
+            table-variant="secondary"
+            class="d-block d-sm-none"
+        >
+          <template #cell(sections)="row">
+            <div class="">
+              <span v-for="(section,index) in get(row, 'item.sections')" :key="index">
+                <span>{{ section }}</span>
+                <span v-if="get(row, 'item.sections').length-1 !== index">, </span>
+              </span>
+            </div>
+          </template>
+          <template #cell(number_of_years)="row">
+            <div>
+              {{ row.item.number_of_years.length }}
+            </div>
+          </template>
+          <template #cell(actions)="row">
+            <div>
+              <b-button 
+                size="sm" 
+                variant="success"
+                @click="showUpdateCourse(row.item)"
+                block
+                style="width:166%;"
+              >
+                Update
+              </b-button>
+            </div>
+          </template>
+        </b-table>
+        <div class="d-flex justify-content-end flex-row pg-1">
+            <b-pagination
+                v-model="currentPage"
+                :total-rows="courses.length"
+                :per-page="perPage"
+                aria-controls="my-table"
+                class="d-flex d-sm-none"
             ></b-pagination>
         </div>
     </div>
@@ -269,4 +323,13 @@ export default {
 </script>
 
 <style scoped>
+
+@media only screen and (max-width: 384px) {
+  #add-course{
+    height: 38px !important;
+    min-width: 108px;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
 </style>

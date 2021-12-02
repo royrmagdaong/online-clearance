@@ -17,6 +17,7 @@
             outlined
             striped
             table-variant="secondary"
+            class="d-none d-sm-block"
         >
           <template #cell(signature)="row">
             <div class="d-flex justify-content-center">
@@ -41,7 +42,50 @@
                 :total-rows="departments.length"
                 :per-page="perPage"
                 aria-controls="my-table"
-                content-class="text-danger"
+                class="d-none d-sm-flex"
+            ></b-pagination>
+        </div>
+
+        <!-- FOR XS -->
+        <b-table
+            id="my-table"
+            :items="departments"
+            :per-page="perPage"
+            :current-page="currentPage"
+            bordered
+            :fields="fields"
+            responsive
+            head-variant="dark"
+            outlined
+            striped
+            stacked
+            table-variant="secondary"
+            class="d-block d-sm-none"
+        >
+          <template #cell(signature)="row">
+            <div class="d-flex justify-content-center">
+              <img :src="getSign(row.item)" alt="Signature" v-if="getSign(row.item)" width="110">
+            </div>
+          </template>
+          <template #cell(actions)="row">
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 50px !important;">
+              <b-button 
+                size="sm" 
+                variant="success"
+                @click="showUpdateDepartment(row.item)"
+              >
+                Update
+              </b-button>
+            </div>
+          </template>
+        </b-table>
+        <div class="d-flex justify-content-end flex-row pg-1">
+            <b-pagination
+                v-model="currentPage"
+                :total-rows="departments.length"
+                :per-page="perPage"
+                aria-controls="my-table"
+                class="d-flex d-sm-none"
             ></b-pagination>
         </div>
     </div>

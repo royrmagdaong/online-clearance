@@ -2,7 +2,7 @@
   <div class="p-2">
     <div class="d-flex mb-1 align-items-center">
       <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchUser"></b-form-input>
-      <b-dropdown id="dropdown-form" text="Role" ref="dropdown" class="m-2" variant="success">
+      <b-dropdown id="dropdown-form" text="Role" ref="dropdown" class="m-2" variant="success" dropright>
         <b-dropdown-form style="min-width: 200px;">
           <b-form-checkbox v-model="cb_all" class="mb-1" @change="selectAll">All</b-form-checkbox>
           <b-form-checkbox v-model="cb_admin" class="mb-1" @change="selectAdmin">Admin</b-form-checkbox>
@@ -24,6 +24,7 @@
       outlined
       striped
       table-variant="secondary"
+      class="d-none d-sm-block"
     ></b-table>
     <div class="d-flex justify-content-end flex-row">
       <b-pagination
@@ -31,6 +32,32 @@
           :total-rows="get(users, 'length')"
           :per-page="perPage"
           aria-controls="my-table"
+          class="d-none d-sm-flex"
+      ></b-pagination>
+    </div>
+    <!-- for xs -->
+    <b-table
+      id="my-table"
+      :items="users"
+      :per-page="perPage"
+      :current-page="currentPage"
+      bordered
+      :fields="fields"
+      responsive
+      head-variant="dark"
+      outlined
+      striped
+      stacked
+      table-variant="secondary"
+      class="d-block d-sm-none"
+    ></b-table>
+    <div class="d-flex justify-content-end flex-row">
+      <b-pagination
+          v-model="currentPage"
+          :total-rows="get(users, 'length')"
+          :per-page="perPage"
+          aria-controls="my-table"
+          class="d-flex d-sm-none"
       ></b-pagination>
     </div>
   </div>

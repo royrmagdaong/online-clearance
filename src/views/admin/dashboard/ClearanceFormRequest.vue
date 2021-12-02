@@ -35,6 +35,7 @@
             outlined
             striped
             table-variant="secondary"
+            class="d-none d-sm-block"
         >
           <template #cell(actions)="row">
             <div class="d-flex justify-content-center">
@@ -54,6 +55,45 @@
                 :total-rows="clearanceFormRequests.length"
                 :per-page="perPage"
                 aria-controls="my-table"
+                class="d-none d-sm-flex"
+            ></b-pagination>
+        </div>
+
+        <!-- FOR XS -->
+        <b-table
+            id="my-table"
+            :items="clearanceFormRequests"
+            :per-page="perPage"
+            :current-page="currentPage"
+            bordered
+            :fields="fields"
+            responsive
+            head-variant="dark"
+            outlined
+            striped
+            stacked
+            table-variant="secondary"
+            class="d-block d-sm-none"
+        >
+          <template #cell(actions)="row">
+            <div class="d-flex justify-content-center">
+              <b-button 
+                size="sm" 
+                variant="success" 
+                @click="approve(row.item)"
+              >
+                Approve
+              </b-button>
+            </div>
+          </template>
+        </b-table>
+        <div class="d-flex justify-content-end flex-row">
+            <b-pagination
+                v-model="currentPage"
+                :total-rows="clearanceFormRequests.length"
+                :per-page="perPage"
+                aria-controls="my-table"
+                class="d-flex d-sm-none"
             ></b-pagination>
         </div>
     </div>
