@@ -1,11 +1,27 @@
 <template>
   <div class="px-5 py-4 card shadow-sm">
-    <div class="d-flex justify-content-between align-items-center">
-      <div class="h2 mb-0">{{ get(studentInfo, 'first_name') }} {{ get(studentInfo, 'last_name') }}</div>
-      <b-icon class="edit-info" icon="pencil" variant="primary" font-scale="1" @click="openEditModal"></b-icon>
+
+    <div class="d-md-none my-4">
+      <div style="width:120px;height:120px;;border-radius:50%;position:relative;" class="mx-auto d-block">
+        <img @click="openChangePicModal" class="prof-pic" :src="`${endpoints.viewStudentProfilePic}/${get(studentInfo, 'profile_pic.filename')}`" />
+      </div>
+      
+      <div class="d-flex align-items-center justify-content-center mt-3">
+        <div class="h2 mb-0">{{ get(studentInfo, 'first_name') }} {{ get(studentInfo, 'last_name') }}</div>
+        <b-icon class="edit-info ml-2" icon="pencil" variant="primary" font-scale="1" @click="openEditModal"></b-icon>
+      </div>
+      <div class="text-center">{{ get(studentInfo, 'email') }}</div>
+      <div class="text-center">{{ get(studentInfo, 'course') }} {{ trimYearLevel(get(studentInfo, 'year_level')) }}{{ get(studentInfo, 'section') }} </div>
     </div>
-    <div class="">{{ get(studentInfo, 'email') }}</div>
-    <div class="">{{ get(studentInfo, 'course') }} {{ trimYearLevel(get(studentInfo, 'year_level')) }}{{ get(studentInfo, 'section') }} </div>
+
+    <div class="d-none d-md-block">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="h2 mb-0">{{ get(studentInfo, 'first_name') }} {{ get(studentInfo, 'last_name') }}</div>
+        <b-icon class="edit-info" icon="pencil" variant="primary" font-scale="1" @click="openEditModal"></b-icon>
+      </div>
+      <div class="">{{ get(studentInfo, 'email') }}</div>
+      <div class="">{{ get(studentInfo, 'course') }} {{ trimYearLevel(get(studentInfo, 'year_level')) }}{{ get(studentInfo, 'section') }} </div>
+    </div>
 
     <!-- modal -->
     <b-modal title="Update Info" hide-footer hide-header-close no-close-on-backdrop :visible="editInfoModal">
@@ -18,20 +34,6 @@
           <label>Last Name</label>
           <input type="text" class="form-control" v-model="last_name">
         </div>
-        <!-- <div class="form-group mb-2">
-          <label>Course</label>
-          <b-form-select v-model="selected_course" :options="courses" @change="selectCourse" value-field="code" text-field="description"></b-form-select>
-        </div>
-        <div class="form-group mb-2 row no-gutters">
-          <div class="col-6 pr-1">
-            <label>Section</label>
-            <b-form-select v-model="selected_section" :options="sections"></b-form-select>
-          </div>
-          <div class="col-6 pl-1">
-            <label>Year level</label>
-            <b-form-select v-model="selected_year_level" :options="year_level_options"></b-form-select>
-          </div>
-        </div> -->
         <div class="d-flex justify-content-end mt-4">
           <b-button variant="warning" class="mr-2" @click.prevent="cancel">Cancel</b-button>
           <b-button type="submit" variant="success" @click.prevent="save">Save</b-button>
@@ -45,10 +47,12 @@
 <script>
 import {get} from 'lodash'
 import {toast} from '../../../mixins/toast'
+import endpoints from '../../../endpoints'
 
 export default {
   mixins: [toast],
   data:()=>({
+    endpoints,
     userId: '',
     get,
     editInfoModal: false,
@@ -83,6 +87,9 @@ export default {
     getStudentInfo(){
       this.userId = this.userInfo.id
       this.$store.dispatch('studentInfo/getStudentInfo', {id: this.userId})
+    },
+    openChangePicModal(){
+      this.$root.$emit('openChangePicModal')
     },
     trimYearLevel(yr){
       if(yr) return yr.substring(0,1)
@@ -153,5 +160,16 @@ export default {
   cursor: pointer;
   color: rgb(76, 160, 76) !important;
   font-size: 16px !important;
+}
+
+.prof-pic{
+  background-color: #eee !important;
+  height: 120px;
+  width: 120px;
+  border-radius: 60px;
+}
+.prof-pic:hover{
+  opacity: 0.4;
+  cursor: pointer;
 }
 </style>

@@ -118,6 +118,10 @@ export default {
       this.$root.$on('openPrintModal',()=>{
         this.printModal = true
       })
+      // watch for call from other component
+      this.$root.$on('openChangePicModal',()=>{
+        this.openChangePicModal()
+      })
     },
     methods:{
       routeTo(route){
