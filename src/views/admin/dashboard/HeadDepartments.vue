@@ -2,7 +2,7 @@
   <div class="p-2">
     <div class="overflow-auto">
         <div class="d-flex mb-1 align-items-center justify-content-between">
-          <b-form-input class="mr-2 mt-2 mb-2" v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchDepartments"></b-form-input>
+          <b-form-input class=" mt-2 mb-2 search-field" v-model="searchString" placeholder="Search" debounce="300" @update="searchDepartments"></b-form-input>
         </div>
 
         <b-table
@@ -319,7 +319,7 @@ export default {
             this.makeToast(this, false, 'Update Failed', err.message, 4000, 'danger')
           })
         }else{
-          this.makeToast(this, false, 'Update Failed', 'Please choose a file', 4000, 'warning')
+          this.makeToast(this, false, 'Update Failed', 'Please choose an image.', 4000, 'warning')
         }
       }
     }
@@ -329,5 +329,13 @@ export default {
 <style scoped>
 element.style {
     padding-left: 0;
+}
+.search-field{
+  max-width: 250px;
+}
+@media only screen and (max-width: 575px) {
+  .search-field{
+    max-width: 100%;
+  }
 }
 </style>

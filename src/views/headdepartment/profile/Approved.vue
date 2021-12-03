@@ -136,6 +136,8 @@
           bordered
           :fields="fields"
           responsive
+          :no-border-collapse="false"
+          :sticky-header="true"
       ></b-table>
       <div class="d-flex justify-content-end flex-row">
           <b-pagination

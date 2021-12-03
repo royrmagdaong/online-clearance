@@ -76,10 +76,11 @@
             class="d-block d-sm-none"
         >
           <template #cell(actions)="row">
-            <div class="d-flex justify-content-center">
+            <div>
               <b-button 
                 size="sm" 
                 variant="success" 
+                style="width:166%;"
                 @click="approve(row.item)"
               >
                 Approve

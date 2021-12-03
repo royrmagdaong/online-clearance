@@ -75,7 +75,7 @@ export default {
 <style scoped>
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 16vw; /* Set the width of the sidebar */
+  width: 240px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
@@ -116,7 +116,7 @@ export default {
 
 /* Style page content */
 .main {
-  margin-left: 16vw; /* Same as the width of the sidebar */
+  margin-left: 220px; /* Same as the width of the sidebar */
   padding: 44px;
 }
 </style>
