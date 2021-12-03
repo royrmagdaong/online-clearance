@@ -317,10 +317,10 @@ export default {
               this.updateModal = false
             }
           }).catch(err=>{
-            console.log(err)
+            this.makeToast(this, false, 'Update Failed', err.message, 4000, 'danger')
           })
         }else{
-          console.log('choose image')
+          this.makeToast(this, false, 'Update Failed', 'Please choose a file', 4000, 'warning')
         }
       }
     }
