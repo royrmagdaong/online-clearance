@@ -2,8 +2,8 @@
   <div>
       <div class="d-flex mb-1 align-items-center flex-wrap">
         <b-form-input v-model="searchString" placeholder="Search" id="search" debounce="300" @update="searchStudents"></b-form-input>
-        <b-dropdown id="dropdown-form2" text="Course" ref="dropdown2" class="mx-2" variant="success">
-          <b-dropdown-form style="min-width: 150px;">
+        <b-dropdown id="dropdown-form2" text="Course" ref="dropdown2" class="mx-2" variant="success" dropright>
+          <b-dropdown-form>
             <b-form-checkbox v-model="cb_all" class="mb-1" @change="selectAll">All</b-form-checkbox>
             <b-form-checkbox v-model="cb_bsit" class="mb-1" value="BSIT" unchecked-value="" @change="selectBSIT">BSIT</b-form-checkbox>
             <b-form-checkbox v-model="cb_ccs" class="mb-1" value="CCS" unchecked-value="" @change="selectCCS">CCS</b-form-checkbox>
@@ -11,8 +11,8 @@
             <b-form-checkbox v-model="cb_hrm" class="mb-1" value="HRM" unchecked-value="" @change="selectHRM">HRM</b-form-checkbox>
           </b-dropdown-form>
         </b-dropdown>
-        <b-dropdown id="dropdown-form3" text="Year level" ref="dropdown3" variant="success">
-          <b-dropdown-form style="min-width: 150px;">
+        <b-dropdown id="dropdown-form3" text="Year Level" ref="dropdown3" variant="success" dropright>
+          <b-dropdown-form>
             <b-form-checkbox v-model="cb_all2" class="mb-1" @change="selectAll2">All</b-form-checkbox>
             <b-form-checkbox v-model="cb_1st" class="mb-1" value="1st" unchecked-value="" @change="select1st">1ST</b-form-checkbox>
             <b-form-checkbox v-model="cb_2nd" class="mb-1" value="2nd" unchecked-value="" @change="select2nd">2ND</b-form-checkbox>
@@ -365,8 +365,37 @@ export default {
 
 <style scoped>
 #search{
-  width: 250px !important;
-  margin-bottom: 0 !important;
+  width: 25%;
+  margin-right: 1% !important;
+  margin-left: 0 !important;
+}
+#dropdown-form2{
+  width: 14%;
+  margin-right: 1% !important;
+  margin-left: 0 !important;
+}
+#dropdown-form3{
+  width: 14%;
+  margin-right: 1% !important;
+  margin-left: 0 !important;
+}
+@media only screen and (max-width: 1199px) {
+  #search{
+    width: 50%;
+    margin-right: 1% !important;
+    margin-left: 0 !important;
+  }
+  #dropdown-form2{
+    width: 24%;
+    margin-left: 0 !important;
+    margin-right: 1% !important;
+  }
+  #dropdown-form3{
+    width: 24%;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 0 !important;
+  }
 }
 @media only screen and (max-width: 485px) {
   #search{

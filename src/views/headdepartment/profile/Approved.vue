@@ -65,7 +65,7 @@
       <div class="d-flex flex-wrap mb-1">
         <b-form-input v-model="searchString" placeholder="Search" id="search" debounce="300" @update="searchStudents"></b-form-input>
 
-        <b-dropdown text="Course" variant="success" id="df1">
+        <b-dropdown text="Course" variant="success" id="df1" dropright>
             <b-dropdown-form>
               <b-form-checkbox-group
                 v-model="selectedCourses"
@@ -78,7 +78,7 @@
           </b-dropdown-form>
         </b-dropdown>
 
-        <b-dropdown text="Year Level" variant="success" id="df2">
+        <b-dropdown text="Year Level" variant="success" id="df2" dropright>
             <b-dropdown-form>
               <b-form-checkbox-group
                 v-model="selectedYearLevel"
@@ -89,7 +89,7 @@
           </b-dropdown-form>
         </b-dropdown>
 
-        <b-dropdown text="Section" variant="success" id="df3">
+        <b-dropdown text="Section" variant="success" id="df3" dropright>
             <b-dropdown-form>
               <b-form-checkbox-group
                 v-model="selectedSections"
@@ -100,7 +100,7 @@
           </b-dropdown-form>
         </b-dropdown>
 
-        <b-dropdown text="Semester" variant="success" id="df4">
+        <b-dropdown text="Semester" variant="success" id="df4" dropright>
             <b-dropdown-form>
               <b-form-checkbox-group
                 v-model="selectedSemester"
@@ -111,7 +111,7 @@
           </b-dropdown-form>
         </b-dropdown>
 
-        <b-dropdown text="Acad. Year" variant="success" id="df5">
+        <b-dropdown text="Acad. Year" variant="success" id="df5" dropright>
             <b-dropdown-form>
               <b-form-checkbox-group
                 v-model="selectedAcadYear"
