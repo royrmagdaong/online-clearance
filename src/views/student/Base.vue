@@ -2,10 +2,13 @@
   <div class="container py-4" style="position: relative;">
     <div class="row" style="margin-top: 60px;">
       <div class="col-12 col-md-3 card shadow-sm sidenav p-0 d-none d-md-block" style="max-height: 341px; min-height: 341px;">
-        <div style="width:120px;height:120px;overflow:hidden;border-radius:50%;" class="mx-auto mt-4 d-block">
+        <div style="width:120px;height:120px;;border-radius:50%;position:relative;" class="mx-auto mt-4 d-block">
           <img @click="openChangePicModal" id="prof-pic" :src="`${endpoints.viewStudentProfilePic}/${get(studentInfo, 'profile_pic.filename')}`" />
+          <div id="prof-pic-icon">
+            <b-icon icon="camera" style="width:40px;height:40px;" rounded></b-icon>
+          </div>
+          
         </div>
-        <b-icon icon="camera" class="h2" id="prof-pic-icon" rounded></b-icon>
         <div class="text-center mt-4">
           <div class="p-3 student-info" @click="routeTo('student-info')" :class="{'active-tab': activeTab === 'student-info'}">Student Info</div>
           <div class="p-3 request-form" @click="routeTo('clearance-form')" :class="{'active-tab':activeTab === 'clearance-form'}">Clearance Form</div>
@@ -416,11 +419,13 @@ export default {
 #prof-pic-icon{
   position: absolute;
   height: 40px;
-  width: 40px;
-  left: 122px;
-  top: 65px;
+  width: 100%;
+  top: 42px;
   color: #007bff;
-  z-index: -1;
+  z-index: -2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #prof-pic{
   background-color: #eee !important;
