@@ -23,16 +23,16 @@
       </div>
 
       <b-table
-          id="my-table"
-          :items="studentRequests"
-          :per-page="perPage"
-          :current-page="currentPage"
-          bordered
-          :fields="fields"
-          responsive
-          :no-border-collapse="false"
-          :sticky-header="true"
-          class="d-none d-sm-block"
+        id="my-table"
+        :items="studentRequests"
+        :per-page="perPage"
+        :current-page="currentPage"
+        :fields="fields"
+        responsive
+        :no-border-collapse="false"
+        :sticky-header="true"
+        class="d-none d-sm-block"
+        outlined
       >
         <template #cell(actions)="row">
           <div class="d-flex justify-content-center">
@@ -62,12 +62,12 @@
           :items="studentRequests"
           :per-page="perPage"
           :current-page="currentPage"
-          bordered
           :fields="fields"
           responsive
           :no-border-collapse="false"
           :sticky-header="true"
           stacked
+          outlined
           class="d-block d-sm-none"
       >
         <template #cell(actions)="row">
