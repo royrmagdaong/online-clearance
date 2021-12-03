@@ -2,7 +2,8 @@
   <div class="container py-4" style="position: relative;">
     <div class="row" style="margin-top: 60px;">
       <div class="col-12 col-md-3 card shadow-sm sidenav p-0 d-none d-md-block" style="max-height: 341px; min-height: 341px;">
-        <img height="120" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuNfh5XEmL28p3fZftINhCjPR1g7V8IDWJ9-H58s0jyp4GMH_nWaRqFrRFu-6CJbaTdK0&usqp=CAU" class="rounded mx-auto mt-4 d-block" alt="prof_pic">
+        <img @click="openChangePicModal" class="mx-auto mt-4 d-block" id="prof-pic" :src="`${endpoints.viewStudentProfilePic}/${get(studentInfo, 'profile_pic.filename')}`" />
+        <b-icon icon="camera" class="h2" id="prof-pic-icon" rounded></b-icon>
         <div class="text-center mt-4">
           <div class="p-3 student-info" @click="routeTo('student-info')" :class="{'active-tab': activeTab === 'student-info'}">Student Info</div>
           <div class="p-3 request-form" @click="routeTo('clearance-form')" :class="{'active-tab':activeTab === 'clearance-form'}">Clearance Form</div>
@@ -31,6 +32,21 @@
           <b-button variant="warning" class="mr-2" @click.prevent="cancel">Close</b-button>
         </div>
       </b-modal>
+
+      <!-- change pic modal -->
+      <b-modal title="Change Profile Picture" hide-footer hide-header-close no-close-on-backdrop :visible="changePicModal">
+        <div class="">
+          <img @click="changePicModal = true" class="mx-auto d-block my-4" id="prof-pic-change" :src="profilePicture" alt="change picture" />
+        </div>
+        <form @submit.prevent="" enctype="multipart/form-data">
+          <input type="file" name="profilepicture"  class="mt-3 mx-auto" accept="image/png, image/jpeg" @change="onChange"/>
+          <div style="font-size:12px;">*png, jpg</div>
+        </form>
+        <div class="d-flex justify-content-end mt-4">
+          <b-button variant="warning" class="mr-2" @click.prevent="close">Close</b-button>
+          <b-button variant="success" class="mr-2" @click.prevent="changePic">Save</b-button>
+        </div>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -40,17 +56,21 @@ import {io} from 'socket.io-client'
 import {get} from 'lodash'
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
-
+import endpoints from '../../endpoints'
 
 export default {
     name:'studentBase',
     data:()=>({
-        get,
-        activeTab: '',
-        printModal: false,
-        doc: '',
-        count: 0,
-        download: false,
+      endpoints,
+      get,
+      activeTab: '',
+      printModal: false,
+      doc: '',
+      count: 0,
+      download: false,
+      changePicModal: false,
+      profilePicture: '',
+      profilePictureUpload: '',
     }),
     computed:{
       userInfo(){
@@ -104,6 +124,27 @@ export default {
         this.openPDF()
         console.log('cancel')
       },
+      close(){
+        this.changePicModal = false
+      },
+      changePic(){
+        const formData = new FormData()
+        formData.append('profilepicture',this.profilePictureUpload)
+      },
+      openChangePicModal(){
+        this.profilePicture = `${this.endpoints.viewStudentProfilePic}/${get(this.studentInfo, 'profile_pic.filename')}`
+        this.changePicModal = true
+      },
+      onChange(event) {
+        this.profilePictureUpload = event.target.files[0]
+        if (event.target.files && event.target.files[0]) {
+          var reader = new FileReader();
+          reader.onload =  (e) => {
+            this.profilePicture = e.target.result
+          };
+          reader.readAsDataURL(event.target.files[0]);
+        }
+      },
       downloadPDF(clearance){
         this.download = true
         this.openPDF(clearance)
@@ -111,6 +152,7 @@ export default {
       getStudentInfo(){
         this.userId = this.userInfo.id
         this.$store.dispatch('studentInfo/getStudentInfo', {id: this.userId}).then(()=>{
+          this.profilePicture = `${this.endpoints.viewStudentProfilePic}/${get(this.studentInfo, 'profile_pic.filename')}`
           this.getCompletedClearance()
         })
       },
@@ -349,5 +391,29 @@ export default {
   color: #007bff;
   text-decoration: underline;
   cursor: pointer;
+}
+#prof-pic-icon{
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  left: 122px;
+  top: 65px;
+  color: #007bff;
+  z-index: -1;
+}
+#prof-pic{
+  background-color: #eee !important;
+  height: 120px;
+  width: 120px;
+  border-radius: 60px;
+}
+#prof-pic:hover{
+  opacity: 0.4;
+  cursor: pointer;
+}
+#prof-pic-change{
+  width:180px;
+  height:180px;
+  border-radius: 50%;
 }
 </style>

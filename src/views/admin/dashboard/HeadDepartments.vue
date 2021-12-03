@@ -226,7 +226,6 @@ export default {
           };
           reader.readAsDataURL(event.target.files[0]);
         }
-        
       },
       cancel(){
         this.createDeptModal = false;
