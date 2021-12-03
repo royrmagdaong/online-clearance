@@ -1,7 +1,7 @@
 <template>
   <div>
-      <div class="d-flex mb-1 align-items-start mb-2">
-        <b-form-input v-model="searchString" placeholder="Search" style="max-width: 250px;" debounce="300" @update="searchStudents"></b-form-input>
+      <div class="d-flex mb-1 align-items-center flex-wrap">
+        <b-form-input v-model="searchString" placeholder="Search" id="search" debounce="300" @update="searchStudents"></b-form-input>
         <b-dropdown id="dropdown-form2" text="Course" ref="dropdown2" class="mx-2" variant="success">
           <b-dropdown-form style="min-width: 150px;">
             <b-form-checkbox v-model="cb_all" class="mb-1" @change="selectAll">All</b-form-checkbox>
@@ -32,12 +32,13 @@
           responsive
           :no-border-collapse="false"
           :sticky-header="true"
+          class="d-none d-sm-block"
       >
         <template #cell(actions)="row">
           <div class="d-flex justify-content-center">
             <b-button 
               size="sm" 
-              variant="info" 
+              variant="info"
               @click="viewRequest(row.item)"
             >
               View
@@ -51,22 +52,60 @@
               :total-rows="studentRequests.length"
               :per-page="perPage"
               aria-controls="my-table"
+              class="d-none d-sm-flex"
+          ></b-pagination>
+      </div>
+
+      <!-- FOR XS -->
+      <b-table
+          id="my-table"
+          :items="studentRequests"
+          :per-page="perPage"
+          :current-page="currentPage"
+          bordered
+          :fields="fields"
+          responsive
+          :no-border-collapse="false"
+          :sticky-header="true"
+          stacked
+          class="d-block d-sm-none"
+      >
+        <template #cell(actions)="row">
+          <div>
+            <b-button
+              size="sm" 
+              variant="info"
+              style="width:166%;"
+              @click="viewRequest(row.item)"
+            >
+              View
+            </b-button>
+          </div>
+        </template>
+      </b-table>
+      <div class="d-flex justify-content-end flex-row">
+          <b-pagination
+              v-model="currentPage"
+              :total-rows="studentRequests.length"
+              :per-page="perPage"
+              aria-controls="my-table"
+              class="d-flex d-sm-none"
           ></b-pagination>
       </div>
 
       <!-- modal -->
       <b-modal title="Student Request Info" content-class="pb-2 pl-2 pr-2" size="md" hide-footer :visible="viewRequestModal" @change="viewRequestModal = !viewRequestModal">
         <div class="row no-gutters">
-          <div class="col-3 font-weight-bold">Name:</div>
-          <div class="col-9">{{ get(studentRequirements,'student.first_name') }} {{ get(studentRequirements,'student.last_name') }}</div>
-          <div class="col-3 font-weight-bold">Course:</div>
-          <div class="col-9">{{ get(studentRequirements,'student.course') }}</div>
-          <div class="col-3 font-weight-bold">Yr/Sec:</div>
-          <div class="col-9">{{ trimYearLevel(get(studentRequirements,'student.year_level')) }}{{ get(studentRequirements,'student.section') }}</div>
-          <div class="col-3 font-weight-bold">Acad. Year:</div>
-          <div class="col-9">{{ get(studentRequirements,'clearance.academic_year') }}</div>
-          <div class="col-3 font-weight-bold">Semester:</div>
-          <div class="col-9">{{ get(studentRequirements,'clearance.semester') }}</div>
+          <div class="col-4 col-sm-3 font-weight-bold">Name:</div>
+          <div class="col-8 sm-9">{{ get(studentRequirements,'student.first_name') }} {{ get(studentRequirements,'student.last_name') }}</div>
+          <div class="col-4 col-sm-3 font-weight-bold">Course:</div>
+          <div class="col-8 sm-9">{{ get(studentRequirements,'student.course') }}</div>
+          <div class="col-4 col-sm-3 font-weight-bold">Yr/Sec:</div>
+          <div class="col-8 sm-9">{{ trimYearLevel(get(studentRequirements,'student.year_level')) }}{{ get(studentRequirements,'student.section') }}</div>
+          <div class="col-4 col-sm-3 font-weight-bold">Acad. Year:</div>
+          <div class="col-8 sm-9">{{ get(studentRequirements,'clearance.academic_year') }}</div>
+          <div class="col-4 col-sm-3 font-weight-bold">Semester:</div>
+          <div class="col-8 sm-9">{{ get(studentRequirements,'clearance.semester') }}</div>
 
           <div class="col-12 mt-4">
             <div class="font-weight-bold mt-2" style="font-size:15px;">Conversation:</div>
@@ -324,6 +363,25 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+#search{
+  width: 250px !important;
+  margin-bottom: 0 !important;
+}
+@media only screen and (max-width: 485px) {
+  #search{
+    width: 100% !important;
+    margin-bottom: 4px !important;
+  }
+  #dropdown-form2{
+    width: 49%;
+    margin-left: 0 !important;
+    margin-right: 1% !important;
+  }
+  #dropdown-form3{
+    width: 49%;
+    margin-left: 1% !important;
+    margin-right: 0 !important;
+  }
+}
 </style>
