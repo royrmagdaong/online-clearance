@@ -2,7 +2,9 @@
   <div class="container py-4" style="position: relative;">
     <div class="row" style="margin-top: 60px;">
       <div class="col-12 col-md-3 card shadow-sm sidenav p-0 d-none d-md-block" style="max-height: 341px; min-height: 341px;">
-        <img @click="openChangePicModal" class="mx-auto mt-4 d-block" id="prof-pic" :src="`${endpoints.viewStudentProfilePic}/${get(studentInfo, 'profile_pic.filename')}`" />
+        <div style="width:120px;height:120px;overflow:hidden;border-radius:50%;" class="mx-auto mt-4 d-block">
+          <img @click="openChangePicModal" id="prof-pic" :src="`${endpoints.viewStudentProfilePic}/${get(studentInfo, 'profile_pic.filename')}`" />
+        </div>
         <b-icon icon="camera" class="h2" id="prof-pic-icon" rounded></b-icon>
         <div class="text-center mt-4">
           <div class="p-3 student-info" @click="routeTo('student-info')" :class="{'active-tab': activeTab === 'student-info'}">Student Info</div>
@@ -35,12 +37,12 @@
 
       <!-- change pic modal -->
       <b-modal title="Change Profile Picture" hide-footer hide-header-close no-close-on-backdrop :visible="changePicModal">
-        <div class="">
-          <img @click="changePicModal = true" class="mx-auto d-block my-4" id="prof-pic-change" :src="profilePicture" alt="change picture" />
+        <div style="width:180px;height:180px;overflow:hidden;border-radius:50%;" class="mx-auto d-block my-4">
+          <img @click="changePicModal = true" id="prof-pic-change" :src="profilePicture" alt="change picture" />
         </div>
         <form @submit.prevent="" enctype="multipart/form-data">
           <input type="file" name="profilepicture"  class="mt-3 mx-auto" accept="image/png, image/jpeg" @change="onChange"/>
-          <div style="font-size:12px;">*png, jpg</div>
+          <div style="font-size:12px;">*png, and jpg only</div>
         </form>
         <div class="d-flex justify-content-end mt-4">
           <b-button variant="warning" class="mr-2" @click.prevent="close">Close</b-button>
@@ -52,6 +54,7 @@
 </template>
 
 <script>
+import {toast} from '../../mixins/toast'
 import {io} from 'socket.io-client'
 import {get} from 'lodash'
 import { jsPDF } from "jspdf";
@@ -60,6 +63,7 @@ import endpoints from '../../endpoints'
 
 export default {
     name:'studentBase',
+    mixins: [toast],
     data:()=>({
       endpoints,
       get,
@@ -130,6 +134,23 @@ export default {
       changePic(){
         const formData = new FormData()
         formData.append('profilepicture',this.profilePictureUpload)
+        if(this.profilePictureUpload){
+          this.$store.dispatch('studentBase/changeProfilePicture', {
+            formData
+          }).then(res=>{
+            if(res.response){
+              this.changePicModal = false
+              this.getStudentInfo()
+              this.makeToast(this, false, 'Saved', res.message, 4000, 'success')
+            }else{
+              this.makeToast(this, false, 'Save failed', res.message, 4000, 'warning')
+            }
+          }).catch(error=>{
+            this.makeToast(this, false, 'Save failed', error.message, 4000, 'danger')
+          })
+        }else{
+          this.makeToast(this, false, 'Save Failed', 'Please Choose an image', 4000, 'warning')
+        }
       },
       openChangePicModal(){
         this.profilePicture = `${this.endpoints.viewStudentProfilePic}/${get(this.studentInfo, 'profile_pic.filename')}`
@@ -414,6 +435,6 @@ export default {
 #prof-pic-change{
   width:180px;
   height:180px;
-  border-radius: 50%;
+  border-radius: 90px;
 }
 </style>

@@ -29,6 +29,7 @@ export default {
     updateRequestSignature: clearance + 'update-request-signature',
     getDepartmentsByCourse: department + 'departments-bycourse',
     getCompletedClearance: clearance + 'completed-clearance',
+    changeProfilePicture: student + 'change-prof-pic',
 
     // admin
     fetchDepartments: department,

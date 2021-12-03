@@ -1,5 +1,6 @@
 import {
-    getCompletedClearance
+    getCompletedClearance,
+    changeProfilePicture
 } from '../../api'
 
 var store = {
@@ -24,6 +25,17 @@ var store = {
                 getCompletedClearance(payload).then(res => {
                     if(res.response){
                         context.commit('SET_CLEARANCE', res)
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        changeProfilePicture(context, payload){
+            return new Promise((resolve, reject) => {
+                changeProfilePicture(payload).then(res => {
+                    if(res.response){
                         resolve(res)
                     }else{
                         resolve(res)
