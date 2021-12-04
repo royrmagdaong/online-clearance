@@ -17,13 +17,13 @@
                 <span class="text-success font-weight-bold mr-2" v-if="get(clearance, 'completed')">COMPLETED</span>
               </div>
               <span class="pr-4"><b class="pr-2 pl-1">Course:</b> {{get(clearance, 'course')}}</span>
-              <span class="pr-4"><b class="pr-2 pl-4">Year/Section:</b> {{get(clearance, 'year_level').substring(0,1)}}{{get(clearance, 'section')}}</span>
-              <br>
+              <span class="pr-sm-4 pr-1 d-block d-sm-inline"><b class="pr-2 pl-sm-4 pl-1">Year/Section:</b> {{get(clearance, 'year_level').substring(0,1)}}{{get(clearance, 'section')}}</span>
+              <br class="d-none d-sm-block">
               <span class="pr-4"><b class="pr-2 pl-1">Semester:</b> {{get(clearance, 'semester')}}</span>
-              <span><b class="pr-2 pl-4">Academic Year:</b> {{get(clearance, 'academic_year')}}</span>
+              <span class="pl-sm-4 pl-1 d-block d-sm-inline"><b>Academic Year:</b> {{get(clearance, 'academic_year')}}</span>
             </div>
-          </div>
-          <b-table bordered :items="departments" :fields="fields" responsive>
+          </div>  
+          <b-table bordered :items="departments" :fields="fields" responsive class="d-none d-md-block">
             <template #cell(in_charge)="row">
               <div class="d-flex align-items-center" style="min-height: 50px !important; min-width: 120px;">
                 <span>{{ get(row, 'item.in_charge') }}</span>
@@ -88,6 +88,63 @@
               </div>
             </template>
           </b-table>
+
+          <!-- FOR XS -->
+          <b-table bordered :items="departments" :fields="fields" responsive stacked class="d-block d-md-none">
+            <template #cell(signature_)="row">
+              <div class="">
+                <img :src="getSign(row.item,clearance)" alt="Signature" v-if="getSign(row.item,clearance)" width="120">
+              </div>
+            </template>
+            <template #cell(status)="row">
+              <div>
+                <span style="font-size:13px; font-weight:500;" :class="{
+                  'text-warning':displayStatus(row.item, clearance)==='Pending', 
+                  'text-success':displayStatus(row.item, clearance)==='Approved',
+                  'text-danger':displayStatus(row.item, clearance)==='Disapproved',
+                }"
+                  v-if="!get(clearance, 'outdated')"
+                >
+                  {{ displayStatus(row.item, clearance) }}
+                </span>
+                <span v-else>{{ displayStatus(row.item, clearance) }}</span>
+              </div>
+            </template>
+            <template #cell(actions)="row">
+              <div>
+                <b-button 
+                  style="width:166%;"
+                  size="sm" 
+                  variant="info" 
+                  @click="requestSignature(row.item, clearance)" 
+                  :disabled="get(clearance, 'outdated')"
+                  v-if="
+                    (displayStatus(row.item, clearance)!=='Approved' &&
+                    displayStatus(row.item, clearance)!=='Disapproved' &&
+                    displayStatus(row.item, clearance)!=='Pending' )
+                    &&
+                    !get(clearance, 'outdated')
+                  "
+                >
+                  Request Signature
+                </b-button>
+                <b-button 
+                  style="width:166%;"
+                  size="sm" 
+                  variant="warning"
+                  :disabled="get(clearance, 'outdated')"
+                  @click="viewRequest(row.item, clearance)"
+                  v-if="
+                    displayStatus(row.item, clearance)==='Disapproved' &&
+                    !get(clearance, 'outdated')
+                  "
+                >
+                  View Request
+                </b-button>
+              </div>
+            </template>
+          </b-table>
+
         </div>
         <div v-else>
           <div class=" card shadow-sm p-4 mb-3 pending">
