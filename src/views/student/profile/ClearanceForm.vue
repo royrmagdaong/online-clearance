@@ -186,10 +186,10 @@
     <!-- request signature modal -->
     <b-modal title="Department Requirements" content-class="pb-2 pl-2 pr-2" size="md" no-close-on-backdrop hide-footer :visible="requestSignatureModal" @change="requestSignatureModal = !requestSignatureModal">
       <div class="row no-gutters">
-        <div class="col-3 font-weight-bold">Department:</div>
-        <div class="col-9">{{ get(department, 'department_name') }}</div>
-        <div class="col-3 font-weight-bold">In Charge:</div>
-        <div class="col-9">{{ get(department, 'in_charge') }}</div>
+        <div class="col-sm-4 col-md-3 col-5 font-weight-bold">Department:</div>
+        <div class="col-sm-8 col-md-9 col-7">{{ get(department, 'department_name') }}</div>
+        <div class="col-sm-4 col-md-3 col-5 font-weight-bold">In Charge:</div>
+        <div class="col-sm-8 col-md-9 col-7">{{ get(department, 'in_charge') }}</div>
 
         <div class="col-12 mt-4">
           <div class="mb-1">Requirements:</div>
@@ -244,10 +244,10 @@
     <!-- view request modal -->
     <b-modal title="View Request" content-class="pb-2 pl-2 pr-2" size="md" no-close-on-backdrop hide-footer :visible="viewRequestModal" @change="viewRequestModal = !viewRequestModal">
       <div class="row no-gutters">
-        <div class="col-3 font-weight-bold">Department:</div>
-        <div class="col-9">{{ get(department, 'department_name') }}</div>
-        <div class="col-3 font-weight-bold">In Charge:</div>
-        <div class="col-9">{{ get(department, 'in_charge') }}</div>
+        <div class="col-sm-4 col-md-3 col-5 font-weight-bold">Department:</div>
+        <div class="col-sm-8 col-md-9 col-7">{{ get(department, 'department_name') }}</div>
+        <div class="col-sm-4 col-md-3 col-5 font-weight-bold">In Charge:</div>
+        <div class="col-sm-8 col-md-9 col-7">{{ get(department, 'in_charge') }}</div>
 
         <div class="col-12 mt-4">
           <div class="mb-1 font-weight-bold">Requirements:</div>
