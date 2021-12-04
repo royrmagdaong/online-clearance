@@ -187,10 +187,10 @@ export default {
       'course', 'year_level','section', 'semester', 'academic_year'
     ],
     selectedCourses: [],
-    year_level_opt: ['1st','2nd','3rd','4th'],
-    selectedYearLevel: ['1st','2nd','3rd','4th'],
-    sections: ['A','B','C','D','E','F','G'],
-    selectedSections:['A','B','C','D','E','F','G'],
+    year_level_opt: ['1st','2nd','3rd','4th','5th'],
+    selectedYearLevel: ['1st','2nd','3rd','4th','5th'],
+    sections: ['A','B','C','D','E','F','G','H','I','J','K','L','M'],
+    selectedSections:['A','B','C','D','E','F','G','H','I','J','K','L','M'],
     semesters:['1st','2nd'],
     selectedSemester:['1st','2nd'],
     selectedAcadYear:[]
