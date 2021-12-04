@@ -206,6 +206,14 @@ export function getCompletedClearance(payload){
     })
 }
 
+export function changeProfilePictureDept(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.changeProfilePictureDept, payload.formData)
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
 // FOR ADMIN API CALLS
 
 export function fetchDepartments(payload){

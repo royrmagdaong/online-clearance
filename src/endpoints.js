@@ -15,7 +15,6 @@ export default {
     viewRequirementsUrl: serverName + requirements + 'view',
     getAvailableAcademicYear: clearance + 'acad-year',
     viewClearance: clearance + 'viewer',
-    viewStudentProfilePic: serverName + student + 'view',
 
     // student
     fetchStudents: student,
@@ -30,6 +29,7 @@ export default {
     getDepartmentsByCourse: department + 'departments-bycourse',
     getCompletedClearance: clearance + 'completed-clearance',
     changeProfilePicture: student + 'change-prof-pic',
+    viewStudentProfilePic: serverName + student + 'view',
 
     // admin
     fetchDepartments: department,
@@ -52,5 +52,7 @@ export default {
     uploadRequirements: requirements + 'upload-requirements',
     getRequirements: requirements,
     updateRequirements: requirements + 'update-requirements',
-    getStudentRequirements: clearance + 'student-requirements'
+    getStudentRequirements: clearance + 'student-requirements',
+    changeProfilePictureDept: department + 'change-prof-pic',
+    viewDeptProfilePic: serverName + department + 'view',
 }

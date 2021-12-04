@@ -3,14 +3,14 @@
       
     <div class="d-md-none my-4">
       <div style="width:120px;height:120px;;border-radius:50%;position:relative;" class="mx-auto d-block">
-        <img class="prof-pic" :src="`https://thumbs.dreamstime.com/b/happy-smiling-geek-hipster-beard-man-cool-avatar-geek-man-avatar-104871313.jpg`" />
+        <img @click="openChangePicModal" class="prof-pic" :src="`${endpoints.viewDeptProfilePic}/${get(department, 'profile_pic.filename')}`" />
       </div>
       <div class="d-flex justify-content-center">
         <img :src="signature" alt="Signature" style="width:160px; height:auto;">
       </div>
       <div class="d-flex align-items-center justify-content-center">
         <div class="h3 mb-2">{{ get(department, 'department_name') }}</div>
-        <b-icon class="edit-info ml-2" icon="pencil" variant="primary" font-scale="1"></b-icon>
+        <!-- <b-icon class="edit-info ml-2" icon="pencil" variant="primary" font-scale="1"></b-icon> -->
       </div>
       <div class="text-center">{{ get(department, 'in_charge') }}</div>
       <div class="text-center">{{ get(department, 'email') }}</div>
@@ -19,7 +19,7 @@
     <div class="d-none d-md-block">
       <div class="d-flex justify-content-between align-items-center">
         <div class="h3 mb-2">{{ get(department, 'department_name') }}</div>
-        <b-icon class="edit-info" icon="pencil" variant="primary" font-scale="1"></b-icon>
+        <!-- <b-icon class="edit-info" icon="pencil" variant="primary" font-scale="1"></b-icon> -->
       </div>
       <div class="">{{ get(department, 'in_charge') }}</div>
       <div class="">{{ get(department, 'email') }}</div>
@@ -34,9 +34,13 @@
 
 <script>
 import {get} from 'lodash'
+import endpoints from '../../../endpoints'
+import {toast} from '../../../mixins/toast'
 
 export default {
+  mixins: [toast],
   data:()=>({
+    endpoints,
     get,
     signature: null,
   }),
@@ -55,6 +59,9 @@ export default {
           this.signature = `data:${get(this.department,'signature.type')};${get(this.department,'signature.base')},${get(this.department,'signature.img')}`
         }
       })
+    },
+    openChangePicModal(){
+      this.$root.$emit('openChangePicModal')
     },
     // onChange (event) {
     //   this.signature = event.target.files[0]
