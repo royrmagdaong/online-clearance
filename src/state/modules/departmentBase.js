@@ -40,7 +40,6 @@ var store = {
                 getSchoolYear().then(res => {
                     if(res.response){
                         context.commit('SET_SCHOOL_YEAR',res.data)
-                        console.log(res.data)
                         resolve(res)
                     }else{
                         resolve(res)

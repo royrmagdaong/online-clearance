@@ -6,8 +6,9 @@
         <div @click="routeTo('/admin/dashboard')" :class="{'active-tab': $route.path === '/admin/dashboard'}">Dashboard</div>
         <div @click="routeTo('/admin/users')" :class="{'active-tab': $route.path === '/admin/users'}">Users</div>
         <div @click="routeTo('/admin/students')" :class="{'active-tab': $route.path === '/admin/students'}">Students</div>
-        <div @click="routeTo('/admin/head-departments')" :class="{'active-tab': $route.path === '/admin/head-departments'}">Head Departments</div>
+        <div @click="routeTo('/admin/school-year')" :class="{'active-tab': $route.path === '/admin/school-year'}">School Year</div>
         <div @click="routeTo('/admin/course-section')" :class="{'active-tab': $route.path === '/admin/course-section'}">Course/Section</div>
+        <div @click="routeTo('/admin/head-departments')" :class="{'active-tab': $route.path === '/admin/head-departments'}">Head Departments</div>
         <div @click="routeTo('/admin/clearance-form-request')" :class="{'active-tab': $route.path === '/admin/clearance-form-request'}">Clearance Form Requests</div>
         <div @click="logout('/')">Logout</div>
       </div>
@@ -28,8 +29,9 @@
               <b-nav-item @click="routeTo('/admin/dashboard')" :class="{'active-tab2': $route.path === '/admin/dashboard'}">Dashboard</b-nav-item>
               <b-nav-item @click="routeTo('/admin/users')" :class="{'active-tab2': $route.path === '/admin/users'}">Users</b-nav-item>
               <b-nav-item @click="routeTo('/admin/students')" :class="{'active-tab2': $route.path === '/admin/students'}">Students</b-nav-item>
-              <b-nav-item @click="routeTo('/admin/head-departments')" :class="{'active-tab2': $route.path === '/admin/head-departments'}">Head Departments</b-nav-item>
+              <b-nav-item @click="routeTo('/admin/school-year')" :class="{'active-tab2': $route.path === '/admin/school-year'}">School Year</b-nav-item>
               <b-nav-item @click="routeTo('/admin/course-section')" :class="{'active-tab2': $route.path === '/admin/course-section'}">Course/Section</b-nav-item>
+              <b-nav-item @click="routeTo('/admin/head-departments')" :class="{'active-tab2': $route.path === '/admin/head-departments'}">Head Departments</b-nav-item>
               <b-nav-item @click="routeTo('/admin/clearance-form-request')" :class="{'active-tab2': $route.path === '/admin/clearance-form-request'}">Clearance Form Requests</b-nav-item>
               <b-nav-item @click="logout('/')">Logout</b-nav-item>
           </b-navbar-nav>

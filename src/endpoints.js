@@ -43,6 +43,7 @@ export default {
     approveClearanceRequest: clearance + 'approve-clearance',
     addCourse: course + 'create',
     updateCourse: course + 'update',
+    updateSchoolYear: schoolYear + 'update',
 
     // head department
     getDepartment: department + 'department',

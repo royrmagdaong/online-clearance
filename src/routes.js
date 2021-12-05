@@ -13,6 +13,7 @@ import AdminBase from './views/admin/Base'
 import AdminDashboard from './views/admin/dashboard/Dashboard'
 import AdminUsers from './views/admin/dashboard/Users'
 import AdminStudents from './views/admin/dashboard/Students'
+import AdminSchoolYear from './views/admin/dashboard/SchoolYear'
 import AdminHeadDepartments from './views/admin/dashboard/HeadDepartments'
 import AdminClearanceFormRequest from './views/admin/dashboard/ClearanceFormRequest'
 import AdminCourseSection from './views/admin/dashboard/CourseSection'
@@ -105,6 +106,10 @@ const router =  new Router({
         { 
           path: "students",
           component: AdminStudents
+        },
+        { 
+          path: "school-year",
+          component: AdminSchoolYear
         },
         { 
           path: "head-departments",
