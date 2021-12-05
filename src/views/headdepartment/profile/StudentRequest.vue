@@ -108,7 +108,7 @@
           <div class="col-8 sm-9">{{ get(studentRequirements,'clearance.semester') }}</div>
 
           <div class="col-12 mt-4">
-            <div class="font-weight-bold mt-2" style="font-size:15px;">Conversation:</div>
+            <div class="font-weight-bold mt-2" style="font-size:15px;">Message/s:</div>
             <div v-for="(msg,index2) in get(studentRequirements,'message')" :key="index2+9999">
               <div class="d-flex mb-2">
                 <div style="background:#ddd; padding:6px; border-radius:5px;" v-b-tooltip.hover :title="`${get(studentRequirements,'student.first_name')} ${get(studentRequirements,'student.last_name')}`">{{msg}}</div>
