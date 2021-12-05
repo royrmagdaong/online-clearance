@@ -102,6 +102,9 @@ export default {
     }
   }),
   computed:{
+    schoolYear(){
+      return this.$store.getters['departmentBase/getSchoolYear']
+    },
     department(){
       return this.$store.getters['departmentDashboard/getDepartment']
     },
@@ -114,10 +117,18 @@ export default {
   },
   mounted(){
     this.getDepartment()
-    this.getCurrentClearaceData()
+    // fetch school year and then fetch current clearance data
+    this.getSchoolYear()
     this.getClearaceData()
   },
   methods:{
+    getSchoolYear(){
+      this.$store.dispatch('departmentBase/getSchoolYear').then(res=>{
+        if(res.response){
+          this.getCurrentClearaceData()
+        }
+      })
+    },
     getDepartment(){
       this.$store.dispatch('departmentDashboard/getDepartment').then(res=>{
         if(res.response){
@@ -129,8 +140,8 @@ export default {
       try {
         this.loaded = false
         this.$store.dispatch('departmentDashboard/getCurrentClearanceData',{
-          academic_year: '2020-2021',
-          semester: '1st'  
+          academic_year: get(this.schoolYear, 'ACADEMIC_YEAR'),
+          semester: get(this.schoolYear, 'SEMESTER')
         }).then(res=>{
           if(res.response){
             console.log(res.data)

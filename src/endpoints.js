@@ -5,6 +5,7 @@ const department = 'head-department/'
 const clearance = 'clearance/'
 const course = 'course/'
 const requirements = 'requirements/'
+const schoolYear = 'school-year/'
 
 export default {
     // general user
@@ -15,6 +16,7 @@ export default {
     viewRequirementsUrl: serverName + requirements + 'view',
     getAvailableAcademicYear: clearance + 'acad-year',
     viewClearance: clearance + 'viewer',
+    getSchoolYear: schoolYear,
 
     // student
     fetchStudents: student,
