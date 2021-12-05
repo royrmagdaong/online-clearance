@@ -395,3 +395,22 @@ export function getStudentRequirements(payload){
         .catch(err => { reject(err)} )
     })
 }
+
+export function getCurrentClearanceData(payload){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getCurrentClearanceData,{
+            academic_year: payload.academic_year,
+            semester: payload.semester
+        })
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
+export function getClearanceData(){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getClearanceData)
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}

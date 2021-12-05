@@ -55,4 +55,6 @@ export default {
     getStudentRequirements: clearance + 'student-requirements',
     changeProfilePictureDept: department + 'change-prof-pic',
     viewDeptProfilePic: serverName + department + 'view',
+    getCurrentClearanceData: clearance + 'current-clearance-data',
+    getClearanceData: clearance + 'clearance-data',
 }

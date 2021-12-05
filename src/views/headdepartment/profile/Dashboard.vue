@@ -52,8 +52,8 @@
           <pie-chart 
             :height="250" 
             :width="250" 
-            v-if="loaded"
-            :chartdata="chartdata"
+            v-if="loaded2"
+            :chartdata="chartdata2"
             :options="options" 
           ></pie-chart>
         </div>
@@ -78,23 +78,21 @@ export default {
     get,
     signature: null,
     loaded: false,
-    chartdata: {
-      labels: ["Approved",	"Dispproved",	"Pending"],
-      datasets: [{
-          borderWidth: 1,
-          borderColor: [
-            '#aaa',
-            '#aaa',
-            '#aaa',
-          ],
-          backgroundColor: [       
-            'rgba(86,182,107,0.7)',
-            'rgba(219,105,9,0.4)',
-            'rgba(200,193,7,0.3)'
-          ],
-          data: [40,	40, 40]
-        }]
-    },
+    loaded2: false,
+    chartdata: null,
+    chartdata2: null,
+    labels: ["Approved",	"Dispproved",	"Pending"],
+    borderWidth: 1,
+    borderColor: [
+      '#aaa',
+      '#aaa',
+      '#aaa',
+    ],
+    backgroundColor: [       
+      'rgba(86,182,107,0.7)',
+      'rgba(219,105,9,0.4)',
+      'rgba(200,193,7,0.3)'
+    ],
     options: {
       legend: {
         display: true
@@ -106,11 +104,18 @@ export default {
   computed:{
     department(){
       return this.$store.getters['departmentDashboard/getDepartment']
+    },
+    currentClearanceData(){
+      return this.$store.getters['departmentDashboard/getCurrentClearanceData']
+    },
+    clearanceData(){
+      return this.$store.getters['departmentDashboard/getClearanceData']
     }
   },
   mounted(){
     this.getDepartment()
-    this.loaded = true
+    this.getCurrentClearaceData()
+    this.getClearaceData()
   },
   methods:{
     getDepartment(){
@@ -119,6 +124,53 @@ export default {
           this.signature = `data:${get(this.department,'signature.type')};${get(this.department,'signature.base')},${get(this.department,'signature.img')}`
         }
       })
+    },
+    getCurrentClearaceData(){
+      try {
+        this.loaded = false
+        this.$store.dispatch('departmentDashboard/getCurrentClearanceData',{
+          academic_year: '2020-2021',
+          semester: '1st'  
+        }).then(res=>{
+          if(res.response){
+            console.log(res.data)
+            this.chartdata = {
+              labels:this.labels,
+              datasets: [{
+                  borderWidth: this.borderWidth,
+                  borderColor: this.borderColor,
+                  backgroundColor: this.backgroundColor,
+                  data: this.currentClearanceData
+                }]
+            }
+            this.loaded = true
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    getClearaceData(){
+      try {
+        this.loaded2 = false
+        this.$store.dispatch('departmentDashboard/getClearanceData').then(res=>{
+          if(res.response){
+            console.log(res.data)
+            this.chartdata2 = {
+              labels:this.labels,
+              datasets: [{
+                  borderWidth: this.borderWidth,
+                  borderColor: this.borderColor,
+                  backgroundColor: this.backgroundColor,
+                  data: this.clearanceData
+                }]
+            }
+            this.loaded2 = true
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
     },
     openChangePicModal(){
       this.$root.$emit('openChangePicModal')
