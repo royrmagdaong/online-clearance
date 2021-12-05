@@ -255,6 +255,7 @@ export default {
             content.push([
               `${get(clearance[i],'student.first_name')} ${get(clearance[0],'student.last_name')}`,
               get(clearance[i],'course'),
+              get(clearance[i],'section'),
               get(clearance[i],'year_level')
             ])
           }
@@ -285,6 +286,7 @@ export default {
               [
                 {content:'Student', styles:{lineWidth:0.2,fontStyle: 'bold'}},
                 {content:'Course', styles:{lineWidth:0.2,fontStyle: 'bold'}},
+                {content:'Section', styles:{lineWidth:0.2,fontStyle: 'bold'}},
                 {content:'Year Level', styles:{lineWidth:0.2,fontStyle: 'bold'}},
               ]
             ],
