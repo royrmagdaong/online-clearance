@@ -27,9 +27,9 @@ var store = {
         initStore(){
             // context.dispatch('getUsers')
         },
-        getStudentRequests(context){
+        getStudentRequests(context, payload){
             return new Promise((resolve, reject) => {
-                getStudentRequests().then(res => {
+                getStudentRequests(payload).then(res => {
                     if(res.response){
                         context.commit('SET_STUDENT_REQUESTS', res.data)
                         resolve(res)

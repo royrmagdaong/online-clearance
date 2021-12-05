@@ -325,9 +325,13 @@ export function getDepartment(){
     })
 }
 
-export function getStudentRequests(){
+export function getStudentRequests(payload){
     return new Promise((resolve, reject) => {
-        axios.post(endpoints.getStudentRequests,{})
+        axios.post(endpoints.getStudentRequests,{
+            searchString: payload.searchString,
+            course: payload.course,
+            year_level: payload.year_level
+        })
         .then(res => { resolve(res.data)})
         .catch(err => { reject(err)} )
     })
