@@ -331,7 +331,7 @@ export default {
     fields:['in_charge',"department_name",'signature_',{key: 'status', label: 'Status'}, {key: 'actions', label: ''}],
     selected_semester: '',
     selected_academic_year: '',
-    semester_options: ['1st', '2nd'],
+    semester_options: [],
     academic_year_options: [],
     requestFormModal: false,
     tableKey: 0,
@@ -361,13 +361,23 @@ export default {
     },
     studentRequirements(){
       return this.$store.getters['departmentStudentRequests/getStudentRequirements']
-    }
+    },
+    schoolYear(){
+      return this.$store.getters['departmentBase/getSchoolYear']
+    },
   },
   mounted(){
     this.getStudentInfo()
-    this.getYears()
+    this.getSchoolYear()
   },
   methods:{
+    getSchoolYear(){
+      this.$store.dispatch('departmentBase/getSchoolYear').then(res=>{
+        if(res.response){
+          this.getYears()
+        }
+      })
+    },
     onChange(event) {
       this.requirements_upload = event.target.files
     },
@@ -377,12 +387,10 @@ export default {
       this.selected_academic_year = ''
     },
     getYears(){
-      let curYear = new Date().getFullYear()
-      let prevYear = curYear-1
-
-      for(let i = 0; i<2; i++){
-        this.academic_year_options.push((prevYear+i).toString()+'-'+(curYear+i).toString())
-      }
+      this.academic_year_options.push(get(this.schoolYear,'ACADEMIC_YEAR'))
+      this.semester_options.push(get(this.schoolYear,'SEMESTER'))
+      this.selected_academic_year = get(this.schoolYear, 'ACADEMIC_YEAR')
+      this.selected_semester = get(this.schoolYear, 'SEMESTER')
     },
     getStudentInfo(){
       this.userId = this.userInfo.id
