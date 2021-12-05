@@ -30,11 +30,11 @@
               <div class="form-group mb-2 row no-gutters">
                 <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Section</label>
-                  <b-form-select v-model="selected_section" :options="get(selected_course,'sections')"></b-form-select>
+                  <b-form-select v-model="selected_section" :options="get(selected_course,'sections')" :disabled="disabled"></b-form-select>
                 </div>
                 <div class="col-12 pr-0 col-sm-6 pr-sm-1">
                   <label>Year level</label>
-                  <b-form-select v-model="selected_year_level" :options="get(selected_course,'number_of_years')"></b-form-select>
+                  <b-form-select v-model="selected_year_level" :options="get(selected_course,'number_of_years')" :disabled="disabled"></b-form-select>
                 </div>
               </div>
               <div class="form-group mb-2">
@@ -79,7 +79,8 @@ export default {
     first_name: '',
     last_name: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    disabled: true,
   }),
   computed:{
     courses(){
@@ -98,7 +99,9 @@ export default {
       this.selected_year_level = ''
     },
     selectCourse(){
-      console.log(this.selected_course)
+      this.disabled = false
+      this.selected_section = ''
+      this.selected_year_level = ''
     },
     submit(){
       if(this.password === this.confirmPassword){
