@@ -6,7 +6,7 @@
     data () {
       return {
         chartData: {
-          labels: ["Babol",	"Cabanatuan",	"Daegu",	"Jerusalem"],
+          labels: ["Requests",	"Approved"],
           datasets: [{
               borderWidth: 1,
               borderColor: [
@@ -22,7 +22,7 @@
               'rgba(75, 192, 192, 0.2)',
               'rgba(153, 102, 255, 0.2)',                
               ],
-              data: [1000,	500,	1500,	1000]
+              data: [40,	13]
             }]
         },
         options: {

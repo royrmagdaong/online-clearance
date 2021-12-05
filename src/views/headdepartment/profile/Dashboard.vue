@@ -1,34 +1,64 @@
 <template>
-  <div class="px-5 py-4 card shadow-sm">
+  <div>
+    <div class="px-5 py-4 card shadow-sm">
       
-    <div class="d-md-none my-4">
-      <div style="width:120px;height:120px;;border-radius:50%;position:relative;" class="mx-auto d-block">
-        <img @click="openChangePicModal" class="prof-pic" :src="`${endpoints.viewDeptProfilePic}/${get(department, 'profile_pic.filename')}`" />
+      <div class="d-md-none my-4">
+        <div style="width:120px;height:120px;;border-radius:50%;position:relative;" class="mx-auto d-block">
+          <img @click="openChangePicModal" class="prof-pic" :src="`${endpoints.viewDeptProfilePic}/${get(department, 'profile_pic.filename')}`" />
+        </div>
+        <div class="d-flex justify-content-center">
+          <img :src="signature" alt="Signature" style="width:160px; height:auto;">
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+          <div class="h3 mb-2">{{ get(department, 'department_name') }}</div>
+          <!-- <b-icon class="edit-info ml-2" icon="pencil" variant="primary" font-scale="1"></b-icon> -->
+        </div>
+        <div class="text-center">{{ get(department, 'in_charge') }}</div>
+        <div class="text-center">{{ get(department, 'email') }}</div>
       </div>
-      <div class="d-flex justify-content-center">
-        <img :src="signature" alt="Signature" style="width:160px; height:auto;">
-      </div>
-      <div class="d-flex align-items-center justify-content-center">
-        <div class="h3 mb-2">{{ get(department, 'department_name') }}</div>
-        <!-- <b-icon class="edit-info ml-2" icon="pencil" variant="primary" font-scale="1"></b-icon> -->
-      </div>
-      <div class="text-center">{{ get(department, 'in_charge') }}</div>
-      <div class="text-center">{{ get(department, 'email') }}</div>
-    </div>
 
-    <div class="d-none d-md-block">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="h3 mb-2">{{ get(department, 'department_name') }}</div>
-        <!-- <b-icon class="edit-info" icon="pencil" variant="primary" font-scale="1"></b-icon> -->
+      <div class="d-none d-md-block">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="h3 mb-2">{{ get(department, 'department_name') }}</div>
+          <!-- <b-icon class="edit-info" icon="pencil" variant="primary" font-scale="1"></b-icon> -->
+        </div>
+        <div class="">{{ get(department, 'in_charge') }}</div>
+        <div class="">{{ get(department, 'email') }}</div>
+        <div>
+          <span class="mr-4">Signature</span>
+          <img :src="signature" alt="Signature" style="width:160px; height:auto;">
+        </div>
       </div>
-      <div class="">{{ get(department, 'in_charge') }}</div>
-      <div class="">{{ get(department, 'email') }}</div>
-      <div>
-        <span class="mr-4">Signature</span>
-        <img :src="signature" alt="Signature" style="width:160px; height:auto;">
+
+      
+
+    </div>
+    <div class="row no-gutters">
+      <div class="col-12 col-sm-6 mt-2">
+        <div class="px-4 py-4 mr-sm-1 card shadow-sm">
+          <div class="text-center font-weight-bold">Current Semester</div>
+          <pie-chart 
+            :height="250" 
+            :width="250" 
+            v-if="loaded"
+            :chartdata="chartdata"
+            :options="options" 
+          ></pie-chart>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 mt-2">
+        <div class="px-4 py-4 ml-sm-1 card shadow-sm">
+          <div class="text-center font-weight-bold">Overall</div>
+          <pie-chart 
+            :height="250" 
+            :width="250" 
+            v-if="loaded"
+            :chartdata="chartdata"
+            :options="options" 
+          ></pie-chart>
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -36,13 +66,42 @@
 import {get} from 'lodash'
 import endpoints from '../../../endpoints'
 import {toast} from '../../../mixins/toast'
+import PieChart  from '../../../components/PieChart.vue'
 
 export default {
+  components:{
+    'pie-chart': PieChart
+  },
   mixins: [toast],
   data:()=>({
     endpoints,
     get,
     signature: null,
+    loaded: false,
+    chartdata: {
+      labels: ["Approved",	"Dispproved",	"Pending"],
+      datasets: [{
+          borderWidth: 1,
+          borderColor: [
+            '#aaa',
+            '#aaa',
+            '#aaa',
+          ],
+          backgroundColor: [       
+            'rgba(86,182,107,0.7)',
+            'rgba(219,105,9,0.4)',
+            'rgba(200,193,7,0.3)'
+          ],
+          data: [40,	40, 40]
+        }]
+    },
+    options: {
+      legend: {
+        display: true
+      },
+      responsive: true,
+      maintainAspectRatio: false
+    }
   }),
   computed:{
     department(){
@@ -51,6 +110,7 @@ export default {
   },
   mounted(){
     this.getDepartment()
+    this.loaded = true
   },
   methods:{
     getDepartment(){
