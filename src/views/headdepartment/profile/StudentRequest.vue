@@ -28,6 +28,7 @@
         :per-page="perPage"
         :current-page="currentPage"
         :fields="fields"
+        bordered
         responsive
         :no-border-collapse="false"
         :sticky-header="true"

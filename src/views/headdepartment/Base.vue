@@ -13,7 +13,7 @@
           <div class="p-3 faculty" @click="routeTo('student-request')" :class="{'active-tab': activeTab === 'student-request'}">Student Request</div>
           <div class="p-3 request-form" @click="routeTo('approved')" :class="{'active-tab':activeTab === 'approved'}">Approved</div>
           <div class="p-3 request-form" @click="routeTo('requirements')" :class="{'active-tab':activeTab === 'requirements'}">Requirements</div>
-          <div class="p-3 print">Print</div>
+          <div class="p-3 print" @click="printModal = true">Print</div>
         </div>
       </div>
       <div class="col-12 col-md-9">
@@ -36,6 +36,26 @@
       </div>
     </b-modal>
 
+    <!-- print modal -->
+    <b-modal title="Print" hide-footer hide-header-close no-close-on-backdrop :visible="printModal">
+      <form class="my-2 mx-4">
+        <div class="form-group mb-2 row no-gutters">
+          <div class="col-6 pr-1">
+            <label>Semester</label>
+            <b-form-select v-model="selectedSemester" :options="semesterOpt"></b-form-select>
+          </div>
+          <div class="col-6 pl-1">
+            <label>Academic Year</label>
+            <b-form-select v-model="selectedAcadYear" :options="academicyearOpt"></b-form-select>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end mt-4">
+          <b-button variant="warning" class="mr-2" @click.prevent="printModal = false">Cancel</b-button>
+          <b-button type="submit" variant="success" @click.prevent="print">Print</b-button>
+        </div>
+      </form>
+    </b-modal>
+
   </div>
 </template>
 
@@ -43,6 +63,8 @@
 import {get} from 'lodash'
 import endpoints from '../../endpoints'
 import {toast} from '../../mixins/toast'
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable'
 
 export default {
     mixins: [toast],
@@ -52,16 +74,32 @@ export default {
         activeTab: '',
         changePicModal: false,
         profilePictureUpload: '',
-        profilePicture: ''
+        profilePicture: '',
+        selectedSemester: '',
+        selectedAcadYear: '',
+        semesterOpt: ['1st','2nd'],
+        academicyearOpt: [],
+        printModal: false,
+        doc: ''
     }),
     computed:{
       department(){
         return this.$store.getters['departmentDashboard/getDepartment']
+      },
+      approvedStudents(){
+        return this.$store.getters['departmentBase/getApprovedStudents']
+      },
+      academic_year(){
+        return this.$store.getters['core/getAcadYear']
       }
     },
     mounted(){
       this.activeTab = this.$route.path.substring(17)
       this.getDepartment()
+      this.getAcadYear()
+
+      // initialized jspdf plugin
+      this.centerTextAPI(jsPDF.API)
 
       // watch for call from other component
       this.$root.$on('openChangePicModal',()=>{
@@ -75,8 +113,26 @@ export default {
             this.activeTab = route
         }
       },
+      getAcadYear(){
+        this.$store.dispatch('core/getAvailableAcademicYear').then(res=>{
+          if(res.response){
+            this.academicyearOpt = this.academic_year
+          }
+        })
+      },
       getDepartment(){
         this.$store.dispatch('departmentDashboard/getDepartment')
+      },
+      getApprovedStudents(){
+        this.$store.dispatch('departmentBase/getApprovedStudentsByDeptForPrint',{
+          semester: this.selectedSemester,
+          academic_year: this.selectedAcadYear
+        }).then(res=>{
+          if(res.response){
+            console.log(res.data)
+            this.openPDF(res.data)
+          }
+        })
       },
       close(){
         this.changePicModal = false
@@ -116,6 +172,132 @@ export default {
           reader.readAsDataURL(event.target.files[0]);
         }
       },
+      centerTextAPI(API){
+        API.myText = function(txt, options, x, y) {
+            options = options ||{};
+            /* Use the options align property to specify desired text alignment
+            * Param x will be ignored if desired text alignment is 'center'.
+            * Usage of options can easily extend the function to apply different text 
+            * styles and sizes 
+            */
+            if( options.align == "center" ){
+                // Get current font size
+                var fontSize = this.internal.getFontSize();
+
+                // Get page width
+                var pageWidth = this.internal.pageSize.width;
+
+                // Get the actual text's width
+                /* You multiply the unit width of your string by your font size and divide
+                * by the internal scale factor. The division is necessary
+                * for the case where you use units other than 'pt' in the constructor
+                * of jsPDF.
+                */
+                var txtWidth = this.getStringUnitWidth(txt)*fontSize/this.internal.scaleFactor;
+
+                // Calculate text's x coordinate
+                x = ( pageWidth - txtWidth ) / 2;
+            }
+
+            // Draw text at x,y
+            this.text(txt,x,y);
+        }
+      },
+      openPDF(clearance){
+        if(clearance){
+          this.doc = new jsPDF()
+          this.doc.setProperties({
+              title: `${get(this.department, 'in_charge')}-${this.selectedSemester}-semester-${this.selectedAcadYear}`,
+              subject: 'Approved Students',
+              author: 'Pateros Technological College',
+              keywords: 'generated, javascript, web 2.0, ajax',
+              creator: 'Pateros Technological College'
+          });
+
+          let content = []
+          let font = 'Helvetica'
+          let ptcInfoY = 18
+          let studentInfoY = 45
+          let departmentName = get(this.department, 'department_name')
+          let clearanceSemester = this.selectedSemester
+          let academicYear = this.selectedAcadYear
+
+          this.doc.setFontSize(14)
+          this.doc.setFont(font,'bold')
+          this.doc.myText("PATEROS TECHNOLOGICAL COLLEGE",{align: "center"},14,ptcInfoY);
+          this.doc.setFontSize(11)
+          this.doc.myText("COLLEGE ST. STO. ROSARIO-KANLURAN, PATEROS M.M",{align: "center"},14,ptcInfoY+6);
+          this.doc.setFontSize(16)
+          this.doc.myText("APPROVED STUDENTS",{align: "center"},14,ptcInfoY+14);
+
+          this.doc.setFontSize(12)
+          this.doc.setFont(font,'bold')
+          this.doc.text("Department: ", 14, studentInfoY);
+          this.doc.setFontSize(12)
+          this.doc.setFont(font,'normal')
+          this.doc.text(departmentName, 42, studentInfoY);
+
+          this.doc.setFontSize(12)
+          this.doc.setFont(font,'bold')
+          this.doc.text("Semester: ", 14, studentInfoY+7);
+          this.doc.setFontSize(12)
+          this.doc.setFont(font,'normal')
+          this.doc.text(clearanceSemester, 42, studentInfoY+7);
+
+          this.doc.setFontSize(12)
+          this.doc.setFont(font,'bold')
+          this.doc.text("Academic Year: ", 72, studentInfoY+7);
+          this.doc.setFontSize(12)
+          this.doc.setFont(font,'normal')
+          this.doc.text(academicYear, 113, studentInfoY+7);
+          
+          for(let i=0;i<clearance.length;i++){
+            content.push([
+              `${get(clearance[i],'student.first_name')} ${get(clearance[0],'student.last_name')}`,
+              get(clearance[i],'course'),
+              get(clearance[i],'year_level')
+            ])
+          }
+          
+          this.doc.autoTable({
+            theme: 'grid',
+            startY: 58,
+            margins: {bottom: 30},
+            bodyStyles: {
+              cellPadding: 4,
+              fontSize: 11,
+            },
+            headStyles:{
+              textColor: [0,0,0],
+              fontSize: 12,
+              fontStyle: 'normal',
+              cellPadding: 4,
+              fillColor: [255, 255, 255],
+              minCellHeight: 14,
+              valign: 'middle',
+            },
+            columnStyles: { 
+              0: { valign: 'middle', fillColor: [255, 255, 255] },
+              1: { valign: 'middle', fillColor: [255, 255, 255] },
+              2: { valign: 'middle', fillColor: [255, 255, 255] },
+            },
+            head: [
+              [
+                {content:'Student', styles:{lineWidth:0.2,fontStyle: 'bold'}},
+                {content:'Course', styles:{lineWidth:0.2,fontStyle: 'bold'}},
+                {content:'Year Level', styles:{lineWidth:0.2,fontStyle: 'bold'}},
+              ]
+            ],
+            body: content,
+          })
+
+          this.doc.autoPrint({variant: 'non-conform'});
+          this.doc.output('dataurlnewwindow');
+        }
+      },
+      print(){
+        this.getApprovedStudents()
+      }
     }
 }
 </script>

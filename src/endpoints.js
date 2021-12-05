@@ -60,4 +60,5 @@ export default {
     viewDeptProfilePic: serverName + department + 'view',
     getCurrentClearanceData: clearance + 'current-clearance-data',
     getClearanceData: clearance + 'clearance-data',
+    getApprovedStudentsByDeptForPrint: clearance + 'approved-students-print'
 }
