@@ -144,7 +144,6 @@ export default {
           semester: get(this.schoolYear, 'SEMESTER')
         }).then(res=>{
           if(res.response){
-            console.log(res.data)
             this.chartdata = {
               labels:this.labels,
               datasets: [{
@@ -166,7 +165,6 @@ export default {
         this.loaded2 = false
         this.$store.dispatch('departmentDashboard/getClearanceData').then(res=>{
           if(res.response){
-            console.log(res.data)
             this.chartdata2 = {
               labels:this.labels,
               datasets: [{
