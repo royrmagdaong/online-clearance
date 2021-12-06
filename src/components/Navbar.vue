@@ -37,7 +37,7 @@
             <b-nav-item @click="routeTo('/head-department/approved')" v-if="get(userInfo, 'role')==='head-department'" :class="{'active-tab': activeTab === 'approved'}">APPROVED</b-nav-item>
             <b-nav-item @click="routeTo('/head-department/requirements')" v-if="get(userInfo, 'role')==='head-department'" :class="{'active-tab': activeTab === 'requirements'}">REQUIREMENTS</b-nav-item>
             <b-nav-item v-if="get(userInfo, 'role')==='student'" @click="calltoOtherComponent">PRINT</b-nav-item>
-            <b-nav-item v-if="get(userInfo, 'role')==='head-department'">PRINT</b-nav-item>
+            <b-nav-item v-if="get(userInfo, 'role')==='head-department'" @click="$root.$emit('printApprovedStudents')">PRINT</b-nav-item>
             <b-nav-item @click="logout('/login')">LOGOUT</b-nav-item>
         </b-navbar-nav>
         </b-collapse>
