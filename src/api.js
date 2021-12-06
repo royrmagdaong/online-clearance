@@ -313,6 +313,14 @@ export function updateSchoolYear(payload){
     })
 }
 
+export function getStudentsByCourseCount(){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getStudentsByCourseCount)
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
 
 
 // For Department APIs

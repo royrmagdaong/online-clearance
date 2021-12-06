@@ -44,6 +44,7 @@ export default {
     addCourse: course + 'create',
     updateCourse: course + 'update',
     updateSchoolYear: schoolYear + 'update',
+    getStudentsByCourseCount: user + 'student-count-by-course',
 
     // head department
     getDepartment: department + 'department',

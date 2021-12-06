@@ -1,7 +1,8 @@
 import {
     fetchDepartmentsCount,
     fetchStudentsCount,
-    fetchUsersCount
+    fetchUsersCount,
+    getStudentsByCourseCount
 } from '../../api'
 import {get} from 'lodash'
 
@@ -10,12 +11,12 @@ var store = {
     state: {
         department_count: 0,
         student_count: 0,
-        user_count: 0
+        users: 0
     },
     getters: {
         getDepartmentsCount: state => state.department_count,
         getStudentsCount: state => state.student_count,
-        getUsersCount: state => state.user_count
+        getUsersCount: state => state.users
     },
     mutations: {
         SET_DEPARTMENTS(state, payload){
@@ -25,7 +26,7 @@ var store = {
             state.student_count = payload
         },
         SET_USERS(state, payload){
-            state.user_count = payload
+            state.users = payload
         }
     },
     actions:{
@@ -65,7 +66,18 @@ var store = {
             return new Promise((resolve, reject) => {
                 fetchUsersCount().then(res => {
                     if(res.response){
-                        context.commit('SET_USERS', res.count)
+                        context.commit('SET_USERS', res.data)
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        getStudentsByCourseCount(){
+            return new Promise((resolve, reject) => {
+                getStudentsByCourseCount().then(res => {
+                    if(res.response){
                         resolve(res)
                     }else{
                         resolve(res)
