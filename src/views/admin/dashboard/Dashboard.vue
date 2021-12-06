@@ -1,6 +1,6 @@
 <template>
   <div class="row no-gutters" >
-    <div class="col-12 col-md-4 p-2">
+    <div class="col-12 col-md-6 p-2">
       <div class="card shadow py-lg-4 py-md-2 px-md-4 p-3 px-sm-3 text-center mt-2" style="height:100%;">
         <h6>Users</h6>
         <PieChart 
@@ -12,7 +12,7 @@
         />
       </div>
     </div>
-    <div class="col-12 col-md-4 p-2">
+    <div class="col-12 col-md-6 p-2">
       <div class="card shadow py-lg-4 py-md-2 px-md-4 p-3 px-sm-3 text-center mt-2 mx-md-2" style="height:100%;">
         <h6>Students</h6>
         <PieChart 
@@ -20,18 +20,6 @@
           :width="250" 
           v-if="loaded2"
           :chartdata="chartdata2"
-          :options="options"
-        />
-      </div>
-    </div>
-    <div class="col-12 col-md-4 p-2">
-      <div class="card shadow py-lg-4 py-md-2 px-md-4 p-3 px-sm-3 text-center mt-2" style="height:100%;">
-        <h6>Pending Clearance by Department</h6>
-        <PieChart 
-          :height="250" 
-          :width="250" 
-          v-if="loaded"
-          :chartdata="chartdata"
           :options="options"
         />
       </div>
@@ -46,15 +34,11 @@
 
 <script>
 import LineChart from '../../../components/LineChart.vue'
-// import BarChart from '../../../components/BarChart.vue'
-// import DoughnutChart from '../../../components/DoughnutChart.vue'
 import PieChart from '../../../components/PieChart.vue'
 
 export default {
   components: {
     LineChart,
-    // BarChart,
-    // DoughnutChart,
     PieChart
   },
   data(){
@@ -63,6 +47,8 @@ export default {
       loaded: false,
       chartdata2: null,
       loaded2: false,
+      chartdata3: null,
+      loaded3: false,
       labels: ["Admins",	"Students",	"Departments"],
       borderWidth: 1,
       borderColor: [
@@ -161,7 +147,7 @@ export default {
           this.loaded2 = true
         }
       })
-    }
+    },
   }
 }
 </script>
