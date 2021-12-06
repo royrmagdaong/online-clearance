@@ -45,6 +45,7 @@ export default {
     updateCourse: course + 'update',
     updateSchoolYear: schoolYear + 'update',
     getStudentsByCourseCount: user + 'student-count-by-course',
+    getClearanceCountByDept: clearance + 'clearance-status-count',
 
     // head department
     getDepartment: department + 'department',

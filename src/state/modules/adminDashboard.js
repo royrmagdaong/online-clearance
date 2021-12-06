@@ -2,7 +2,8 @@ import {
     fetchDepartmentsCount,
     fetchStudentsCount,
     fetchUsersCount,
-    getStudentsByCourseCount
+    getStudentsByCourseCount,
+    getClearanceCountByDept
 } from '../../api'
 import {get} from 'lodash'
 
@@ -77,6 +78,17 @@ var store = {
         getStudentsByCourseCount(){
             return new Promise((resolve, reject) => {
                 getStudentsByCourseCount().then(res => {
+                    if(res.response){
+                        resolve(res)
+                    }else{
+                        resolve(res)
+                    }
+                }).catch(err => { reject(err) })
+            })
+        },
+        getClearanceCountByDept(){
+            return new Promise((resolve, reject) => {
+                getClearanceCountByDept().then(res => {
                     if(res.response){
                         resolve(res)
                     }else{

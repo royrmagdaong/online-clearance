@@ -321,6 +321,14 @@ export function getStudentsByCourseCount(){
     })
 }
 
+export function getClearanceCountByDept(){
+    return new Promise((resolve, reject) => {
+        axios.post(endpoints.getClearanceCountByDept)
+        .then(res => { resolve(res.data)})
+        .catch(err => { reject(err)} )
+    })
+}
+
 
 
 // For Department APIs

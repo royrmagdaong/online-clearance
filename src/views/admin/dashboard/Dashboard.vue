@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="col-12 col-md-6 p-2">
-      <div class="card shadow py-lg-4 py-md-2 px-md-4 p-3 px-sm-3 text-center mt-2 mx-md-2" style="height:100%;">
+      <div class="card shadow py-lg-4 py-md-2 px-md-4 p-3 px-sm-3 text-center mt-2 ml-md-2" style="height:100%;">
         <h6>Students</h6>
         <PieChart 
           :height="250" 
@@ -26,7 +26,8 @@
     </div>
     <div class="col-12 p-2">
       <div class="card shadow py-lg-4 py-md-2 px-md-4 p-3 px-sm-3 text-center mt-2 mt-md-3">
-        <LineChart />
+        <h6>Number of clearance by Department</h6>
+        <LineChart :options="LC_options" :chartdata="chartData" v-if="loaded3"/>
       </div>
     </div>
   </div>
@@ -47,7 +48,6 @@ export default {
       loaded: false,
       chartdata2: null,
       loaded2: false,
-      chartdata3: null,
       loaded3: false,
       labels: ["Admins",	"Students",	"Departments"],
       borderWidth: 1,
@@ -96,6 +96,30 @@ export default {
         responsive: true,
         maintainAspectRatio: false
       },
+      // line chart
+      chartData: null,
+      LC_options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            },
+            gridLines: {
+              display: true
+            }
+          }],
+          xAxes: [ {
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+        legend: {
+          display: true
+        },
+        responsive: true,
+        maintainAspectRatio: false
+      }
     }
   },
   computed: {
@@ -113,6 +137,7 @@ export default {
     // this.$store.dispatch('adminDashboard/getDepartmentsCount')
     this.getUserCharts()
     this.getStudentChart()
+    this.getClearanceCountByDept()
     // this.$store.dispatch('adminDashboard/getUsersCount')
   },
   methods:{
@@ -148,6 +173,47 @@ export default {
         }
       })
     },
+    getClearanceCountByDept(){
+      this.$store.dispatch('adminDashboard/getClearanceCountByDept').then(res=>{
+        if(res.response){
+          this.chartData = {
+            labels: res.departments,
+            // labels: ['Library','Registrar','Accounting','Guidance','Student Affairs','IT Head','OA Head'],
+            datasets: [
+              {
+                label: 'Approved Clearance',
+                data: res.approved,
+                // data: [47,62,51,42,13,22,51],
+                fill: false,
+                borderColor: 'rgba(86,182,107,1)',
+                backgroundColor: 'rgba(86,182,107,1)',
+                borderWidth: 1
+              },
+              {
+                label: 'Pending Clearance',
+                // data: [10,14,12,51,4,25,9],
+                data: res.pending,
+                fill: false,
+                borderColor: 'rgba(200,193,7,1)',
+                backgroundColor: 'rgba(200,193,7,1)',
+                borderWidth: 1
+              },
+              {
+                label: 'Dispproved Clearance',
+                data: res.disapproved,
+                // data: [1,114,25,51,41,25,19],
+                fill: false,
+                borderColor: 'rgba(219,105,9,1)',
+                backgroundColor: 'rgba(219,105,9,1)',
+                borderWidth: 1
+              }
+            ]
+          }
+
+          this.loaded3 = true
+        }
+      })
+    }
   }
 }
 </script>
