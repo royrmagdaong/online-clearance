@@ -39,7 +39,7 @@
       </b-navbar>
 
       <!-- Page content -->
-      <div class="main d-none d-md-block">
+      <div class="main d-none d-md-block" style="padding-top: 14px;">
         <router-view></router-view>
       </div>
       <div class="d-block d-md-none" style="padding-top: 56px;">
