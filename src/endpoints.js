@@ -1,4 +1,5 @@
-const serverName = 'http://localhost:5000/'
+// const serverName = 'http://localhost:5000/'
+const serverName = 'https://www.roym-dev.tech/'
 const user = 'user/'
 const student = 'student/'
 const department = 'head-department/'
